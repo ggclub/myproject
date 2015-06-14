@@ -17,9 +17,7 @@ def index(request):
 	latest_single_switch_data_list = SingleSwitchLogger.objects.order_by('-date')[:logs_per_page]
 
 	total_page_no, page_no = count_page()
-	# function for pagination#########
 
-	############################
 
 	url = 'index.html'
 	# url = 'hello-ng.html'
@@ -50,7 +48,18 @@ def ajax_page_request(request):
 	# 	return render_to_response('index.html')
 
 	if request.is_ajax() and request.method == 'POST':
-		auto_type = Auto.objects.filter(type=request.POST.get('type', ''))
-		colors = auto_type.colors.all() # get all the colors for this type of auto.
-	return render_to_response('index.html', locals())
+		current_page=request.POST.get('page_index', 0)
+
+	latest_single_switch_data_list = SingleSwitchLogger.objects.order_by('-date')[(current_page-1):(current_page-1)+logs_per_page]
+
+	total_page_no, page_no = count_page()
+
+	url = 'index.html'
+	response_data = {
+		"single_data_list": latest_single_switch_data_list,
+		"current_page": current_page,
+		"total_page_no": total_page_no,
+		"page_no": range(1, page_no + 1),
+	}
+	return render(request, url, response_data)
 	# auto/ajax_color_request.html

@@ -22,7 +22,7 @@
 			<span aria-hidden="true">&laquo;</span>
 		</a></li>
 		{% for i in page_no %}
-			<li><a href="javascript:MvLogPage()">{{ i }}</a></li>
+			<li><a href="javascript:MvLogPage()" id="page_index">{{ i }}</a></li>
 		{% endfor %}
 		<li><a href="#" aria-label="Next">
 			<span aria-hidden="true">&raquo;</span>
@@ -32,19 +32,19 @@
 
 <script type="text/javascript">
 	function MvLogPage() {
-	// 	$.ajax({
-	// 		type: "POST",
-	// 		url: "",
-	// 		dataType: "json",
-	// 		async: true,
-	// 		data: {
-	// 			csrfmiddlewaretoken: '{{ csrf_token }}',
-	//			whatYouUse: $('#whatYouUse').val();
-	// 		},
-	// 		success: function(json) {
-	// 			$('#output').html(json.message);
-	// 		}
-	// 	});
+		$.ajax({
+			type: "POST",
+			url: "/monitor/ajax_page_request/",
+			dataType: "json",
+			async: true,
+			data: {
+				csrfmiddlewaretoken: '{{ csrf_token }}',
+				page_index: $('#page_index').text;
+			},
+			success: function(json) {
+				
+			}
+		});
 	}
 </script>
 
