@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+{% extends "base.html" %}
+
+{% block title %}First Page{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="left">
+			{% include "left.html" %}
+		</div>
+		<div class="right">
+			<div class="right-floor">
+				{% include "floor.html" %}
+			</div>
+			<div class="right-log">
+				{% include "log.html" %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

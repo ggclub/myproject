@@ -1,0 +1,59 @@
+.container {
+    /*background-image: url("temp_backimg.jpg");*/
+    background-color: #cccccc;
+    width: 100vw;
+}
+
+.left {
+	background-image: url("left_background.jpg");
+	background-size: cover;
+	background-color: #aaaaaa;
+	float: left;			
+	width: 65%;
+	height: 100vh;
+	padding: 2%;
+}
+
+.right {
+	background-color: #ccddbb;
+	float: right;
+	width: 35%;
+	height: 100vh;
+}
+
+.right-floor {
+	background-color: #aabbcc;
+	float: top;
+	height: 50vh;
+}
+
+.navbar-floor {
+	position: relative;
+	width: 100%;
+	height: 14px;
+	min-height: 14px;
+	border: 0;
+	background-color: inherit;
+	text-align: center;
+}
+
+.right-log {
+	background-color: #ccbbaa;
+	float: bottom;
+	height: 50vh;
+	padding: 2%;
+}
+
+.table {
+	text-align: center;
+	margin-bottom: 5px;
+}
+
+.pagination {
+	margin: 1px;
+}
+
+.pagination > li > a, .pagination > li > span {
+	background-color: inherit;
+}
+

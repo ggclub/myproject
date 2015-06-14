@@ -15,11 +15,23 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from monitor import views
 
 urlpatterns = [
-	url(r'^$', views.index),
+    url(r'^$', views.index),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^monitor/', include('monitor.urls', namespace="monitor")),
-]
+] + static(settings.STATIC_URL,
+    document_root=settings.STATIC_ROOT)
+
+# urlpatterns += staticfiles_urlpatterns()
+    # ==
+    # url(
+    #     regex=r'^static/(?P<path>.*)$', 
+    #     view='django.views.static.serve', 
+    #     kwargs={'document_root': settings.STATIC_ROOT,}
+    # )
