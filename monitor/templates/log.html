@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<p><b>log</b></p>
+<table class="table table-hover">
+	<tr>
+		<td>No.</td>
+		<td style='text-align:left;'>Location</td>
+		<td>Switch</td>
+		<td>Time</td>
+	</tr>
+	{% for data in single_data_list %}
+	<tr>	
+		<td>{{ data.id }}</td>
+		<td style='text-align:left;'>{{ data.get_location_display }}</td>
+		<td>{{ data.switch }}</td>
+		<td>{{ data.date }}</td>
+	</tr>
+	{% endfor %}
+</table>
+<div class="text-center">
+	<ul class="pagination">
+		<li><a href="#" aria-label="Previous">
+			<span aria-hidden="true">&laquo;</span>
+		</a></li>
+		{% for i in page_no %}
+			<li><a href="javascript:MvLogPage()">{{ i }}</a></li>
+		{% endfor %}
+		<li><a href="#" aria-label="Next">
+			<span aria-hidden="true">&raquo;</span>
+		</a></li>
+	</ul>
+</div>
+
+<script type="text/javascript">
+	function MvLogPage() {
+	// 	$.ajax({
+	// 		type: "POST",
+	// 		url: "",
+	// 		dataType: "json",
+	// 		async: true,
+	// 		data: {
+	// 			csrfmiddlewaretoken: '{{ csrf_token }}',
+	//			whatYouUse: $('#whatYouUse').val();
+	// 		},
+	// 		success: function(json) {
+	// 			$('#output').html(json.message);
+	// 		}
+	// 	});
+	}
+</script>
+
+
