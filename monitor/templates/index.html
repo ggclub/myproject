@@ -5,16 +5,17 @@
 
 {% block content %}
 	<div class="container">
-		<div class="left">
+		<div class="left" id="left">
 			{% include "left.html" %}
 		</div>
 		<div class="right">
 			<div class="right-floor">
 				{% include "floor.html" %}
 			</div>
-			<div class="right-log">
+			<div class="right-log" id="right-log">
 				{% include "log.html" %}
 			</div>
+
 		</div>
 	</div>
 {% endblock %}

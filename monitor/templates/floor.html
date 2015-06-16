@@ -1,6 +1,10 @@
 {% load staticfiles %}
 <!DOCTYPE HTML>
-<p>floor</p>
+
+<p id="mode">Mode: floor</p>
+<button type="button" class="btn btn-default btn-mode">Manual</button>
+<button type="button" class="btn btn-default btn-mode">Auto</button>
+
 <img src="{% static "monitor/floor_background.jpg" %}" width="100%" alt="floor 1"/>
 <nav class="navbar navbar-default navbar-fixed-bottom navbar-floor">
 	<div class="navbar-floor">
@@ -10,3 +14,21 @@
 		{# <a href="#"> 4 </a> #}
 	</div>
 </nav>
+
+<script>
+	$('.btn-mode').on('click', function setMode(){
+		var mode = this.innerText;
+		$.ajax({
+			url: "/monitor/ajax_set_operation_mode/",
+			type: "POST",
+			data: {
+				'csrfmiddlewaretoken': '{{ csrf_token }}',
+				'mode': mode,
+			},
+			success: function(data){
+				$('#mode').text=data.mode;
+			}
+		});
+		return false;
+	});
+</script>

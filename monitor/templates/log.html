@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<p><b>log</b></p>
+{# <p id="logid"><b>log</b></p> #}
 <table class="table table-hover">
 	<tr>
 		<td>No.</td>
@@ -18,34 +18,61 @@
 </table>
 <div class="text-center">
 	<ul class="pagination">
-		<li><a href="#" aria-label="Previous">
+		<li><a href="" aria-label="Previous" class="page_index" id="prev">
 			<span aria-hidden="true">&laquo;</span>
 		</a></li>
 		{% for i in page_no %}
-			<li><a href="javascript:MvLogPage()" id="page_index">{{ i }}</a></li>
+			<li><a href="" class="page_index" id="{{ i }}">{{ i }}</a></li>
 		{% endfor %}
-		<li><a href="#" aria-label="Next">
+		<li><a href="" aria-label="Next" class="page_index" id="next">
 			<span aria-hidden="true">&raquo;</span>
 		</a></li>
 	</ul>
 </div>
 
 <script type="text/javascript">
-	function MvLogPage() {
+	$('.page_index').on('click', function() {
+		var clicked = this.id;
+		if(clicked === "prev"){
+
+		}
+		else if(clicked === "next"){
+
+		}
 		$.ajax({
-			type: "POST",
 			url: "/monitor/ajax_page_request/",
-			dataType: "json",
-			async: true,
+			type: "POST",
+			// dataType: "json",
 			data: {
-				csrfmiddlewaretoken: '{{ csrf_token }}',
-				page_index: $('#page_index').text;
+				'csrfmiddlewaretoken': '{{ csrf_token }}',
+				'page_no': {{ page_no }},
+				'page_index': clicked,
 			},
-			success: function(json) {
-				
+			success: function(data) {
+				$("#right-log").html(data);
 			}
 		});
+		return false;
+	});
+
+	var reloadVar;
+	var reloadTime = 10000;
+	window.onload = $.fn.reloadFunc = function(){
+		reloadVar = setTimeout(reload, reloadTime);
+	}
+	function reload(){
+		$.ajax({
+			url: "/monitor/ajax_index_reload/",
+			type: "POST",
+			data : {
+				'csrfmiddlewaretoken': '{{ csrf_token }}',
+			},
+			success: function(data){
+				$("#left").html(data);
+				$.fn.reloadFunc();
+			}
+		});
+		return false;
 	}
 </script>
-
 

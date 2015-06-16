@@ -46,11 +46,11 @@
 
 .table {
 	text-align: center;
-	margin-bottom: 5px;
+	margin-bottom: 0px;
 }
 
 .pagination {
-	margin: 1px;
+	margin: 0px;
 }
 
 .pagination > li > a, .pagination > li > span {
