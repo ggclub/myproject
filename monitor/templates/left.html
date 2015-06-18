@@ -1,12 +1,10 @@
 <!DOCTYPE HTML>
-<div class="left-mode navbar-right">
-	<p>Mode: {{ operation_data.get_mode_display }}</p>
+
+<div class="left-header">
+	<p>Last updated : {{ operation_data.date }}</p>
+	<p class="alignright mode">Mode: {{ operation_data.get_mode_display }}</p>
 </div>
 <div class="left-status">
-	{# <img src="{%%20static" alt="My image"> #}
-	<p>
-		Last updated : {{ operation_data.date }}
-	</p>
 	<ul>
 		<h4>Operation</h4>
 		<li>HP1 : {{ operation_data.HP1 }}

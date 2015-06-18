@@ -8,15 +8,21 @@ import json
 
 
 from .models import OperationLogger, TemperatureLogger, FlowmeterLogger, SingleSwitchLogger
+import watchdir
+import os, myproject.settings
 
 logs_per_page = 10
 page_no = 10
 
+file = 'share/commands.txt'
+filepath = os.path.join(myproject.settings.BASE_DIR, file)
+
+
 def index(request):
 	global logs_per_page
 	global page_no
-	# logs_per_page += 10
-	# page_no += 10
+
+	# watchdir.file_watch('share/')
 
 	latest_operation_data = OperationLogger.objects.latest('date')
 	latest_temperature_data = TemperatureLogger.objects.latest('date')
@@ -27,7 +33,6 @@ def index(request):
 
 
 	url = 'index.html'
-	# url = 'hello-ng.html'
 	response_data = {
 		"operation_data": latest_operation_data,
 		"temperature_data": latest_temperature_data,
@@ -73,13 +78,7 @@ def ajax_page_request(request):
 	html = render_to_string('log.html', response_data)
 
     	return HttpResponse(html)
-	# return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-	# if request.method == 'POST' and request.is_ajax():
-	# 	name = request.POST.get('name')
-	# 	return HttpResponse(json.dumps({'name': name}), content_type="application/json")
-	# else :
-	# 	return render_to_response('ajax_test.html', locals())
 
 def ajax_index_reload(request):
 	if not request.POST:
@@ -109,7 +108,7 @@ def ajax_set_operation_mode(request):
 
 	#### file write
 	try:
-		file_commands = open('file.txt','w')
+		file_commands = open(filepath,'w')
 	except IOError as e:
 		print e.strerror
 

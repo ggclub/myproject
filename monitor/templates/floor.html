@@ -1,11 +1,15 @@
 {% load staticfiles %}
 <!DOCTYPE HTML>
 
-<p id="mode">Mode: floor</p>
-<button type="button" class="btn btn-default btn-mode">Manual</button>
-<button type="button" class="btn btn-default btn-mode">Auto</button>
+<div>
+	<p class="alignleft mode">Mode: floor</p>
+	<div class="alignright" id="div-btn-mode">
+		<button type="button" class="btn btn-default btn-mode">Manual</button>
+		<button type="button" class="btn btn-default btn-mode">Auto</button>
+	</div>
+</div>
 
-<img src="{% static "monitor/floor_background.jpg" %}" width="100%" alt="floor 1"/>
+<img src="{% static "monitor/floor_background.jpg" %}" width="100%" style="" alt="floor 1"/>
 <nav class="navbar navbar-default navbar-fixed-bottom navbar-floor">
 	<div class="navbar-floor">
 		{# <a style='color:purple;'> 1 </a> #}
@@ -26,7 +30,7 @@
 				'mode': mode,
 			},
 			success: function(data){
-				$('#mode').text=data.mode;
+				$('.mode').text('Mode: ' + data.mode);
 			}
 		});
 		return false;
