@@ -1,54 +1,85 @@
 .container {
     /*background-image: url("temp_backimg.jpg");*/
-    background-color: #cccccc;
-    width: 100vw;
-}
-
-.left {
-	background-image: url("left_background.jpg");
-	background-size: cover;
-	background-color: #aaaaaa;
-	float: left;			
-	width: 65%;
-	height: 100vh;
-	padding: 2%;
+    /*background-color: white;*/
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0;
 }
 
 .left-header {
-	margin-bottom: 1em;
+	text-align: center;
+	margin-bottom: 25px;
+}
+
+.btn-opMode {
+	float: right;
+}
+
+.left {
+	background-image: url("floor_background.jpg");
+	background-size: cover;
+	background-color: #aaaaaa;
+	float: left;			
+	width: 75%;
+	height: 100vh;
+	padding: 1%;
+}
+.left-table {
+	display:inline-table;
+	width: 12%;
+}
+.left-table > thead > tr > td,
+.left-table > tbody > tr > td {
+	padding: 5px;
+}
+.power {
+	width: 13%;
+	float: right;
+}
+
+.table {
+	font-size: 13px;
+}
+.table-title {
+	text-align: left;
+}
+.table-value {
+	text-align: right;
+}
+
+.tubular {
+	margin-right: 5px;
 }
 
 .right {
 	background-color: #ccddbb;
 	float: right;
-	width: 35%;
+	width: 25%;
 	height: 100vh;
 }
 
 .right-floor {
 	background-color: #aabbcc;
 	float: top;
-	height: 50vh;
+	height: 50%;
+	padding: 2%;
 }
 
 .alignleft {
 	float: left;
-	display: inline-block;
+	display: inline;
 }
 
 .alignright {
 	float: right;
-	display: inline-block;
+	display: inline;
 }
 
-.mode {
+.opMode {
 	margin: 5px;
 }
-/*
-.btn-mode {
-	margin: 5px 0 0 0;
-}*/
-#div-btn-mode {
+#div-btn-opMode {
 	margin: 5px 5px 5px 0;
 }
 
@@ -65,7 +96,7 @@
 .right-log {
 	background-color: #ccbbaa;
 	float: bottom;
-	height: 50vh;
+	height: 50%;
 	padding: 2%;
 }
 

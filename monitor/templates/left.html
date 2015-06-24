@@ -1,9 +1,221 @@
 <!DOCTYPE HTML>
 
 <div class="left-header">
-	<p>Last updated : {{ operation_data.date }}</p>
-	<p class="alignright mode">Mode: {{ operation_data.get_mode_display }}</p>
+	{% include "navbar.html" %}
 </div>
+
+<div>
+{% for pump in heat_pump %}
+<table class="table left-table heat-pump">
+	<thead>
+		<tr><td colspan="2"><b>히트 펌프 {{ forloop.counter }}</b></td></tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="table-title">상태</td>
+			<td class="table-value">
+				<button class="btn btn-default btn-xs btn-opMode">{{ pump.switch }}</button>
+			</td>
+		</tr>
+		<tr>
+			<td class="table-title">동작 모드</td>
+			<td class="table-value">{{ pump.get_opMode_display }}</td>
+		</tr>
+		<tr><td colspan="2">모델 이력</td></tr>
+		<tr>
+			<td class="table-title">모델명</td>
+			<td class="table-value"></td>
+		</tr>
+		<tr><td colspan="2">온도</td></tr>
+		<tr>
+			<td class="table-title">IN</td>
+			<td class="table-value">{{ pump.tempIn }}</td>
+		</tr>
+		<tr>
+			<td class="table-title">OUT</td>
+			<td class="table-value">{{ pump.tempOut }}</td>
+		</tr>
+	</tbody>
+</table>
+{% endfor %}
+
+
+<table class="table left-table power">
+	<thead>
+		<tr><td colspan="2"><b>전력량</b></td></tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="table-title">순시 전력</td>
+			<td class="table-value">{{ power.currentPowerConsumption }} kWh</td>
+		</tr>
+		<tr>
+			<td class="table-title">적산 전력</td>
+			<td class="table-value">{{ power.integralPowerConsumption }} kWh</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+<div>
+<table class="table left-table circulating-pump" style="width:12%;">
+	<thead>
+		<tr><td colspan="2"><b>순환 펌프</b></td></tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="table-title">No.</td>
+			<td class="table-value">{{ circulating_pump.get_CPID_display }}</td>
+		</tr>
+		<tr>
+			<td class="table-title">상태</td>
+			<td class="table-value">
+				<button class="btn btn-default btn-xs btn-opMode">{{ circulating_pump.switch }}</button>
+			</td>
+		</tr>
+		<tr>
+			<td class="table-title">동작 모드</td>
+			<td class="table-value">{{ circulating_pump.get_opMode_display }}</td>
+		</tr>
+		<tr><td colspan="2">모델 이력</td></tr>
+		<tr>
+			<td class="table-title">모델명</td>
+			<td class="table-value"></td>
+		</tr>
+		<tr><td colspan="2"><b>인버터</b></td></tr>
+		<tr>
+			<td class="table-title">상태</td>
+			<td class="table-value">
+				<button class="btn btn-default btn-xs btn-opMode">{{ inverter.switch }}</button>
+			</td>
+		</tr>
+		<tr>
+			<td class="table-title">동작 모드</td>
+			<td class="table-value">{{ inverter.get_opMode_display }}</td>
+		</tr>
+		<tr>
+			<td class="table-title">회전수</td>
+			<td class="table-value">{{ inverter.RPM }}</td>
+		</tr>
+		<tr>
+			<td class="table-title">주파수</td>
+			<td class="table-value">{{ inverter.Hz }}</td>
+		</tr>
+		<tr><td colspan="2">모델 이력</td></tr>
+		<tr>
+			<td class="table-title">모델명</td>
+			<td class="table-value"></td>
+		</tr>
+</table>
+
+<table class="table left-table flowmeter">
+	<thead>
+		<tr><td colspan="2"><b>유량계</b></td></tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="table-title">온도</td>
+			<td class="table-value">{{ DWPFM.temperature|floatformat:1 }} °C</td>
+		</tr>
+		<tr>
+			<td class="table-title">순시 유량</td>
+			<td class="table-value">{{ DWPFM.currentFlux }} LPM</td>
+		</tr>
+		<tr>
+			<td class="table-title">적시 유량</td>
+			<td class="table-value">{{ DWPFM.integralFlux }} LPM</td>
+		</tr>
+		<tr><td colspan="2">모델 이력</td></tr>
+		<tr>
+			<td class="table-title">모델명</td>
+			<td class="table-value"></td>
+		</tr>
+	</tbody>
+</table>
+
+<table class="table left-table heat-exchanger">
+	<thead>
+		<tr><td colspan="2"><b>열교환기</b></td></tr>
+	</thead>
+	<tbody>
+		<tr><td colspan="2">모델 이력</td></tr>
+		<tr>
+			<td class="table-title">모델명</td>
+			<td class="table-value"></td>
+		</tr>
+		<tr><td colspan="2">온도</td></tr>
+		<tr>
+			<td class="table-title">IN 1</td>
+			<td class="table-value">{{ temp_HEIn1.temperature|floatformat:1 }} °C</td>
+		</tr>
+		<tr>
+			<td class="table-title">OUT 1</td>
+			<td class="table-value">{{ temp_HEOut1.temperature|floatformat:1 }} °C</td>
+		</tr>
+		<tr>
+			<td class="table-title">IN 2</td>
+			<td class="table-value">{{ temp_HEIn2.temperature|floatformat:1 }} °C</td>
+		</tr>
+		<tr>
+			<td class="table-title">OUT 2</td>
+			<td class="table-value">{{ temp_HEOut2.temperature|floatformat:1 }} °C</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+<div>
+{% for pump in DWP %}
+<table class="table left-table deepwell-pump">
+	<thead>
+		<tr><td colspan="2"><b>심정 펌프 {{ forloop.counter }}</b></td></tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="table-title">상태</td>
+			<td class="table-value">
+				<button class="btn btn-default btn-xs btn-opMode">{{ pump.switch }}</button>
+			</td>
+		</tr>
+		<tr>
+			<td class="table-title">모드</td>
+			<td class="table-value">{{ pump.get_opMode_display }}</td>
+		</tr>
+		<tr>
+			<td class="table-title">수위</td>
+			<td class="table-value">{{ pump.get_waterLevel_display }}</td>
+		</tr>
+		<tr><td colspan="2">모델 이력</td></tr>
+		<tr>
+			<td class="table-title">모델명</td>
+			<td class="table-value"></td>
+		</tr>
+	</tbody>
+</table>
+<table class="table left-table tubular">
+	<thead>
+		<tr><td colspan="2"><b>관정 센서 {{ forloop.counter }}</b></td></tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="table-title">상태</td>
+			<td class="table-value"></td>
+		</tr>
+		<tr>
+			<td class="table-title">수위</td>
+			<td class="table-value"></td>
+		</tr>
+		<tr>
+			<td class="table-title">수온</td>
+			<td class="table-value"></td>
+		</tr>
+	</tbody>
+</table>
+{% endfor %}
+</div>
+
+
+
 <div class="left-status">
 	<ul>
 		<h4>Operation</h4>

@@ -1,15 +1,15 @@
 {% load staticfiles %}
 <!DOCTYPE HTML>
 
-<div>
-	<p class="alignleft mode">Mode: floor</p>
-	<div class="alignright" id="div-btn-mode">
-		<button type="button" class="btn btn-default btn-mode">Manual</button>
-		<button type="button" class="btn btn-default btn-mode">Auto</button>
-	</div>
+
+<p  style="margin-top:10px;" class="alignleft opMode">Mode: floor</p>
+<div class="alignright" id="div-btn-opMode">
+	<button type="button" class="btn btn-default btn-opMode">Manual</button>
+	<button type="button" class="btn btn-default btn-opMode">Auto</button>
 </div>
 
-<img src="{% static "monitor/floor_background.jpg" %}" width="100%" style="" alt="floor 1"/>
+
+{# <img src="{% static "monitor/floor_background.jpg" %}" width="100%" style="" alt="floor 1"/> #}
 <nav class="navbar navbar-default navbar-fixed-bottom navbar-floor">
 	<div class="navbar-floor">
 		{# <a style='color:purple;'> 1 </a> #}
@@ -19,20 +19,3 @@
 	</div>
 </nav>
 
-<script>
-	$('.btn-mode').on('click', function setMode(){
-		var mode = this.innerText;
-		$.ajax({
-			url: "/monitor/ajax_set_operation_mode/",
-			type: "POST",
-			data: {
-				'csrfmiddlewaretoken': '{{ csrf_token }}',
-				'mode': mode,
-			},
-			success: function(data){
-				$('.mode').text('Mode: ' + data.mode);
-			}
-		});
-		return false;
-	});
-</script>

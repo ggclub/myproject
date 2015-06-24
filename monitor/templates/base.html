@@ -10,9 +10,7 @@
 	<script src="{% static "bootstrap-3.3.4-dist/js/bootstrap.min.js" %}"></script>
 	<link rel="stylesheet" href="{% static "monitor/index.css" %}" type="text/css">
 	{% block header %}{% endblock %}
-	<script type="text/javascript">
-	{% block script %}{% endblock %}
-	</script>
+	<script src="{% static "monitor/index.js" %}"></script>
     	<title>{% block title %}{% endblock %}</title>
 </head>
 <body>
