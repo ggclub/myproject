@@ -1,18 +1,18 @@
 <!DOCTYPE HTML>
-{# <p id="logid"><b>log</b></p> #}
-<table class="table table-hover">
+<p style="text-align:center;"><b>기기 동작 내역</b></p>
+<table class="table table-hover logs">
 	<tr>
-		<td>No.</td>
-		<td style='text-align:left;'>Location</td>
-		<td>Switch</td>
-		<td>Time</td>
+		<td>번호</td>
+		<td style='text-align:left;'>위치</td>
+		<td>전원</td>
+		<td>시간</td>
 	</tr>
-	{% for data in single_data_list %}
+	{% for log in switch_logs %}
 	<tr>	
-		<td>{{ data.id }}</td>
-		<td style='text-align:left;'>{{ data.get_location_display }}</td>
-		<td>{{ data.switch }}</td>
-		<td>{{ data.dateTime|date:'Y-m-d H:i' }}</td>
+		<td>{{ log.id }}</td>
+		<td style='text-align:left;'>{{ log.get_location_display }}</td>
+		<td>{{ log.switch }}</td>
+		<td>{{ log.dateTime|date:'Y-m-d H:i' }}</td>
 	</tr>
 	{% endfor %}
 </table>
@@ -21,11 +21,48 @@
 		<li><a href="" aria-label="Previous" class="page_index" id="prev">
 			<span aria-hidden="true">&laquo;</span>
 		</a></li>
-		{% for i in page_no %}
-			<li><a href="" class="page_index" id="{{ i }}">{{ i }}</a></li>
+		{% for i in page_range %}
+			<li><a href="" class="page_index" id="{{ i }}">
+				{% if i == selected %}
+				<b>
+				{% endif %}
+					{{ i }}
+				{% if i == selected %}
+				</b>
+				{% endif %}
+			</a></li>
+		
 		{% endfor %}
 		<li><a href="" aria-label="Next" class="page_index" id="next">
 			<span aria-hidden="true">&raquo;</span>
 		</a></li>
 	</ul>
 </div>
+
+<script type="text/javascript">
+// ajax log 페이지 이동
+$('.page_index').on('click', function() {
+	var selected = this.id;
+	if(selected === "prev"){
+		var cur_page = $("a").find("b").first().text();
+		selected = parseInt(cur_page) -10;
+	}
+	else if(selected === "next"){
+		var cur_page = $("a").find("b").first().text();
+		selected = parseInt(cur_page) +10;
+	}
+	$.ajax({
+		url: "/monitor/ajax_page_request/",
+		type: "POST",
+		// dataType: "json",
+		data: {
+			'csrfmiddlewaretoken': '{{ csrf_token }}',
+			'selected': selected,
+		},
+		success: function(data) {
+			$("#right-log").html(data);
+		}
+	});
+	return false;
+});
+</script>

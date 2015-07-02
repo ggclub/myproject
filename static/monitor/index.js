@@ -1,70 +1,118 @@
-<script type="text/javascript">
-	$('.page_index').on('click', function() {
-		var clicked = this.id;
-		if(clicked === "prev"){
+jQuery(function($){
 
-		}
-		else if(clicked === "next"){
 
+// var reloadVar;
+// var reloadTime = 10000;
+// window.onload = $.fn.reloadFunc = function(){
+// 	reloadVar = setTimeout(reload, reloadTime);
+// }
+// function reload(){
+// 	$.ajax({
+// 		url: "/monitor/ajax_index_reload/",
+// 		type: "POST",
+// 		data : {
+// 			'csrfmiddlewaretoken': '{{ csrf_token }}',
+// 		},
+// 		success: function(data){
+// 			$("#left").html(data);
+// 			$.fn.reloadFunc();
+// 		}
+// 	});
+// 	return false;
+// }
+
+
+// 초기 세팅
+$(document).ready(function () {
+	$('#cl-status').addClass('sys-selected');
+	$('#mn-status').addClass('sys-selected');
+
+	var btns = $('.btn-status');
+	$.each(btns, function(i, val) {
+		// alert(val.value);
+		if(val.innerText === "OFF"){
+			$(this).removeClass('status-on');
+			$(this).addClass('status-off');
+		} else {
+			$(this).removeClass('status-off');
+			$(this).addClass('status-on');
 		}
-		$.ajax({
-			url: "/monitor/ajax_page_request/",
-			type: "POST",
-			// dataType: "json",
-			data: {
-				'csrfmiddlewaretoken': '{{ csrf_token }}',
-				'page_no': {{ page_no }},
-				'page_index': clicked,
-			},
-			success: function(data) {
-				$("#right-log").html(data);
-			}
-		});
-		return false;
+	});
+	$.each($('.hp-status'), function(i, val) {
+		if(val.innerText === "OFF"){
+			$(this).removeClass('status-on');
+			$(this).addClass('status-off');
+		} else {
+			$(this).removeClass('status-off');
+			$(this).addClass('status-on');
+		}
+		$(this).attr('disabled', true);
+		$('.hp-status').removeClass('btn-default');
+	});
+});
+
+
+$(document).ready(function () { 
+	// 냉방 버튼 클릭
+	$('.btn-coolMode').on('click', function setCoolImg(){
+		$('.btn-heatMode').removeClass('sys-selected');
+		$('.btn-coolMode').addClass('sys-selected');
+		$('#left').css("background-image", "url(/static/monitor/cool_bg.jpg)");
+	});
+	// 난방 버튼 클릭
+	$('.btn-heatMode').on('click', function setHeatImg(){
+		$('.btn-coolMode').removeClass('sys-selected');
+		$('.btn-heatMode').addClass('sys-selected');
+		$('#left').css("background-image", "url(/static/monitor/heat_bg.jpg)");
+	});
+	// 자동 버튼 클릭
+	$('.btn-auto').on('click', function setHeatImg(){
+		$('.btn-manual').removeClass('sys-selected');
+		$('.btn-auto').addClass('sys-selected');
+		$('.btn-status').attr('disabled', true);
+		$('.btn-status').removeClass('btn-default');
+	});
+	// 수동 버튼 클릭
+	$('.btn-manual').on('click', function setHeatImg(){
+		$('.btn-auto').removeClass('sys-selected');
+		$('.btn-manual').addClass('sys-selected');
+		$('.btn-status').removeAttr('disabled');
+		$('.btn-status').addClass('btn-default');
 	});
 
-	// var reloadVar;
-	// var reloadTime = 10000;
-	// window.onload = $.fn.reloadFunc = function(){
-	// 	reloadVar = setTimeout(reload, reloadTime);
-	// }
-	// function reload(){
-	// 	$.ajax({
-	// 		url: "/monitor/ajax_index_reload/",
-	// 		type: "POST",
-	// 		data : {
-	// 			'csrfmiddlewaretoken': '{{ csrf_token }}',
-	// 		},
-	// 		success: function(data){
-	// 			$("#left").html(data);
-	// 			$.fn.reloadFunc();
-	// 		}
-	// 	});
-	// 	return false;
-	// }
 
-	$('.btn-opMode').on('click', function setMode(){
-		var opMode = this.innerText;
-		$.ajax({
-			url: "/monitor/ajax_set_operation_mode/",
-			type: "POST",
-			data: {
-				'csrfmiddlewaretoken': '{{ csrf_token }}',
-				'opMode': opMode,
-			},
-			success: function(data){
-				$('.opMode').text('Mode: ' + data.opMode);
-			}
-		});
-		return false;
+	// 실내기 그림 표시
+	// 1층
+	$('#floor1-nav').on('click', function () {
+		$('.slides').find('li').css('display', 'none');
+		var img = $('#floor1').css('display', 'list-item')
+	});
+	// 2층
+	$('#floor2-nav').on('click', function () {
+		$('.slides').find('li').css('display', 'none');
+		$('#floor2').css('display', 'list-item')
+	});
+	// 3층
+	$('#floor3-nav').on('click', function () {
+		$('.slides').find('li').css('display', 'none');
+		$('#floor3').css('display', 'list-item')
 	});
 
 
-
-
-
-
-
+	// 장비 스펙 표시
+	$('.device').on('click', function () {
+		var dev = this.id;
+		$('.left').addClass('show-spec');
+		$('iframe').css('display', 'block');
+	});
 	
-</script>
+	$('.spec-close').on('click', function () {
+		frameElement.remove();
+		$('#left').removeClass('show-spec');
+	});
+});
 
+
+
+//  End jQuery
+});

@@ -1,0 +1,36 @@
+{% load staticfiles %}
+<!DOCTYPE HTML>
+
+<head>
+	<meta charset="utf-8">
+	<script src="{% static "jquery/jquery-1.11.3.min.js" %}"></script>
+	<link rel="stylesheet" href="{% static "monitor/specs.css" %}" type="text/css">
+	<link rel="stylesheet" href="{% static "bootstrap-3.3.4-dist/css/bootstrap.min.css" %}">
+</head>
+<body class="spec-body">
+
+
+	<div class="spec-container">
+		<div class="spec-modal">
+			<div class="spec-table">
+				hello
+
+			</div>
+			<div class="spec-close">
+				<img src="{% static "monitor/close-overlay.png" %}"/>
+			</div>
+		</div>
+	</div>
+	
+
+	
+</body>
+
+
+
+<script type="text/javascript">
+$('.spec-close').on('click', function () {
+	$('#left', window.parent.document).removeClass('show-spec');
+	$('#spec-frame', window.parent.document).css('display', 'none');
+});
+</script>

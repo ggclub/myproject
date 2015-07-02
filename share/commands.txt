@@ -1,1 +1,1 @@
-opMode: Manual
+opMode: 수동

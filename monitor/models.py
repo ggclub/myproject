@@ -1,4 +1,3 @@
-	
 #-*- coding: utf-8 -*-
 import datetime
 
@@ -22,6 +21,10 @@ OPMODE_CHOICES = (
 class OperationSwitchControl(models.Model):
 	dateTime = models.DateTimeField()
 	LOCATION_CHOICES = (
+		('AT', '자동 모드'),
+		('MN', '수동 모드'),
+		('CL', '냉방 모드'),
+		('HT', '난방 모드'),
 		('HP1', '히트 펌프 1'),
 		('HP2', '히트 펌프 2'),
 		('HP3', '히트 펌프 3'),
@@ -37,9 +40,16 @@ class OperationSwitchControl(models.Model):
 		('IV', '인버터'),
 	)
 	location = models.CharField(max_length=4, choices=LOCATION_CHOICES)
-	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES)
+	OP_SWITCH_CHOICES = (
+		('ON', 'On'),
+		('OFF', 'Off'),
+		('N/A', 'n/a'),
+	)
+	switch = models.CharField(max_length=3, choices=OP_SWITCH_CHOICES)
 	def __str__(self):
-		return '{}, location: {}: {}'.format(self.dateTime, self.location, self.switch)
+		return '{}, location: {}, {}'.format(self.dateTime, self.location, self.switch)
+	# def __unicode__(self):
+	# 	return unicode(self.dateTime)
 
 
 class OperationLogger(models.Model):
@@ -68,6 +78,8 @@ class OperationLogger(models.Model):
 	Inverter = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF')
 	def __str__(self):
 		return str(self.dateTime)
+	# def __unicode__(self):
+	# 	return unicode(self.OperationLogger)
 
 
 # pump
@@ -81,33 +93,41 @@ class DeepwellPump1Logger(models.Model):
 	dateTime = models.DateTimeField()
 	opMode = models.CharField(max_length=2, choices=OPMODE_CHOICES, default=AUTO)
 	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 	
-	waterLevel = models.CharField(max_length=2, choices=WATERLEVEL_CHOICES, default="")
+	waterLevel = models.CharField(max_length=2, choices=WATERLEVEL_CHOICES, default="AP")
 	def __str__(self):
-		return '{}: {}-{}'.format(self.dateTime, self.opMode, self.switch)
+		return u'{}, {}-{}'.format(self.dateTime, self.opMode, self.switch)
+	# def __unicode__(self):
+	# 	return unicode(self.DeepwellPump1Logger)
 
 class DeepwellPump2Logger(models.Model):
 	dateTime = models.DateTimeField()
 	opMode = models.CharField(max_length=2, choices=OPMODE_CHOICES, default=AUTO)
 	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 	
-	waterLevel = models.CharField(max_length=2, choices=WATERLEVEL_CHOICES, default="")
+	waterLevel = models.CharField(max_length=2, choices=WATERLEVEL_CHOICES, default="AP")
 	def __str__(self):
-		return '{}: {}-{}'.format(self.dateTime, self.opMode, self.switch)
+		return u'{}, {}-{}'.format(self.dateTime, self.opMode, self.switch)
+	# def __unicode__(self):
+	# 	return unicode(self.DeepwellPump2Logger)
 
 class DeepwellPump3Logger(models.Model):
 	dateTime = models.DateTimeField()
 	opMode = models.CharField(max_length=2, choices=OPMODE_CHOICES, default=AUTO)
 	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 	
-	waterLevel = models.CharField(max_length=2, choices=WATERLEVEL_CHOICES, default="")
+	waterLevel = models.CharField(max_length=2, choices=WATERLEVEL_CHOICES, default="AP")
 	def __str__(self):
-		return '{}: {}-{}'.format(self.dateTime, self.opMode, self.switch)
+		return u'{}, {}-{}'.format(self.dateTime, self.opMode, self.switch)
+	# def __unicode__(self):
+	# 	return unicode(self.DeepwellPump3Logger)
 
 class DeepwellPump4Logger(models.Model):
 	dateTime = models.DateTimeField()
 	opMode = models.CharField(max_length=2, choices=OPMODE_CHOICES, default=AUTO)
 	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 	
-	waterLevel = models.CharField(max_length=2, choices=WATERLEVEL_CHOICES, default="")
+	waterLevel = models.CharField(max_length=2, choices=WATERLEVEL_CHOICES, default="AP")
 	def __str__(self):
-		return '{}: {}-{}'.format(self.dateTime, self.opMode, self.switch)
+		return u'{}, {}-{}'.format(self.dateTime, self.opMode, self.switch)
+	# def __unicode__(self):
+	# 	return unicode(self.DeepwellPump4Logger)
 
 class CirculatingPumpLogger(models.Model):
 	dateTime = models.DateTimeField()
@@ -119,107 +139,141 @@ class CirculatingPumpLogger(models.Model):
 	opMode = models.CharField(max_length=2, choices=OPMODE_CHOICES, default=AUTO)
 	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
 	def __str__(self):
-		return '{}, {}-{}'.format(self.dateTime, self.opMode, self.switch)
+		return u'{}, {}-{}'.format(self.dateTime, self.opMode, self.switch)
+	# def __unicode__(self):
+	# 	return unicode(self.CirculatingPumpLogger)
 
 
 # flowmeter
 class DWPFlowmeterLogger(models.Model):
 	dateTime = models.DateTimeField()
-	temperature = models.FloatField()
 	currentFlux = models.SmallIntegerField()
 	integralFlux = models.IntegerField()
 	def __str__(self):
 		return '{}, current: {}'.format(self.dateTime, self.currentFlux)
+	# def __unicode__(self):
+	# 	return unicode(self.DWPFlowmeterLogger)
 
 class CPFlowmeterLogger(models.Model):
 	dateTime = models.DateTimeField()
-	temperature = models.FloatField()
 	currentFlux = models.SmallIntegerField()
 	integralFlux = models.IntegerField()
 	def __str__(self):
 		return '{}, current: {}'.format(self.dateTime, self.currentFlux)
-
-
+	# def __unicode__(self):
+	# 	return unicode(self.CPFlowmeterLogger)
 
 class TempHEIn1Logger(models.Model):
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
 		return str(self.temperature)
+	# def __unicode__(self):
+	# 	return unicode(self.TempHEIn1Logger)
 
 class TempHEOut1Logger(models.Model):
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
 		return str(self.temperature)
+	# def __unicode__(self):
+	# 	return unicode(self.TempHEOut1Logger)
 
 class TempHEIn2Logger(models.Model):
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
 		return str(self.temperature)
+	# def __unicode__(self):
+	# 	return unicode(self.TempHEIn2Logger)
 
 class TempHEOut2Logger(models.Model):
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
 		return str(self.temperature)
+	# def __unicode__(self):
+	# 	return unicode(self.TempHEOut2Logger)
 
 class TempHPIn1Logger(models.Model):
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
 		return str(self.temperature)
+	# def __unicode__(self):
+	# 	return unicode(self.TempHPIn1Logger)
 
 class TempHPOut1Logger(models.Model):
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
 		return str(self.temperature)
+	# def __unicode__(self):
+	# 	return unicode(self.TempHPOut1Logger)
 
 class TempHPIn2Logger(models.Model):
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
 		return str(self.temperature)
+	# def __unicode__(self):
+	# 	return unicode(self.TempHPIn2Logger)
 
 class TempHPOut2Logger(models.Model):
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
 		return str(self.temperature)
+	# def __unicode__(self):
+	# 	return unicode(self.TempHPOut2Logger)
 
 class TempHPIn3Logger(models.Model):
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
 		return str(self.temperature)
+	# def __unicode__(self):
+	# 	return unicode(self.TempHPIn3Logger)
 
 class TempHPOut3Logger(models.Model):
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
 		return str(self.temperature)
+	# def __unicode__(self):
+	# 	return unicode(self.TempHPOut3Logger)
 
 class TempHPIn4Logger(models.Model):
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
 		return str(self.temperature)
+	# def __unicode__(self):
+	# 	return unicode(self.TempHPIn4Logger)
 
 class TempHPOut4Logger(models.Model):
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
 		return str(self.temperature)
+	# def __unicode__(self):
+	# 	return unicode(self.TempHPOut4Logger)
 
 class TempHPIn5Logger(models.Model):
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
 		return str(self.temperature)
+	# def __unicode__(self):
+	# 	return unicode(self.TempHPIn5Logger)
 
 class TempHPOut5Logger(models.Model):
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
 		return str(self.temperature)
+	# def __unicode__(self):
+	# 	return unicode(self.TempHPOut5Logger)
 
 class TempHPIn6Logger(models.Model):
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
 		return str(self.temperature)
+	# def __unicode__(self):
+	# 	return unicode(self.TempHPIn6Logger)
 
 class TempHPOut6Logger(models.Model):
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
 		return str(self.temperature)
+	# def __unicode__(self):
+	# 	return unicode(self.TempHPOut6Logger)
 
 
 def get_HPI1():
@@ -268,7 +322,8 @@ class TemperatureLogger(models.Model):
 	HPO6 = models.ForeignKey(TempHPOut6Logger)
 	def __str__(self):
 		return str(self.dateTime)
-
+	# def __unicode__(self):
+	# 	return unicode(self.TemperatureLogger)
 
 
 
@@ -284,9 +339,11 @@ class InverterLogger(models.Model):
 	opMode = models.CharField(max_length=2, choices=OPMODE_CHOICES, default=AUTO)
 	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
 	RPM = models.SmallIntegerField()
-	Hz = models.FloatField(null=True, blank=True)
+	Hz = models.IntegerField(null=True, blank=True)
 	def __str__(self):
-		return '{}, {}-{}, RPM: {}'.format(self.dateTime, self.opMode, self.switch, self.RPM)
+		return u'{}, {}-{}, RPM: {}'.format(self.dateTime, self.opMode, self.switch, self.RPM)
+	# def __unicode__(self):
+	# 	return u'{}, {}-{}, RPM: {}'.format(self.dateTime, self.opMode, self.switch, self.RPM)
 
 
 # heat pump
@@ -298,6 +355,8 @@ class HeatPump1Logger(models.Model):
 	tempOut = models.ForeignKey(TempHPOut1Logger)
 	def __str__(self):
 		return '{}, {}'.format(self.dateTime, self.switch)
+	# def __unicode__(self):
+	# 	return unicode(self.HeatPump1Logger)
 
 class HeatPump2Logger(models.Model):
 	dateTime = models.DateTimeField()
@@ -307,6 +366,8 @@ class HeatPump2Logger(models.Model):
 	tempOut = models.ForeignKey(TempHPOut2Logger)
 	def __str__(self):
 		return '{}, {}'.format(self.dateTime, self.switch)
+	# def __unicode__(self):
+	# 	return unicode(self.HeatPump2Logger)
 
 class HeatPump3Logger(models.Model):
 	dateTime = models.DateTimeField()
@@ -316,6 +377,8 @@ class HeatPump3Logger(models.Model):
 	tempOut = models.ForeignKey(TempHPOut3Logger)
 	def __str__(self):
 		return '{}, {}'.format(self.dateTime, self.switch)
+	# def __unicode__(self):
+	# 	return unicode(self.HeatPump3Logger)
 
 class HeatPump4Logger(models.Model):
 	dateTime = models.DateTimeField()
@@ -325,6 +388,8 @@ class HeatPump4Logger(models.Model):
 	tempOut = models.ForeignKey(TempHPOut4Logger)
 	def __str__(self):
 		return '{}, {}'.format(self.dateTime, self.switch)
+	# def __unicode__(self):
+	# 	return unicode(self.HeatPump4Logger)
 
 class HeatPump5Logger(models.Model):
 	dateTime = models.DateTimeField()
@@ -334,6 +399,8 @@ class HeatPump5Logger(models.Model):
 	tempOut = models.ForeignKey(TempHPOut5Logger)
 	def __str__(self):
 		return '{}, {}'.format(self.dateTime, self.switch)
+	# def __unicode__(self):
+	# 	return unicode(self.HeatPump5Logger)
 
 class HeatPump6Logger(models.Model):
 	dateTime = models.DateTimeField()
@@ -343,6 +410,8 @@ class HeatPump6Logger(models.Model):
 	tempOut = models.ForeignKey(TempHPOut6Logger)
 	def __str__(self):
 		return '{}, {}'.format(self.dateTime, self.switch)
+	# def __unicode__(self):
+	# 	return unicode(self.HeatPump6Logger)
 
 
 # power consumption
@@ -352,7 +421,8 @@ class PowerConsumptionLogger(models.Model):
 	integralPowerConsumption = models.IntegerField()
 	def __str__(self):
 		return '{}, current: {}'.format(self.dateTime, self.currentPowerConsumption)
-
+	# def __unicode__(self):
+	# 	return unicode(self.PowerConsumptionLogger)
 
 # refrigeration ton
 class RefrigerationTonLogger(models.Model):
@@ -360,6 +430,8 @@ class RefrigerationTonLogger(models.Model):
 	RT = models.SmallIntegerField()
 	def __str__(self):
 		return '{}, RT: {}'.format(self.dateTime, self.RT)
+	# def __unicode__(self):
+	# 	return unicode(self.RefrigerationTonLogger)
 
 
 # tube well 
@@ -372,5 +444,6 @@ class TubeWellLogger(models.Model):
 	T3temp = models.FloatField()
 	T4level = models.FloatField()
 	T4temp = models.FloatField()
-
+	# def __unicode__(self):
+	# 	return unicode(self.TubeWellLogger)
 

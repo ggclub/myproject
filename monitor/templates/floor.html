@@ -1,21 +1,24 @@
 {% load staticfiles %}
 <!DOCTYPE HTML>
-
-
-<p  style="margin-top:10px;" class="alignleft opMode">Mode: floor</p>
-<div class="alignright" id="div-btn-opMode">
-	<button type="button" class="btn btn-default btn-opMode">Manual</button>
-	<button type="button" class="btn btn-default btn-opMode">Auto</button>
+<p style="text-align: center; margin-bottom:30px;"><b>실내기 상태 정보</b></p>
+<p style="margin-top:10px;" class="alignleft opMode">자동 모드</p>
+<div class="slider">
+	<ul class="slides">
+		<li id="floor1" style="">
+			<img src="{% static "monitor/floor1.jpg" %}" width="100%" style="" alt="floor 1"/>
+		</li>
+		<li  id="floor2" style="display:none;">
+			<img src="{% static "monitor/floor2.jpg" %}" width="100%" style="" alt="floor 2"/>
+		</li>
+		<li  id="floor3" style="display:none;">
+			<img src="{% static "monitor/floor3.jpg" %}" width="100%" style="" alt="floor 3"/>
+		</li>
+	</ul>
+	<ol class="floor-nav">
+		<li><a id="floor1-nav">1층</a></li>
+		<li><a id="floor2-nav">2층</a></li>
+		<li><a id="floor3-nav">3층</a></li>
+	</ol>
 </div>
 
-
-{# <img src="{% static "monitor/floor_background.jpg" %}" width="100%" style="" alt="floor 1"/> #}
-<nav class="navbar navbar-default navbar-fixed-bottom navbar-floor">
-	<div class="navbar-floor">
-		{# <a style='color:purple;'> 1 </a> #}
-		{# <a href="#"> 2 </a> #}
-		{# <a href="#"> 3 </a> #}
-		{# <a href="#"> 4 </a> #}
-	</div>
-</nav>
 
