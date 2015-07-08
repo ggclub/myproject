@@ -144,9 +144,28 @@ class CirculatingPumpLogger(models.Model):
 	# 	return unicode(self.CirculatingPumpLogger)
 
 
+# inverter
+class InverterLogger(models.Model):
+	dateTime = models.DateTimeField()
+	INVERTER_ID_CHOICES = (
+		(1, 'Inverter1'),
+		(2, 'Inverter2'),
+	)
+	inverterID = models.SmallIntegerField(choices=INVERTER_ID_CHOICES, default=1)
+	opMode = models.CharField(max_length=2, choices=OPMODE_CHOICES, default=AUTO)
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	RPM = models.SmallIntegerField()
+	Hz = models.IntegerField(null=True, blank=True)
+	def __str__(self):
+		return u'{}, {}-{}, RPM: {}'.format(self.dateTime, self.opMode, self.switch, self.RPM)
+	# def __unicode__(self):
+	# 	return u'{}, {}-{}, RPM: {}'.format(self.dateTime, self.opMode, self.switch, self.RPM)
+
+
 # flowmeter
 class DWPFlowmeterLogger(models.Model):
 	dateTime = models.DateTimeField()
+	temperature = models.FloatField()
 	currentFlux = models.SmallIntegerField()
 	integralFlux = models.IntegerField()
 	def __str__(self):
@@ -156,6 +175,7 @@ class DWPFlowmeterLogger(models.Model):
 
 class CPFlowmeterLogger(models.Model):
 	dateTime = models.DateTimeField()
+	temperature = models.FloatField()
 	currentFlux = models.SmallIntegerField()
 	integralFlux = models.IntegerField()
 	def __str__(self):
@@ -328,23 +348,6 @@ class TemperatureLogger(models.Model):
 
 
 
-# inverter
-class InverterLogger(models.Model):
-	dateTime = models.DateTimeField()
-	INVERTER_ID_CHOICES = (
-		(1, 'Inverter1'),
-		(2, 'Inverter2'),
-	)
-	inverterID = models.SmallIntegerField(choices=INVERTER_ID_CHOICES, default=1)
-	opMode = models.CharField(max_length=2, choices=OPMODE_CHOICES, default=AUTO)
-	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
-	RPM = models.SmallIntegerField()
-	Hz = models.IntegerField(null=True, blank=True)
-	def __str__(self):
-		return u'{}, {}-{}, RPM: {}'.format(self.dateTime, self.opMode, self.switch, self.RPM)
-	# def __unicode__(self):
-	# 	return u'{}, {}-{}, RPM: {}'.format(self.dateTime, self.opMode, self.switch, self.RPM)
-
 
 # heat pump
 class HeatPump1Logger(models.Model):
@@ -427,7 +430,7 @@ class PowerConsumptionLogger(models.Model):
 # refrigeration ton
 class RefrigerationTonLogger(models.Model):
 	dateTime = models.DateTimeField()
-	RT = models.SmallIntegerField()
+	RT = models.FloatField()
 	def __str__(self):
 		return '{}, RT: {}'.format(self.dateTime, self.RT)
 	# def __unicode__(self):
@@ -446,4 +449,98 @@ class TubeWellLogger(models.Model):
 	T4temp = models.FloatField()
 	# def __unicode__(self):
 	# 	return unicode(self.TubeWellLogger)
+
+
+
+
+
+
+
+################ DEVICE SPEC #########################
+
+class FlowmeterInfo(models.Model):
+	name = models.CharField(max_length=10)
+	size = models.CharField(max_length=15)
+	measureGauge = models.CharField(max_length=15)
+	inputPower = models.CharField(max_length=30)
+	quantity = models.SmallIntegerField()
+	def __str__(self):
+		return self.name
+
+class InverterInfo(models.Model):
+	name = models.CharField(max_length=15)
+	size = models.CharField(max_length=15)
+	motorHP = models.CharField(max_length=20)
+	ratedCapacity = models.CharField(max_length=15)
+	ratedCurrent = models.CharField(max_length=15)
+	frequency = models.CharField(max_length=15)
+	maxVoltage = models.CharField(max_length=25)
+	power =  models.CharField(max_length=50)
+	coolingSystem = models.CharField(max_length=25)
+	quantity = models.SmallIntegerField()
+	def __str__(self):
+		return self.name
+
+class WattHourMeterInfo(models.Model):
+	name = models.CharField(max_length=25)
+	size = models.CharField(max_length=40)
+	ratedVoltage = models.CharField(max_length=25)
+	ratedCurrent = models.CharField(max_length=15)
+	accuracy = models.CharField(max_length=25)
+	constant = models.CharField(max_length=25)
+	outputPulse = models.CharField(max_length=25)
+	pulseSpec = models.CharField(max_length=100)	
+	powerConsumption = models.CharField(max_length=15)
+	quantity = models.SmallIntegerField()
+	def __str__(self):
+		return self.name
+
+class HeatExchangerInfo(models.Model):
+	name = models.CharField(max_length=15)
+	maxPressure = models.CharField(max_length=15)
+	tempRange = models.CharField(max_length=15)
+	quantity = models.SmallIntegerField()
+	def __str__(self):
+		return self.name
+
+class HeatPumpInfo(models.Model):
+	name = models.CharField(max_length=15)
+	voltage = models.CharField(max_length=30)
+	capacity = models.CharField(max_length=15)
+	refrigerant = models.CharField(max_length=15)
+	size = models.CharField(max_length=30)
+	weight = models.CharField(max_length=15)
+	quantity = models.SmallIntegerField()
+	def __str__(self):
+		return self.name
+
+class CirculatingPumpInfo(models.Model):
+	name = models.CharField(max_length=15)
+	flux = models.CharField(max_length=15)
+	suction = models.CharField(max_length=15)
+	motorHP = models.CharField(max_length=15)
+	maxPressure = models.CharField(max_length=60)
+	motor = models.CharField(max_length=15)
+	voltage = models.CharField(max_length=100)
+	frequency = models.CharField(max_length=15)
+	quantity = models.SmallIntegerField()
+	def __str__(self):
+		return self.name
+
+class DeepwellPumpInfo(models.Model):
+	name = models.CharField(max_length=15)
+	volume = models.CharField(max_length=15)
+	output = models.CharField(max_length=25)
+	power = models.CharField(max_length=25)
+	height = models.CharField(max_length=15)
+	length = models.CharField(max_length=15)
+	diameter = models.CharField(max_length=15)
+	quantity = models.SmallIntegerField()
+	def __str__(self):
+		return self.name
+
+
+
+
+
 

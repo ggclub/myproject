@@ -10,9 +10,9 @@
 
 .spec-modal {
 	width: 800px;
-	height: 600px;
+	/*height: 600px;*/
 	/*margin: 250px 400px;*/
-	background-color: white;
+	background-color: #ffffe0;
 }
 
 .spec-table {
@@ -21,8 +21,10 @@
 
 .spec-close {
 	  position: absolute;
-	  top: -20px;
-	  right: -25px;
+	  /*top: -20px;*/
+	  /*right: -25px;*/
+	  top: 225px;
+	  left: 1175px;
 	  cursor: pointer;
 }
 

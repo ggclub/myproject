@@ -119,8 +119,9 @@ class MyHandler(FileSystemEventHandler):
 
 
 def watch():
+	event_handler = MyHandler()
 	observer = Observer()
-	observer.schedule(MyHandler(), path='C:/Users/Admin/Documents/Django/myproject/share')#args[0] if args else '.')
+	observer.schedule(event_handler, path='C:/Users/Admin/Documents/Django/myproject/share')#args[0] if args else '.')
 	observer.start()
 
 	try:

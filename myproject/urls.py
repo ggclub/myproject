@@ -19,12 +19,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-from monitor import views
+from login import views
+# from monitor import views
 
 urlpatterns = [
     url(r'^$', views.index),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^monitor/', include('monitor.urls', namespace="monitor")),
+    url(r'^login/', include('login.urls', namespace="login")),
 ] + static(settings.STATIC_URL,
     document_root=settings.STATIC_ROOT)
 
