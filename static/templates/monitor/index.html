@@ -3,30 +3,50 @@
 
 {% block script %}
 <script type="text/javascript">
-// 센서값 reload, 데이터 저장은 하지 않음. 
+// 초기 세팅
+$('#cl-status').addClass('sys-selected');
+$('#at-status').addClass('sys-selected');
+// 자동 모드 - 버튼 비활성화
+$('.btn-status').attr('disabled', true);
+$('.btn-status').removeClass('btn-default');
+
+
+
 var displayTime = 5000;
 var saveTime = 60000;
-var count = 0;
-$(function() {
-	if(count == 0) {
-		// setInterval(reloadDisplay, displayTime);
-		// setInterval(reloadData, saveTime);	
-		count++;
+var displayVar = setTimeout(function(){reloadDisplay();}, displayTime);
+// var saveVar = setTimeout(function(){reloadData();}, saveTime);
+function reloadDisplay() {
+	var opMode = $('.sys-selected').last().text();
+	// console.log(opMode);
+	if(opMode == '자동') {
+		opMode = 'AT';
 	} else {
-		return;
+		opMode = 'MN';
 	}
-});
-function reloadDisplay () {
+	// console.log(opMode);
 	$.ajax({
 		url: "/monitor/ajax_reload_display/",
 		type: "POST",
 		data : {
 			'csrfmiddlewaretoken': '{{ csrf_token }}',
+			'op_mode': opMode,
 		},
 		success: function(data){
-			// alert("reload display")
-			$("#left").html(data);
-		}
+			$('.container').html(data);
+			setTimeout(function(){reloadDisplay();}, displayTime);
+			if(opMode == 'AT'){
+				$('#at-status').addClass('sys-selected');
+				$('.btn-status').attr('disabled', true);
+				$('.btn-status').removeClass('btn-default');
+			} else {
+				$('#mn-status').addClass('sys-selected');
+				$('.btn-status').removeAttr('disabled');
+				$('.btn-status').addClass('btn-default');
+			}
+		},
+	}).fail(function() {
+		alert("reload display error");
 	});
 	return false;
 }
@@ -38,9 +58,11 @@ function reloadData () {
 			'csrfmiddlewaretoken': '{{ csrf_token }}',
 		},
 		success: function(data){
-			// alert("reload data")
-			$("#left").html(data);
+			$(".container").html(data);
+			setTimeout(function(){reloadData();}, saveTime);
 		}
+	}).fail(function() {
+		alert("reload data error");
 	});
 	return false;
 }
@@ -50,21 +72,8 @@ function reloadData () {
 {% block title %}지하수 열원 냉난방 시스템{% endblock %}
 
 {% block content %}
+	<iframe marginheight="0" marginwidth="0" frameborder="0" src="monitor/specs/" id="spec-frame" border="0" scrolling="yes" style="background-color: transparent; z-index:124124; position:fixed; overflow: hidden; top:0px; right:0px; bottom:0px; left:0px; margin:0px; padding:0px; width:100%; height:100%; border:none; opacity:1;"></iframe>
 	<div class="container">
-		{# <div class="nav"> #}
-			{# {% include "navbar.html" %} #}
-		{# </div> #}
-		<iframe marginheight="0" marginwidth="0" frameborder="0" src="monitor/specs/" id="spec-frame" border="0" scrolling="yes" style="background-color: transparent; z-index:124124; position:fixed; overflow: hidden; top:0px; right:0px; bottom:0px; left:0px; margin:0px; padding:0px; width:100%; height:100%; border:none; opacity:1;"></iframe>
-		<div class="left" id="left">
-			{% include "monitor/left.html" %}
-		</div>
-		<div class="right">
-			<div class="right-floor">
-				{% include "monitor/floor.html" %}
-			</div>
-			<div class="right-log" id="right-log">
-				{% include "monitor/log.html" %}
-			</div>
-		</div>
+		{% include "monitor/container.html" %}
 	</div>
 {% endblock %}

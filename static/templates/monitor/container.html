@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+{# <div class="nav"> #}
+	{# {% include "navbar.html" %} #}
+{# </div> #}
+
+<div class="left" id="left">
+	{% include "monitor/left.html" %}
+</div>
+<div class="right">
+	<div class="right-floor">
+		{% include "monitor/floor.html" %}
+	</div>
+	<div class="right-log" id="right-log">
+		{% include "monitor/log.html" %}
+	</div>
+</div>
+
+<script type="text/javascript">
+// var displayTime = 5000;
+// var saveTime = 60000;
+// var displayVar = setTimeout(function(){reloadDisplay();}, displayTime);
+// var saveVar = setTimeout(function(){reloadData();}, saveTime);
+// function reloadDisplay() {
+// 	$.ajax({
+// 		url: "/monitor/ajax_reload_display/",
+// 		type: "POST",
+// 		data : {
+// 			'csrfmiddlewaretoken': '{{ csrf_token }}',
+// 		},
+// 		success: function(data){
+// 			$('.container').html(data);
+// 			setTimeout(function(){reloadDisplay();}, displayTime);
+// 		},
+// 	}).fail(function() {
+// 		alert("reload display error");
+// 	});
+// 	return false;
+// }
+// function reloadData () {
+// 	$.ajax({
+// 		url: "/monitor/ajax_reload_data/",
+// 		type: "POST",
+// 		data : {
+// 			'csrfmiddlewaretoken': '{{ csrf_token }}',
+// 		},
+// 		success: function(data){
+// 			$(".container").html(data);
+// 			setTimeout(function(){reloadData();}, saveTime);
+// 		}
+// 	}).fail(function() {
+// 		alert("reload data error");
+// 	});
+// 	return false;
+// }
+</script>

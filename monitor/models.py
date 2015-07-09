@@ -138,6 +138,8 @@ class CirculatingPumpLogger(models.Model):
 	CPID = models.SmallIntegerField(choices=CP_ID_CHOICES, default=1)
 	opMode = models.CharField(max_length=2, choices=OPMODE_CHOICES, default=AUTO)
 	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	Hz = models.SmallIntegerField(default=0)
+	flux = models.SmallIntegerField(default=0)
 	def __str__(self):
 		return u'{}, {}-{}'.format(self.dateTime, self.opMode, self.switch)
 	# def __unicode__(self):
@@ -145,21 +147,21 @@ class CirculatingPumpLogger(models.Model):
 
 
 # inverter
-class InverterLogger(models.Model):
-	dateTime = models.DateTimeField()
-	INVERTER_ID_CHOICES = (
-		(1, 'Inverter1'),
-		(2, 'Inverter2'),
-	)
-	inverterID = models.SmallIntegerField(choices=INVERTER_ID_CHOICES, default=1)
-	opMode = models.CharField(max_length=2, choices=OPMODE_CHOICES, default=AUTO)
-	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
-	RPM = models.SmallIntegerField()
-	Hz = models.IntegerField(null=True, blank=True)
-	def __str__(self):
-		return u'{}, {}-{}, RPM: {}'.format(self.dateTime, self.opMode, self.switch, self.RPM)
-	# def __unicode__(self):
-	# 	return u'{}, {}-{}, RPM: {}'.format(self.dateTime, self.opMode, self.switch, self.RPM)
+# class InverterLogger(models.Model):
+# 	dateTime = models.DateTimeField()
+# 	INVERTER_ID_CHOICES = (
+# 		(1, 'Inverter1'),
+# 		(2, 'Inverter2'),
+# 	)
+# 	inverterID = models.SmallIntegerField(choices=INVERTER_ID_CHOICES, default=1)
+# 	opMode = models.CharField(max_length=2, choices=OPMODE_CHOICES, default=AUTO)
+# 	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+# 	RPM = models.SmallIntegerField()
+# 	Hz = models.IntegerField(null=True, blank=True)
+# 	def __str__(self):
+# 		return u'{}, {}-{}, RPM: {}'.format(self.dateTime, self.opMode, self.switch, self.RPM)
+# 	# def __unicode__(self):
+# 	# 	return u'{}, {}-{}, RPM: {}'.format(self.dateTime, self.opMode, self.switch, self.RPM)
 
 
 # flowmeter
@@ -168,6 +170,7 @@ class DWPFlowmeterLogger(models.Model):
 	temperature = models.FloatField()
 	currentFlux = models.SmallIntegerField()
 	integralFlux = models.IntegerField()
+	velocity = models.FloatField()
 	def __str__(self):
 		return '{}, current: {}'.format(self.dateTime, self.currentFlux)
 	# def __unicode__(self):
@@ -178,6 +181,7 @@ class CPFlowmeterLogger(models.Model):
 	temperature = models.FloatField()
 	currentFlux = models.SmallIntegerField()
 	integralFlux = models.IntegerField()
+	velocity = models.FloatField(default=0)
 	def __str__(self):
 		return '{}, current: {}'.format(self.dateTime, self.currentFlux)
 	# def __unicode__(self):
@@ -420,8 +424,8 @@ class HeatPump6Logger(models.Model):
 # power consumption
 class PowerConsumptionLogger(models.Model):
 	dateTime = models.DateTimeField()
-	currentPowerConsumption = models.IntegerField()
-	integralPowerConsumption = models.IntegerField()
+	currentPowerConsumption = models.FloatField()
+	integralPowerConsumption = models.FloatField()
 	def __str__(self):
 		return '{}, current: {}'.format(self.dateTime, self.currentPowerConsumption)
 	# def __unicode__(self):

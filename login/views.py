@@ -8,6 +8,14 @@ import logging
 # Create your views here.
 def index(request):
 	username = password = state = ''
+
+	# if already logged in
+	if request.user.is_authenticated():
+		c = {}
+		c.update(csrf(request))
+		return render(request, 'monitor/preindex.html', c)
+
+
 	if request.method == 'POST':
 		# login submit button
 		if 'submit' in request.POST:
@@ -33,13 +41,6 @@ def index(request):
 		if 'logout' in request.POST:
 			logout(request)
 			return HttpResponseRedirect('/')
-
-
-	# if already logged in
-	if request.user.is_authenticated():
-		c = {}
-		c.update(csrf(request))
-		return render(request, 'monitor/pre.html', c)
 
 
 	url='login/index.html'

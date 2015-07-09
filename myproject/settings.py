@@ -135,6 +135,15 @@ USE_TZ = False
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt' : "%d/%b/%Y %H:%M:%S",
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s',
+        },
+    },
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse',
@@ -148,6 +157,7 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': 'C:/Users/Admin/Documents/Django/myproject/debug.log',
+            'formatter': 'verbose',
         },
         'console': {
             'level': 'INFO',
@@ -166,6 +176,9 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
+            # 'handlers': ['file'],
+            # 'level': 'DEBUG',
+            # 'propagate': True,
         },
         'django.request': {
             'handlers': ['mail_admins'],
@@ -184,6 +197,10 @@ LOGGING = {
         },
         'py.warnings': {
             'handlers': ['console'],
+        },
+        'monitor': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
         },
     }
 }

@@ -12,4 +12,5 @@ urlpatterns = [
 	url(r'^ajax_toggle_switch/$', views.ajax_toggle_switch, name='toggle_switch'),
 	url(r'^ajax_reload_display/$', views.ajax_reload_display, name='reload_display'),
 	url(r'^ajax_reload_data/$', views.ajax_reload_data, name='reload_data'),
+	url(r'^errorlog/$', views.errorlog, name='errorlog')
 ]
