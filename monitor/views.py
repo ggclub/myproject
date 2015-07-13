@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.template.context_processors import csrf
@@ -17,77 +17,87 @@ import logging
 log = logging.getLogger(__name__)
 
 flag = 0
-file = 'commands.txt'
 file_path = os.path.join(myproject.settings.BASE_DIR, 'share\\')
+save_time = timezone.now()
+save_interval = 60	# minutes
 
 def index(request):
-	# check if error exist
-	file = file_path + 'errorlog.json'
-	if isfile(file):
-		with open(file) as data_file:
-			response_data = json.load(data_file)
-		os.remove(file)
-		url = 'error/errorlog.html'
-		html = render_to_string(url, response_data)
-		return HttpResponse(html)
+	response_data = {}
+
+	check_if_error_exist()
+	
+	# 실내기 db
+	floor = request.POST.get('floor',1)
+	response_data.update(db_controller.get_CIU(floor))
 
 	# 센서값 읽어오기
 	op_mode = request.POST.get('opMode', 'AT').encode('utf-8')
-	response_data = db_controller.read_data_from_json(op_mode)
+	temp_mode = request.POST.get('tempMode', 'CL').encode('utf-8')
+	response_data.update(db_controller.read_data_from_json(op_mode, temp_mode))
 	if response_data == False:
 		response_data = {"error":"file read error"}
 		url = 'error/read.html'
 		return render(request, url, response_data)
 
+
 	# 기기 동작 내역
-	selected = int(request.POST.get('selected', 1))
+	selected = int(request.POST.get('page', 1))
 	response_data.update(db_controller.get_operation_log(selected))
+	# response_data = response_data.iteritems()
 	url = 'monitor/index.html'
 	return render(request, url, response_data)
 
 def ajax_reload_display(request):
 	if not request.POST:
-		return render_to_response('container.html', context_instance=RequestContext(request))
+		return HttpResponseRedirect('/')
 
+	response_data = {}
 	# check if error exist
-	file = file_path + 'errorlog.json'
-	if isfile(file):
-		with open(file) as data_file:
-			response_data = json.load(data_file)
-		os.remove(file)
-		url = 'error/errorlog.html'
-		html = render_to_string(url, response_data)
-		return HttpResponse(html)
+	check_if_error_exist()
+	
 
+	# 실내기 정보 읽어오기
+	floor = request.POST.get('floor',1)
+	response_data.update(db_controller.get_CIU_from_json(floor))
+
+	
 	global flag 
-	# log.debug(str(flag))
 	if flag: # command를 준 후에 파일을 잠시 읽지 않는다.
 		import time
-		# log.debug(str(timezone.now()))
 		time.sleep(3)
-		# log.debug(str(timezone.now()))
 		flag = 0
 
 	# 센서값 읽어오기
-	op_mode = request.POST.get('op_mode', 'error').encode('utf-8')
-	# log.debug(str(op_mode))
-	response_data = db_controller.read_data_from_json(op_mode)
-	if response_data == False:
+	op_mode = request.POST.get('opMode', 'AT').encode('utf-8')
+	temp_mode = request.POST.get('tempMode','CL').encode('utf-8')
+	response_data.update(db_controller.read_data_from_json(op_mode, temp_mode))
+	if response_data.has_key("error"):
 		response_data = {"error":"file read error"}
 		url = 'error/read.html'
 		html = render_to_string(url, response_data)
 		return HttpResponse(html)
 
 	# 기기 동작 내역
-	selected = int(request.POST.get('selected', 1))
+	selected = int(request.POST.get('page', 1))
 	response_data.update(db_controller.get_operation_log(selected))
+
+
+	# save time 주기마다 DB에 저장
+	if (timezone.now() - save_time) > timezone.timedelta(minutes=save_interval):
+		if not db_controller.save_data(response_data):
+			# DB save 에러
+			pass
+
+
+	# csrf token
 	response_data.update(csrf(request))
+	# log.debug(response_data)
 	html = render_to_string('monitor/container.html', response_data)
 	return HttpResponse(html)
 
 def ajax_reload_data(request):
 	if not request.POST:
-		return render_to_response('container.html', context_instance=RequestContext(request))
+		return render_to_response('monitor/container.html', context_instance=RequestContext(request))
 
 	if(db_controller.save_data()):
 		response_data = db_controller.get_sensors()
@@ -106,6 +116,52 @@ def specs(request):
 	return render(request, url, response_data)
 
 
+def cp_setting(request):
+	response_data = {}
+	url = 'monitor/cp_setting.html'
+	return render(request, url, response_data)
+
+def ajax_set_cp(request):
+	response_data = {}
+	cpid = int(request.POST.get('cpid', 1))
+	op_mode = request.POST.get('opMode', 'AT').encode('utf-8')
+	cpswitch = request.POST.get('cpswitch', 'error').encode('utf-8')
+	cphz = int(request.POST.get('cphz', 0))
+	cpflux = int(request.POST.get('cpflux', 0))
+	temp_mode = request.POST.get('tempMode', 'CL').encode('utf-8')
+	# 설정 값 db에 저장
+	db_controller.set_cp(cpid, op_mode, cpswitch, cphz, cpflux)
+	# cmdmain에 기록
+	db_controller.write_cmd(temp_mode, op_mode)
+	
+
+	# check if error exist
+	check_if_error_exist()
+
+	global flag 
+	if flag: # command를 준 후에 파일을 잠시 읽지 않는다.
+		import time
+		time.sleep(3)
+		flag = 0
+
+	# 센서값 읽어오기
+	op_mode = request.POST.get('op_mode', 'error').encode('utf-8')
+	temp_mode = request.POST.get('tempMode', 'CL').encode('utf-8')
+	response_data = db_controller.read_data_from_json(op_mode, temp_mode)
+	if response_data == False:
+		response_data = {"error":"file read error"}
+		url = 'error/read.html'
+		html = render_to_string(url, response_data)
+		return HttpResponse(html)
+
+	# 기기 동작 내역
+	selected = int(request.POST.get('page', 1))
+	response_data.update(db_controller.get_operation_log(selected))
+	response_data.update(csrf(request))
+	html = render_to_string('monitor/container.html', response_data)
+	return HttpResponse(html)
+
+
 def hmi_insert_data(request):
 	return;
 
@@ -115,7 +171,7 @@ def ajax_page_request(request):
 		return render_to_response('monitor/container.html',context_instance=RequestContext(request))
 
 	# 기기 동작 내역
-	selected = int(request.POST.get('selected', 1))
+	selected = int(request.POST.get('page', 1))
 	response_data = db_controller.get_operation_log(selected)
 
 	response_data.update(csrf(request))
@@ -173,37 +229,23 @@ def ajax_toggle_switch(request):
 	switch_status = request.POST.get('status', 'error').encode('utf-8').upper()
 
 	op_mode = request.POST.get('opMode', 'AT').encode('utf-8')
-	temp_mode = request.POST.get('tempMode', 'temp error').encode('utf-8')
-
-	# log.debug("loc : " + loc)
-	# log.debug("op_mode: " + str(op_mode))
-	# log.debug("type: " + str(type(op_mode)))
-	# log.debug("switch_status: " + switch_status)
-
-	# if op_mode == u'자동':
-	# 	op_mode = 'AT'
-	# else:
-	# 	op_mode = 'MN'
+	temp_mode = request.POST.get('tempMode', 'CL').encode('utf-8')
 
 	# 심정 펌프 갱신
 	dwp = ''
 	if loc == 'DWP1': 
-		# log.debug(1)
 		dwp = DeepwellPump1Logger(
 			dateTime=timezone.now(), opMode=op_mode, switch=switch_status
 		)
 	elif loc == 'DWP2':
-		# log.debug(2)
 		dwp = DeepwellPump2Logger(
 			dateTime=timezone.now(), opMode=op_mode, switch=switch_status
 		)
 	elif loc == 'DWP3':
-		# log.debug(3)
 		dwp = DeepwellPump3Logger(
 			dateTime=timezone.now(), opMode=op_mode, switch=switch_status
 		)
 	elif loc == 'DWP4':
-		# log.debug(4)
 		dwp = DeepwellPump4Logger(
 			dateTime=timezone.now(), opMode=op_mode, switch=switch_status
 		)
@@ -230,10 +272,26 @@ def ajax_toggle_switch(request):
 	return HttpResponse(html)
 
 
-def errorlog(request):
+def ajax_floor_change(request):
+	if not request.POST:
+		return render_to_response('monitor/container.html', context_instance=RequestContext(request))
+
+	response_data = {}
+	# 실내기 정보 읽어오기
+	floor = int(request.POST.get('floor', "1"))
+	response_data.update(db_controller.get_CIU_from_json(floor))
+	# csrf token
+	response_data.update(csrf(request))
+	html = render_to_string('monitor/floor.html', response_data)
+	return HttpResponse(html)
+
+
+def check_if_error_exist():
 	file = file_path + 'errorlog.json'
-	with open(file) as data_file:
-		response_data = json.load(data_file)
-	os.remove(file)
-	url = 'error/errorlog.html'
-	return render(request, url, response_data)
+	if isfile(file):
+		with open(file) as data_file:
+			response_data = json.load(data_file)
+		os.remove(file)
+		url = 'error/errorlog.html'
+		html = render_to_string(url, response_data)
+		return HttpResponse(html)

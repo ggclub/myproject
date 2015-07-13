@@ -455,6 +455,454 @@ class TubeWellLogger(models.Model):
 	# 	return unicode(self.TubeWellLogger)
 
 
+################ CEILING INDOOR UNIT #########################
+ACOOL = 'CL'
+AHEAT = 'HT'
+AAIR = 'AR'
+AAUTO = 'AT'
+AIR_OP_MODE = (
+	(ACOOL, '냉방'),
+	(AHEAT, '난방'),
+	(AAIR, '송풍'),
+	(AAUTO, '자동'),
+)
+WEAK = 'WK'
+NORMAL = 'NM'
+STRONG = 'ST'
+AIRFLOW_CHOICES = (
+	(WEAK, '약풍'),
+	(NORMAL, '중풍'),
+	(STRONG, '강풍'),
+)
+ERROR = 'ER'
+STATE_CHOICES = (
+	(ERROR, '에러'),
+	(NORMAL, '정상'),
+)
+class Floor1CIU1(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor1CIU2(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor1CIU3(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor1CIU4(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor1CIU5(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor1CIU6(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor1CIU7(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor1CIU8(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor1CIU9(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor1CIU10(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor1CIU11(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor1CIU12(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor1CIU13(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor1CIU14(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor2CIU1(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor2CIU2(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor2CIU3(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor2CIU4(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor2CIU5(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor2CIU6(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor2CIU7(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor2CIU8(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor2CIU9(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor2CIU10(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor2CIU11(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor2CIU12(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor3CIU1(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor3CIU2(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor3CIU3(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor3CIU4(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor3CIU5(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor3CIU6(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor3CIU7(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor3CIU8(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor3CIU9(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor3CIU10(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor3CIU11(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor3CIU12(models.Model):
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	temperature = models.FloatField(default=20.1)
+	setTemp = models.FloatField(default=19)
+	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
+	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
+	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
+	def __str__(self):
+		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+
+class Floor1CIUs(models.Model):
+	 u1 = models.ForeignKey(Floor1CIU1)
+	 u2 = models.ForeignKey(Floor1CIU2)
+	 u3 = models.ForeignKey(Floor1CIU3)
+	 u4 = models.ForeignKey(Floor1CIU4)
+	 u5 = models.ForeignKey(Floor1CIU5)
+	 u6 = models.ForeignKey(Floor1CIU6)
+	 u7 = models.ForeignKey(Floor1CIU7)
+	 u8 = models.ForeignKey(Floor1CIU8)
+	 u9 = models.ForeignKey(Floor1CIU9)
+	 u10 = models.ForeignKey(Floor1CIU10)
+	 u11 = models.ForeignKey(Floor1CIU11)
+	 u12 = models.ForeignKey(Floor1CIU12)
+	 u13 = models.ForeignKey(Floor1CIU13)
+	 u14 = models.ForeignKey(Floor1CIU14)
+
+class Floor2CIUs(models.Model):
+	 u1 = models.ForeignKey(Floor2CIU1)
+	 u2 = models.ForeignKey(Floor2CIU2)
+	 u3 = models.ForeignKey(Floor2CIU3)
+	 u4 = models.ForeignKey(Floor2CIU4)
+	 u5 = models.ForeignKey(Floor2CIU5)
+	 u6 = models.ForeignKey(Floor2CIU6)
+	 u7 = models.ForeignKey(Floor2CIU7)
+	 u8 = models.ForeignKey(Floor2CIU8)
+	 u9 = models.ForeignKey(Floor2CIU9)
+	 u10 = models.ForeignKey(Floor2CIU10)
+	 u11 = models.ForeignKey(Floor2CIU11)
+	 u12 = models.ForeignKey(Floor2CIU12)
+
+class Floor3CIUs(models.Model):
+	 u1 = models.ForeignKey(Floor3CIU1)
+	 u2 = models.ForeignKey(Floor3CIU2)
+	 u3 = models.ForeignKey(Floor3CIU3)
+	 u4 = models.ForeignKey(Floor3CIU4)
+	 u5 = models.ForeignKey(Floor3CIU5)
+	 u6 = models.ForeignKey(Floor3CIU6)
+	 u7 = models.ForeignKey(Floor3CIU7)
+	 u8 = models.ForeignKey(Floor3CIU8)
+	 u9 = models.ForeignKey(Floor3CIU9)
+	 u10 = models.ForeignKey(Floor3CIU10)
+	 u11 = models.ForeignKey(Floor3CIU11)
+	 u12 = models.ForeignKey(Floor3CIU12)
+
 
 
 

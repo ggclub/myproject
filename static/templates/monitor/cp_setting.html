@@ -1,0 +1,96 @@
+{% load staticfiles %}
+<!DOCTYPE HTML>
+
+<head>
+	<meta charset="utf-8">
+	<script src="{% static "jquery/jquery-1.11.3.min.js" %}"></script>
+	{# <link rel="stylesheet" href="{% static "monitor/cp-setting.css" %}" type="text/css"> #}
+	<link rel="stylesheet" href="{% static "bootstrap-3.3.4-dist/css/bootstrap.min.css" %}">
+</head>
+<body style="background-color:transparent;">
+	<div class="cp-setting-container" style="margin: 325px 192px;">
+		<div class="cp-setting-modal" style="width:175px; height:200px; background-color:lightgreen; padding:2px;">
+			<form class="form-horizon" id="cp-setting-form">
+				<div class="form-group">
+					<label for="cpid" class="col-sm-6">ID</label>
+					{# 라디오버튼 chk 1,2 #}
+					<div class="col-sm-6" style="margin-bottom:3px;">
+					<input type="radio" name="cpid" value="1"> 1
+					<input type="radio" name="cpid" value="2"> 2
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="cpswitch" class="col-sm-6">스위치</label>
+					{# 라디오버튼 on/off #}
+					<div class="col-sm-6">
+					<input type="radio" name="cpswitch" value="ON"> ON <br>
+					<input type="radio" name="cpswitch" value="OFF"> OFF <br>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="cphz" class="col-sm-6">회전수</label>
+					{# 숫자입력창 회전수 #}
+					<div class="col-sm-6">
+					<input type="number" class="form-control" name="cphz" min="0" max="30" default="0">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="cplpm" class="col-sm-6">유량</label>
+					{# 숫자입력창 유량 #}
+					<div class="col-sm-6">
+					<input type="number" class="form-control" name="cpflux" min="0" max="300" default="0">
+					</div>
+				</div>
+				<div class="form-group" style="padding-left:30px;">
+					<button class="btn btn-default" id="ok">입력</button>
+					<button class="btn btn-default" id="cancel">취소</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+// 설정 확인
+$('#cp-setting-form').on('submit', function() {
+	var cpid = $('input:radio[name=cpid]:checked').val();
+	var cpswitch = $('input:radio[name=cpswitch]:checked').val();
+	var cphz =$('input[name=cphz]').val()
+	// var cpflux = 
+	var opMode =  $('.sys-selected', window.parent.document).last().text();
+	if(opMode == '자동') {
+		opMode = 'AT';
+	} else {
+		opMode = 'MN';
+	}
+	var tempMode =  $('.sys-selected', window.parent.document).first().text();
+	console.log(cpswitch);
+	$.ajax({
+		url: "/monitor/ajax_set_cp/",
+		type: "POST",
+		data: {
+			'csrfmiddlewaretoken': '{{ csrf_token }}',
+			'cpid' : cpid,
+			'cpswitch' : cpswitch,
+			'cphz' : cphz,
+			'cpflux' : $('input[name=cpflux]').val(),
+			'opMode' : opMode,
+			'tempMode' : tempMode,
+		},
+		success: function(data) {
+			alert('설정 되었습니다.');
+			$('#left', window.parent.document).removeClass('show-spec');
+			$('#cp-setting-frame', window.parent.document).css('display', 'none');	
+			$('#container').html(data)
+		}
+	});
+	return false;
+
+});
+
+// 설정 취소
+$('#cancel').on('click', function() {
+	$('#left', window.parent.document).removeClass('show-spec');
+	$('#cp-setting-frame', window.parent.document).css('display', 'none');
+});
+</script>

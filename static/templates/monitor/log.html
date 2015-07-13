@@ -18,22 +18,18 @@
 </table>
 <div class="text-center">
 	<ul class="pagination">
-		<li><a href="" aria-label="Previous" class="page_index" id="prev">
+		<li><a href="" aria-label="Previous" class="page-index" id="prev">
 			<span aria-hidden="true">&laquo;</span>
 		</a></li>
 		{% for i in page_range %}
-			<li><a href="" class="page_index" id="{{ i }}">
-				{% if i == selected %}
-				<b>
-				{% endif %}
-					{{ i }}
-				{% if i == selected %}
-				</b>
-				{% endif %}
+			<li><a href="" class="page-index 
+				{% if i == selected %}pg-selected{% endif %}" 
+				id="{{ i }}">
+				{{ i }}
 			</a></li>
 		
 		{% endfor %}
-		<li><a href="" aria-label="Next" class="page_index" id="next">
+		<li><a href="" aria-label="Next" class="page-index" id="next">
 			<span aria-hidden="true">&raquo;</span>
 		</a></li>
 	</ul>
@@ -41,14 +37,14 @@
 
 <script type="text/javascript">
 // ajax log 페이지 이동
-$('.page_index').on('click', function() {
+$('.page-index').on('click', function() {
 	var selected = this.id;
 	if(selected === "prev"){
-		var cur_page = $(".pagination").find("b").first().text();
+		var cur_page = $(".pagination").find(".pg-selected").first().text();
 		selected = parseInt(cur_page) -10;
 	}
 	else if(selected === "next"){
-		var cur_page = $(".pagination").find("b").first().text();
+		var cur_page = $(".pagination").find(".pg-selected").first().text();
 		selected = parseInt(cur_page) +10;
 	}
 	$.ajax({
@@ -57,10 +53,12 @@ $('.page_index').on('click', function() {
 		// dataType: "json",
 		data: {
 			'csrfmiddlewaretoken': '{{ csrf_token }}',
-			'selected': selected,
+			'page': selected,
 		},
 		success: function(data) {
 			$('#right-log').html(data);
+			$('.pg-selected').removeClass('pg-selected');
+			$('.pagination').find('#'+selected).addClass('pg-selected');
 		}
 	});
 	return false;

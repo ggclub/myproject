@@ -50,3 +50,8 @@ def index(request):
 	response_data.update(csrf(request))
 	return render(request, url, response_data)
 
+
+def log_out(request):
+	if 'logout' in request.POST:
+		logout(request)
+		return HttpResponseRedirect('/')

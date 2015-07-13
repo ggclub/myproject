@@ -2,8 +2,8 @@
 <button class="btn btn-default alignleft btn-coolMode control" id="cl-status" style="margin-right: 4px;">냉방</button>
 <button class="btn btn-default alignleft btn-heatMode control" id="ht-status">난방</button>
 <h4 id="title" style="display: inline;"><b>지하수 열원 냉난방 시스템</b></h3>
-<p style="display: inline;">최종 업데이트 : {{ switch_log.dateTime|date:'Y-m-d H:i' }}</p>
-<form action="" method="post" >{% csrf_token %}
+<p style="display: inline;">최종 업데이트 : {{ dateTime }}</p>
+<form action="/login/logout/" method="post" >{% csrf_token %}
 	<button type="submit" class="btn btn-default alignright" name="logout">로그아웃</button>
 </form>
 <button class="btn btn-default alignright btn-opMode btn-manual control" id="mn-status" style="margin-right: 4px;">수동</button>

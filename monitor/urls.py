@@ -5,6 +5,9 @@ from . import views
 urlpatterns = [
 	url(r'^$', views.index, name='index'),
 	url(r'^specs/$', views.specs, name='specs'),
+	url(r'^cp_setting/$', views.cp_setting, name='cp_setting'),
+	url(r'^ajax_set_cp/$', views.ajax_set_cp, name='set_cp'),
+	url(r'^ajax_floor_change/$', views.ajax_floor_change, name='floor_change'),
 	url(r'^hmi_insert_data/$', views.hmi_insert_data, name='hmi_insert_data'),
 	url(r'^ajax_page_request/$', views.ajax_page_request, name='page_request'),
 	url(r'^ajax_index_reload/$', views.ajax_index_reload, name='index_reload'),
@@ -12,5 +15,5 @@ urlpatterns = [
 	url(r'^ajax_toggle_switch/$', views.ajax_toggle_switch, name='toggle_switch'),
 	url(r'^ajax_reload_display/$', views.ajax_reload_display, name='reload_display'),
 	url(r'^ajax_reload_data/$', views.ajax_reload_data, name='reload_data'),
-	url(r'^errorlog/$', views.errorlog, name='errorlog')
+	# url(r'^errorlog/$', views.errorlog, name='errorlog')
 ]

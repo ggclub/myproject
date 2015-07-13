@@ -38,7 +38,7 @@ iframe {
 }
 
 .left {
-	background-image: url("co.jpg");
+	background-image: url("cooling.jpg");
 	background-size: contain;
 	background-color: #aaaaaa;
 	float: left;			
@@ -83,54 +83,101 @@ a:hover {
 
 .first {
 	position: absolute;
-	top: 155px;
-	left: 363px;
+	top: 150px;
+	left: 392px;
 	height: 190px;
-	width: 960px;
+	width: 954px;
 }
 .heat-pump {
 	width: 144px;
 	height: 190px;
-	margin-right: 11px;
+	margin-right: 10px;
 	font-size: 15px;
 	margin-bottom: 0;
 }
-.second {
+.left-table > thead > tr > td, .left-table > tbody > tr > td {
+	padding: 8px 5px;
+}
+
+.sec-1 {
 	position: absolute;
-	top: 404px;
-	left: 132px;
-	height: 208px;
+	top: 325px;
+	left: 192px;
 }
 .circulating-pump {
 	width: 163px;
-	height: inherit;
+	height: 167px;
 	font-size: 15px;
-	margin-right: 55px;
+	padding: 0px 5px;
 }
 .sec-2 {
 	position: absolute;
-	top: 410px;
-	left: 355px;
+	top: 420px;
+	left: 405px;
 	height: 208px;
-	margin-right: 130px;
 }
 .flowmeter {
-	top: 460px;
-	width: 185px;
-	height: 140px;
-	margin-top: 60px;
+	width: 280px;
+	height: 106px;
+	font-size: 13px;
 }
 .sec-3 {
 	position: absolute;
-	top: 410px;
-	left: 700px;
-	height: 208px;
+	top: 528px;
+	left: 982px;
+	/*height: 208px;*/
 }
-.third{
+.heat-exchanger-in1 {
+	width: 145px;
+	font-size: 13px;
+}
+
+.third-1 {
 	position: absolute;
-	top: 900px;
-	left: 60px;
-	width: 1200px;
+	top: 652px;
+	left: 295px;
+}
+.third-2 {
+	position: absolute;
+	top: 685px;
+	left: 908px;
+}
+.heat-exchanger-in2 {
+	width: 145px;
+	font-size: 13px;
+}
+
+.fourth-1 {
+	position: absolute;
+	top: 855px;
+	left: 65px;
+}
+.deepwell-pump {
+	width: 143px;
+	height: 165px;
+	margin-right: 10px;
+	font-size: 15px;
+	padding: 0px 5px;
+}
+.deepwell-pump > thead {
+	height: 45px;
+}
+.fourth-2 {
+	position: absolute;
+	top: 866px;
+	left: 1075px;
+}
+.rt {
+	width: 200px;
+}
+.fourth-3 {
+	position: absolute;
+	top: 945px;
+	left: 1075px;
+}
+.power {
+	width: 200px;
+	height: 81px;
 }
 
 .btn-status{
@@ -144,12 +191,6 @@ a:hover {
 .status-off, .status-off:focus {
 	background-color: red;
 	color: white;
-}
-.power {
-	position: absolute;
-	top: 0;
-	width: 12%;
-	float: right;
 }
 
 .tubular {
@@ -168,8 +209,13 @@ a:hover {
 .right-floor {
 	background-color: #aabbcc;
 	float: top;
-	height: 50%;
+	height: 53%;
 	padding: 2%;
+}
+.ciu {
+}
+.right-floor > .unit-info > table > tbody > tr > td {
+	padding: 6px 8px;
 }
 
 .alignleft {
@@ -217,6 +263,9 @@ a:hover {
 	text-decoration: none;
 	/*text-indent: -9999px;*/
 }
+.fl-selected {
+	font-weight: bold;
+}
 /*
 .floor-nav > li > a:hover {
 }
@@ -228,10 +277,9 @@ a:hover {
 .right-log {
 	background-color: #ccbbaa;
 	float: bottom;
-	height: 50%;
+	height: 47%;
 	padding: 2%;
 }
-
 
 .pagination {
 	margin: 5px 0 15px;
@@ -239,5 +287,9 @@ a:hover {
 
 .pagination > li > a, .pagination > li > span {
 	background-color: inherit;
+}
+
+.pg-selected {
+	font-weight: bold;
 }
 
