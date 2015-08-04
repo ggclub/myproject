@@ -4,7 +4,6 @@ from models import *
 
 # Logger
 admin.site.register(OperationSwitchControl)
-admin.site.register(OperationLogger)
 admin.site.register(DeepwellPump1Logger)
 admin.site.register(DeepwellPump2Logger)
 admin.site.register(DeepwellPump3Logger)
@@ -90,4 +89,10 @@ admin.site.register(HeatPumpInfo)
 admin.site.register(CirculatingPumpInfo)
 admin.site.register(DeepwellPumpInfo)
 
+admin.site.register(CiuOnHeatPump1)
+admin.site.register(CiuOnHeatPump2)
+admin.site.register(CiuOnHeatPump3)
+admin.site.register(CiuOnHeatPump4)
+admin.site.register(CiuOnHeatPump5)
+admin.site.register(CiuOnHeatPump6)
 

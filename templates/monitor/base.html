@@ -1,0 +1,140 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+{% block title %}지하수 열원 냉난방 시스템{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+// 초기 세팅
+$('#cl-status').addClass('sys-selected');
+$('#at-status').addClass('sys-selected');
+// 자동 모드 - 버튼 비활성화
+$('.btn-status').attr('disabled', true);
+$('.btn-status').removeClass('btn-default');
+$('#cp-setting').attr('disabled', true);
+$('#cp-setting').removeClass('btn-default');
+
+function playSound(){
+	$('#sound').html(
+		'<audio autoplay="autoplay" loop="loop"><source src="{% static 'monitor/alarm.wav' %}" type="audio/wav" /></audio>'
+		);
+	$('#error-msg > p').text('에러');
+}
+function stopSound(){
+	$('#sound').html('');
+	$('#error-msg > p').text('정상');
+}
+function changePassword() {
+	$.post("/monitor/change_password_page/", function(data) {
+		$('.right-floor').html(data);
+	});
+}
+
+var displayTime = 5000;
+// var displayVar = setTimeout(function(){reloadDisplay();}, displayTime);
+function reloadDisplay() {
+	// var opMode = $('.sys-selected').last().text();
+	if(opMode == '수동') {
+		opMode = 'MN';
+	} else {
+		opMode = 'AT';
+	}
+	var tempMode = $('.sys-selected').first().text();
+	if(tempMode == '난방') {
+		tempMode = 'HT';
+	} else {
+		tempMode = 'CL';
+	}
+	var floor = $('.floor-nav').find('.fl-selected').attr('id');
+	var page = $('.pagination').find('.pg-selected').attr('id')
+	// console.log(floor);
+	$.ajax({
+		url: "/monitor/reload_display/",
+		type: "POST",
+		data : {
+			'csrfmiddlewaretoken': '{{ csrf_token }}',
+			'opMode': opMode,
+			'tempMode': tempMode,
+			'floor': floor,
+			'page': page,
+		},
+		success: function(data){
+			$('.container').html(data);
+			setTimeout(function(){reloadDisplay();}, displayTime);
+			// 운영 모드
+			if(opMode == 'AT'){
+				$('#at-status').addClass('sys-selected');
+				$('.btn-status').attr('disabled', true);
+				$('.btn-status').removeClass('btn-default');
+				$('#cp-setting').attr('disabled', true);
+				$('#cp-setting').removeClass('btn-default');
+			} else {
+				$('#mn-status').addClass('sys-selected');
+				$('.btn-status').removeAttr('disabled');
+				$('.btn-status').addClass('btn-default');
+				$('#cp-setting').removeAttr('disabled');
+				$('#cp-setting').addClass('btn-default');
+			}
+			// 냉난방 모드
+			if(tempMode == 'CL') {
+				$('.btn-heatMode').removeClass('sys-selected');
+				$('.btn-coolMode').addClass('sys-selected');
+				$('#left').css("background-image", "url(/static/monitor/cooling2.jpg)");
+			} else {
+				$('.btn-coolMode').removeClass('sys-selected');
+				$('.btn-heatMode').addClass('sys-selected');
+				$('#left').css("background-image", "url(/static/monitor/heating2.jpg)");
+			}
+
+			// iframe이 표시중일 때 
+			if($('#cp-setting-frame').css('display') == 'block') {
+				$('.left').addClass('show-spec');
+				$('#cp-setting-frame').css('display', 'block');
+			}
+			if($('#show-database-frame').css('display') == 'block') {
+				$('.left').addClass('show-spec');
+				$('#show-database-frame').css('display', 'block');
+			}
+
+			// 실내기 상태 정보, 기기 동작 내역 page
+			$('.fl-selected').removeClass('fl-selected');
+			$('.floor-nav').find('#'+floor).addClass('fl-selected');
+			$('.pagination').removeClass('pg-selected');
+			$('.pagination').find('#'+page).addClass('pg-selected');
+		},
+	}).fail(function() {
+		var dt = new Date();
+		var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+		console.log(time + " reload display error");
+		// alert("reload display error!");
+	});
+	return false;
+}
+
+
+
+
+// ############################ left-status ############################
+// ajax 자동수동
+// $('.btn-opMode').on('click', function setMode(){
+// 	var opMode = this.innerText;
+// 	$.ajax({
+// 		url: "/monitor/set_operation_mode/",
+// 		type: "POST",
+// 		data: {
+// 			'csrfmiddlewaretoken': '{{ csrf_token }}',
+// 			'opMode': opMode,
+// 		},
+// 		success: function(data){
+// 			$('.opMode').text(data.opMode + ' 모드');
+// 		}
+// 	});
+// 	return false;
+// });
+
+
+</script>
+{% endblock %}
+
+{% block navbar %}
+	{% include "base/navbar.html" %}
+{% endblock %}

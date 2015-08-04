@@ -1,4 +1,8 @@
+.content {
+	/*position: fixed;*/
+}
 
+/*############################ full screen ##########################*/
 .container {
 	/*background-image: url("temp_backimg.jpg");*/
 	/*background-color: white;*/
@@ -8,7 +12,42 @@
 	margin: 0;
 	font-size: 15px;
 }
-/*############################ left #########################*/
+
+.left {
+	float: left;			
+	width: 65%;
+	height: 89vh;
+}
+.left-status {
+	background-image: url("cooling2.jpg");
+	background-size: contain;
+	background-color: #aaaaaa;
+	height: 80vh;
+	position: relative;
+}
+.left-footer {
+	background-color: lightseagreen;
+	height:9vh;
+}
+.right {
+	background-color: #ccddbb;
+	float: right;
+	width: 35%;
+	height: 89vh;
+}
+.right-floor {
+	background-color: #aabbcc;
+	float: top;
+	height: 49%;
+	padding: 2%;
+}
+.right-bottom {
+	background-color: #ccbbaa;
+	float: bottom;
+	height: 51%;
+	padding: 2%;
+}
+/*############################ left - status #########################*/
 .left-header {
 	text-align: center;
 	margin-top: 2%;
@@ -37,16 +76,6 @@ iframe {
 	background-color: #ffffe0;
 }
 
-.left {
-	background-image: url("cooling.jpg");
-	background-size: contain;
-	background-color: #aaaaaa;
-	float: left;			
-	width: 70%;
-	height: 100vh;
-	padding: 1%;
-	position: relative;
-}
 .left-table {
 	display: inline-table;
 	width: 130px;
@@ -71,6 +100,9 @@ iframe {
 .table-value {
 	text-align: right;
 }
+.table-value:hover {
+	/*cursor: pointer;*/
+}
 
 
 a:hover {
@@ -83,8 +115,8 @@ a:hover {
 
 .first {
 	position: absolute;
-	top: 150px;
-	left: 392px;
+	top: 80px;
+	left: 200px;
 	height: 190px;
 	width: 954px;
 }
@@ -101,8 +133,8 @@ a:hover {
 
 .sec-1 {
 	position: absolute;
-	top: 325px;
-	left: 192px;
+	top: 250px;
+	left: 150px;
 }
 .circulating-pump {
 	width: 163px;
@@ -112,8 +144,8 @@ a:hover {
 }
 .sec-2 {
 	position: absolute;
-	top: 420px;
-	left: 405px;
+	top: 329px;
+	left: 315px;
 	height: 208px;
 }
 .flowmeter {
@@ -123,34 +155,37 @@ a:hover {
 }
 .sec-3 {
 	position: absolute;
-	top: 528px;
-	left: 982px;
+	top: 380px;
+	left: 800px;
 	/*height: 208px;*/
 }
 .heat-exchanger-in1 {
-	width: 145px;
+	width: 141px;
+	height: 72px;
 	font-size: 13px;
 }
 
 .third-1 {
 	position: absolute;
-	top: 652px;
-	left: 295px;
+	top: 520px;
+	left: 220px;
 }
 .third-2 {
 	position: absolute;
-	top: 685px;
-	left: 908px;
+	top: 540px;
+	left: 733px;
 }
-.heat-exchanger-in2 {
-	width: 145px;
+.heat-exchanger-out2 {
+	width: 141px;
+	height: 72px;
 	font-size: 13px;
 }
 
 .fourth-1 {
 	position: absolute;
-	top: 855px;
-	left: 65px;
+	top: 685px;
+	left: 53px;
+	width: 625px;
 }
 .deepwell-pump {
 	width: 143px;
@@ -164,16 +199,16 @@ a:hover {
 }
 .fourth-2 {
 	position: absolute;
-	top: 866px;
-	left: 1075px;
+	top: 695px;
+	left: 855px;
 }
 .rt {
 	width: 200px;
 }
 .fourth-3 {
 	position: absolute;
-	top: 945px;
-	left: 1075px;
+	top: 754px;
+	left: 855px;
 }
 .power {
 	width: 200px;
@@ -198,25 +233,21 @@ a:hover {
 }
 
 
-/*############################ right #########################*/
-.right {
-	background-color: #ccddbb;
-	float: right;
-	width: 30%;
-	height: 100vh;
-}
 /*########### r-floor ##########*/
-.right-floor {
-	background-color: #aabbcc;
-	float: top;
-	height: 53%;
-	padding: 2%;
+.floor-title {
+	/*text-align:center; */
+	display: inline;
+	margin-bottom:20px;
 }
-.ciu {
+
+.cius-title {
+	display: inline-table;
+	background-color: lightgoldenrodyellow;
+	border-style: none;
 }
-.right-floor > .unit-info > table > tbody > tr > td {
-	padding: 6px 8px;
-}
+/*.unit-info > table > tbody > tr > td {
+	padding: 4px 4px;
+}*/
 
 .alignleft {
 	float: left;
@@ -239,14 +270,25 @@ a:hover {
 .slides {
 	padding: 0;
 }
+.ciu {
+	width: 200px;
+	display: inline-table;
+	margin: 5px;
+}
+.room {
+	width: 105px;
+	font-weight: bold;
+	vertical-align: middle;
+}
+
 .floor-nav {
-	/*width: 100%; */
-	position: relative; 
-	/*bottom: -30px; */
+	position: fixed; 
 	text-align: center;
 	padding: 0;
+	top: 550px;
+	right: 292px;
 }
-.floor-nav > li {
+.floor-nav > li, .hp-ciu-nav > li {
 	margin: 0 0 0 5px; 
 	display: inline-block; 
 	zoom: 1; 
@@ -256,12 +298,12 @@ a:hover {
 	margin: 0;
 }
 .floor-nav > li > a {
-	/*width: 13px; 
-	height: 13px; */
 	display: block; 
 	cursor: pointer; 
 	text-decoration: none;
-	/*text-indent: -9999px;*/
+/*	width: 13px; 
+	height: 13px; 
+	text-indent: -9999px;*/
 }
 .fl-selected {
 	font-weight: bold;
@@ -273,16 +315,29 @@ a:hover {
 	cursor: default;
 }
 */
-/*########### r-log ##########*/
-.right-log {
-	background-color: #ccbbaa;
-	float: bottom;
-	height: 47%;
-	padding: 2%;
+
+/*########### r-bottom ##########*/
+.title-hp-ciu > thead > tr > td {
+	background-color: lightgoldenrodyellow;
+}
+.hp-ciu {
+	margin-bottom: 10px;
 }
 
+.hp-ciu-nav {
+	position: fixed; 
+	text-align: center;
+	padding: 0;
+	top: 1040px;
+	right: 110px;
+}
+.hp-selected {
+	font-weight: bold;
+}
+
+/*########### r-log ##########*/
 .pagination {
-	margin: 5px 0 15px;
+	margin: 5px 0 14px;
 }
 
 .pagination > li > a, .pagination > li > span {
@@ -292,4 +347,55 @@ a:hover {
 .pg-selected {
 	font-weight: bold;
 }
+
+/*######################## operation setting #######################*/
+.container-control {
+	padding: 100px 400px;
+}
+#setting-mode-form {
+	position: absolute;
+	top: 300px;
+	left: 700px;
+	font-size: xx-large;	
+	border: black;
+	border-style: solid;
+	padding: 50px;
+	width: 500px;
+}
+.container-change-pw {
+	padding: 300px 700px;
+}
+
+
+/*########################## search database ########################*/
+.container-search-db {
+	padding: 100px 300px;
+}
+.table-conditions {
+	width: initial;
+	display: inline-table;
+}
+#show-conditions {
+	float: right;
+}
+.show-condition {
+	/* check box in show-conditions-detail */
+	float: left;
+}
+.search-conditions-detail > td > div,
+.show-conditions-detail > p {
+	display: inline;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 

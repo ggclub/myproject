@@ -1,0 +1,31 @@
+{% load staticfiles %}
+<!DOCTYPE HTML>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" href="{% static "bootstrap-3.3.4-dist/css/bootstrap.css" %}">
+	<link rel="stylesheet" href="{% static "base/navbar.css" %}" type="text/css">
+	<link rel="stylesheet" href="{% static "monitor/index.css" %}" type="text/css">
+	{# <link rel="stylesheet" href="{% static "jquery/jquery-ui-1.11.4-themes-smoothness-jquery-ui.css" %}" type="text/css"> #}
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+	<script src="{% static "jquery/jquery-1.11.3.min.js" %}"></script>
+	<script src="{% static "jquery/jquery-ui-1.11.4.min.js" %}"></script>
+	<script src="{% static "base/jquery-dateFormat.min.js" %}"></script>
+	<script src="{% static "bootstrap-3.3.4-dist/js/bootstrap.min.js" %}"></script>
+
+	{% block script %}{% endblock %}
+	{% block header %}{% endblock %}
+    	<title>{% block title %}{% endblock %}</title>
+</head>
+<body class="body">
+	<div class="navbar">
+		{% block navbar %}{% endblock %}
+	</div>
+	<div class="content">
+		{% block content %}{% endblock %}
+	</div>
+</body>
+</html>
