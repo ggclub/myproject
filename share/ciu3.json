@@ -1,112 +1,130 @@
-{
-	"us": [
-		{ 
-			"switch":"ON",
-			"temperature":24.5,
-			"set_temp":20,
-			"op_mode":"자동",
-			"air_flow":"강풍",
-			"state":"정상",
-			"get_location_display":"3층 홀"
-		},
-		{ 
-			"switch":"ON",
-			"temperature":24.5,
-			"set_temp":20,
-			"op_mode":"자동",
-			"air_flow":"강풍",
-			"state":"정상",
-			"get_location_display":"강당1"
-		},
-		{ 
-			"switch":"ON",
-			"temperature":24.5,
-			"set_temp":20,
-			"op_mode":"자동",
-			"air_flow":"강풍",
-			"state":"정상",
-			"get_location_display":"강당2"
-		},
-		{ 
-			"switch":"OFF",
-			"temperature":24.5,
-			"set_temp":20,
-			"op_mode":"-",
-			"air_flow":"-",
-			"state":"-",
-			"get_location_display":"다목적홀1"
-		},
-		{ 
-			"switch":"ON",
-			"temperature":24.5,
-			"set_temp":20,
-			"op_mode":"자동",
-			"air_flow":"강풍",
-			"state":"정상",
-			"get_location_display":"다목적홀2"
-		},
-		{ 
-			"switch":"ON",
-			"temperature":24.5,
-			"set_temp":20,
-			"op_mode":"자동",
-			"air_flow":"강풍",
-			"state":"정상",
-			"get_location_display":"다목적홀3"
-		},
-		{ 
-			"switch":"ON",
-			"temperature":24.5,
-			"set_temp":20,
-			"op_mode":"자동",
-			"air_flow":"강풍",
-			"state":"정상",
-			"get_location_display":"홀공간1"
-		},
-		{ 
-			"switch":"OFF",
-			"temperature":27.5,
-			"set_temp":20,
-			"op_mode":"-",
-			"air_flow":"-",
-			"state":"-",
-			"get_location_display":"홀공간2"
-		},
-		{ 
-			"switch":"OFF",
-			"temperature":26.7,
-			"set_temp":20,
-			"op_mode":"-",
-			"air_flow":"-",
-			"state":"-",
-			"get_location_display":"평생학습실1-1"
-		},
-		{ 
-			"switch":"OFF",
-			"temperature":25.9,
-			"set_temp":20,
-			"op_mode":"-",
-			"air_flow":"-",
-			"state":"-",
-			"get_location_display":"평생학습실1-2"
-		},
-		{ 
-			"switch":"OFF",
-			"temperature":26.3,
-			"set_temp":20,
-			"op_mode":"-",
-			"air_flow":"-",
-			"state":"-",
-			"get_location_display":"평생학습실2-1"
-		},
-		{ 
-			"switch":"OFF",
-			"temperature":26.3,
-			"set_temp":20,
-			"op_mode":"-",
-			"air_flow":"-",
-			"state":"-",
-			"get_location_display":"평생학습실2-2"
-		}
-	]
+﻿{
+  "datetime": "2016-05-25 11:45:47",
+  "on_total": 3,
+  "temp_mode": "CL",
+  "on_f3": 2,
+  "rt_f3": 6.26,
+  "rt_total": 7.3999999999999995,
+  "us": [
+    {
+      "switch": "ON",
+      "temperature": 23.0,
+      "set_temp": 21.0,
+      "op_mode": "냉방",
+      "air_flow": "강풍",
+      "state": "정상",
+      "get_location_display": "강당1",
+      "floor": 3
+    },
+    {
+      "switch": "ON",
+      "temperature": 23.0,
+      "set_temp": 21.0,
+      "op_mode": "냉방",
+      "air_flow": "강풍",
+      "state": "정상",
+      "get_location_display": "강당2",
+      "floor": 3
+    },
+    {
+      "switch": "OFF",
+      "temperature": 24.0,
+      "set_temp": 25.0,
+      "op_mode": "난방",
+      "air_flow": "강풍",
+      "state": "정상",
+      "get_location_display": "3층 홀",
+      "floor": 3
+    },
+    {
+      "switch": "OFF",
+      "temperature": 30.0,
+      "set_temp": 18.0,
+      "op_mode": "냉방",
+      "air_flow": "강풍",
+      "state": "정상",
+      "get_location_display": "다목적홀1",
+      "floor": 3
+    },
+    {
+      "switch": "OFF",
+      "temperature": 30.0,
+      "set_temp": 20.0,
+      "op_mode": "냉방",
+      "air_flow": "약풍",
+      "state": "정상",
+      "get_location_display": "다목적홀3",
+      "floor": 3
+    },
+    {
+      "switch": "OFF",
+      "temperature": 25.5,
+      "set_temp": 30.0,
+      "op_mode": "난방",
+      "air_flow": "강풍",
+      "state": "정상",
+      "get_location_display": "준비실1",
+      "floor": 3
+    },
+    {
+      "switch": "OFF",
+      "temperature": 29.5,
+      "set_temp": 18.0,
+      "op_mode": "냉방",
+      "air_flow": "중풍",
+      "state": "정상",
+      "get_location_display": "다목적홀2",
+      "floor": 3
+    },
+    {
+      "switch": "OFF",
+      "temperature": 25.5,
+      "set_temp": 30.0,
+      "op_mode": "난방",
+      "air_flow": "강풍",
+      "state": "정상",
+      "get_location_display": "준비실2",
+      "floor": 3
+    },
+    {
+      "switch": "OFF",
+      "temperature": 30.0,
+      "set_temp": 27.0,
+      "op_mode": "냉방",
+      "air_flow": "강풍",
+      "state": "정상",
+      "get_location_display": "평생학습실1-1",
+      "floor": 3
+    },
+    {
+      "switch": "OFF",
+      "temperature": 29.5,
+      "set_temp": 27.0,
+      "op_mode": "냉방",
+      "air_flow": "강풍",
+      "state": "정상",
+      "get_location_display": "평생학습실1-2",
+      "floor": 3
+    },
+    {
+      "switch": "OFF",
+      "temperature": 30.5,
+      "set_temp": 20.0,
+      "op_mode": "냉방",
+      "air_flow": "강풍",
+      "state": "정상",
+      "get_location_display": "평생학습실2-1",
+      "floor": 3
+    },
+    {
+      "switch": "OFF",
+      "temperature": 30.5,
+      "set_temp": 21.0,
+      "op_mode": "송풍",
+      "air_flow": "강풍",
+      "state": "정상",
+      "get_location_display": "평생학습실2-2",
+      "floor": 3
+    }
+  ]
 }

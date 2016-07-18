@@ -1,130 +1,150 @@
-{
-	"us": [
-		{ 
-			"switch":"ON",
-			"temperature":24.5,
-			"set_temp":18,
-			"op_mode":"자동",
-			"air_flow":"강풍",
-			"state":"정상",
-			"get_location_display":"방재실"
-		},
-		{ 
-			"switch":"OFF",
-			"temperature":22,
-			"set_temp":20,
-			"op_mode":"-",
-			"air_flow":"-",
-			"state":"-",
-			"get_location_display":"로비1"
-		},
-		{ 
-			"switch":"ON",
-			"temperature":21.5,
-			"set_temp":19,
-			"op_mode":"자동",
-			"air_flow":"강풍",
-			"state":"정상",
-			"get_location_display":"로비2"
-		},
-		{ 
-			"switch":"ON",
-			"temperature":24.5,
-			"set_temp":20,
-			"op_mode":"자동",
-			"air_flow":"강풍",
-			"state":"정상",
-			"get_location_display":"수유실"
-		},
-		{ 
-			"switch":"ON",
-			"temperature":19,
-			"set_temp":18,
-			"op_mode":"자동",
-			"air_flow":"강풍",
-			"state":"정상",
-			"get_location_display":"저소득층상담실"
-		},
-		{ 
-			"switch":"ON",
-			"temperature":22.2,
-			"set_temp":19,
-			"op_mode":"자동",
-			"air_flow":"강풍",
-			"state":"정상",
-			"get_location_display":"회의실"
-		},
-		{ 
-			"switch":"ON",
-			"temperature":21.4,
-			"set_temp":20,
-			"op_mode":"자동",
-			"air_flow":"강풍",
-			"state":"정상",
-			"get_location_display":"사무실1"
-		},
-		{ 
-			"switch":"ON",
-			"temperature":24.5,
-			"set_temp":20,
-			"op_mode":"자동",
-			"air_flow":"강풍",
-			"state":"정상",
-			"get_location_display":"사무실2"
-		},
-		{ 
-			"switch":"OFF",
-			"temperature":24.5,
-			"set_temp":20,
-			"op_mode":"-",
-			"air_flow":"-",
-			"state":"-",
-			"get_location_display":"사무실3"
-		},
-		{ 
-			"switch":"ON",
-			"temperature":24.5,
-			"set_temp":20,
-			"op_mode":"자동",
-			"air_flow":"강풍",
-			"state":"정상",
-			"get_location_display":"주민등록실"
-		},
-		{ 
-			"switch":"ON",
-			"temperature":24.5,
-			"set_temp":20,
-			"op_mode":"자동",
-			"air_flow":"강풍",
-			"state":"정상",
-			"get_location_display":"MDF실"
-		},
-		{ 
-			"switch":"ON",
-			"temperature":24.5,
-			"set_temp":20,
-			"op_mode":"자동",
-			"air_flow":"강풍",
-			"state":"정상",
-			"get_location_display":"진료실"
-		},
-		{ 
-			"switch":"ON",
-			"temperature":24.5,
-			"set_temp":20,
-			"op_mode":"자동",
-			"air_flow":"강풍",
-			"state":"정상",
-			"get_location_display":"사무대기실"
-		},
-		{ 
-			"switch":"ON",
-			"temperature":24.5,
-			"set_temp":20,
-			"op_mode":"자동",
-			"air_flow":"강풍",
-			"state":"정상",
-			"get_location_display":"접종보건실"
-		}
-	]
+﻿{
+  "datetime": "2016-05-25 11:45:47",
+  "on_total": 3,
+  "temp_mode": "CL",
+  "on_f1": 0,
+  "rt_f1": 0.0,
+  "rt_total": 7.3999999999999995,
+  "us": [
+    {
+      "switch": "OFF",
+      "temperature": 24.0,
+      "set_temp": 26.0,
+      "op_mode": "난방",
+      "air_flow": "강풍",
+      "state": "정상",
+      "get_location_display": "방재실",
+      "floor": 1
+    },
+    {
+      "switch": "OFF",
+      "temperature": 20.5,
+      "set_temp": 28.0,
+      "op_mode": "난방",
+      "air_flow": "강풍",
+      "state": "정상",
+      "get_location_display": "로비1",
+      "floor": 1
+    },
+    {
+      "switch": "OFF",
+      "temperature": 20.5,
+      "set_temp": 24.0,
+      "op_mode": "난방",
+      "air_flow": "중풍",
+      "state": "정상",
+      "get_location_display": "로비2",
+      "floor": 1
+    },
+    {
+      "switch": "OFF",
+      "temperature": 25.5,
+      "set_temp": 26.0,
+      "op_mode": "송풍",
+      "air_flow": "강풍",
+      "state": "정상",
+      "get_location_display": "수유실",
+      "floor": 1
+    },
+    {
+      "switch": "OFF",
+      "temperature": 24.5,
+      "set_temp": 20.0,
+      "op_mode": "난방",
+      "air_flow": "중풍",
+      "state": "정상",
+      "get_location_display": "저소득상담실",
+      "floor": 1
+    },
+    {
+      "switch": "OFF",
+      "temperature": 24.0,
+      "set_temp": 24.0,
+      "op_mode": "난방",
+      "air_flow": "중풍",
+      "state": "정상",
+      "get_location_display": "민원실4",
+      "floor": 1
+    },
+    {
+      "switch": "OFF",
+      "temperature": 24.5,
+      "set_temp": 25.0,
+      "op_mode": "난방",
+      "air_flow": "중풍",
+      "state": "정상",
+      "get_location_display": "민원실1",
+      "floor": 1
+    },
+    {
+      "switch": "OFF",
+      "temperature": 24.0,
+      "set_temp": 25.0,
+      "op_mode": "난방",
+      "air_flow": "중풍",
+      "state": "정상",
+      "get_location_display": "민원실2",
+      "floor": 1
+    },
+    {
+      "switch": "OFF",
+      "temperature": 24.5,
+      "set_temp": 25.0,
+      "op_mode": "난방",
+      "air_flow": "중풍",
+      "state": "정상",
+      "get_location_display": "민원실3",
+      "floor": 1
+    },
+    {
+      "switch": "OFF",
+      "temperature": 26.0,
+      "set_temp": 27.0,
+      "op_mode": "난방",
+      "air_flow": "강풍",
+      "state": "정상",
+      "get_location_display": "MDF실",
+      "floor": 1
+    },
+    {
+      "switch": "OFF",
+      "temperature": 25.0,
+      "set_temp": 27.0,
+      "op_mode": "난방",
+      "air_flow": "강풍",
+      "state": "정상",
+      "get_location_display": "주민등록실",
+      "floor": 1
+    },
+    {
+      "switch": "OFF",
+      "temperature": 24.0,
+      "set_temp": 24.0,
+      "op_mode": "난방",
+      "air_flow": "중풍",
+      "state": "정상",
+      "get_location_display": "접종보건실",
+      "floor": 1
+    },
+    {
+      "switch": "OFF",
+      "temperature": 26.5,
+      "set_temp": 27.0,
+      "op_mode": "난방",
+      "air_flow": "강풍",
+      "state": "정상",
+      "get_location_display": "진료실",
+      "floor": 1
+    },
+    {
+      "switch": "OFF",
+      "temperature": 22.5,
+      "set_temp": 22.0,
+      "op_mode": "난방",
+      "air_flow": "중풍",
+      "state": "정상",
+      "get_location_display": "사무대기실",
+      "floor": 1
+    }
+  ]
 }

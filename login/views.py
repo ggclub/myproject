@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+﻿#-*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
@@ -13,8 +13,8 @@ import logging
 # Create your views here.
 def index(request):
 	username = password = state = ''
-	from monitor.views import index
 
+	from monitor.views import index
 	# if already logged in
 	if request.user.is_authenticated():
 		return index(request)
@@ -26,14 +26,13 @@ def index(request):
 			username = request.POST.get('username')
 			password = request.POST.get('password')
 
-			
+			# request.session.set_expiry(0)
 			user = authenticate(username=username, password=password)
 			if user is not None:
 				login(request, user)
 
-				if not request.POST.get('remember', None):
-					request.session.set_expiry(0)
-
+				# if request.POST.get('remember', None):
+					# request.session.set_expiry(0)
 
 				state = "Login success."
 				return index(request)
@@ -107,5 +106,26 @@ def change_password_done(request):
 	logout(request)
 	logging.debug("logout on password change")
 	return render(request, "login/index.html", {})
+
+def on_mode_change(request):
+	return render(request, 'login/on_mode_change.html')
+
+def on_mode_confirm(request):
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(username=username, password=password)
+		content = {}
+		if user is not None:
+	    		if user.username == 'iljoog':
+	        			# login(request, user)
+	        			content = {'confirm': True}
+    			else:
+	        			# Return a 'disabled account' error message
+	        			content = {'error_msg': '수동 모드 변경 권한이 없는 계정입니다.'}
+		else:
+	    		# Return an 'invalid login' error message.
+	    		content = {'error_msg': '아이디 혹은 비밀번호가 일치하지 않습니다.'}
 	
+		return render(request, 'login/on_mode_change.html', content)
 

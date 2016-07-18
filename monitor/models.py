@@ -4,17 +4,10 @@ import datetime
 from django.db import models
 from django.utils import timezone
 
-
+DEFAULT_PK = 1
 SWITCH_CHOICES = (
 	('ON', 'On'),
 	('OFF', 'Off'),
-)
-
-MANUAL = 'MN'
-AUTO = 'AT'
-OPMODE_CHOICES = (
-	(MANUAL, '수동'),
-	(AUTO, '자동'),
 )
 
 # switch control
@@ -47,8 +40,38 @@ class OperationSwitchControl(models.Model):
 	)
 	switch = models.CharField(max_length=3, choices=OP_SWITCH_CHOICES)
 	def __str__(self):
-		return '{}, location: {}, {}'.format(str(self.dateTime)[:-7], self.location, self.switch)
+		return '{}, location: {}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.location, self.switch)
 
+
+MANUAL = 'MN'
+AUTO = 'AT'
+OPMODE_CHOICES = (
+	(MANUAL, '수동'),
+	(AUTO, '자동'),
+)
+class OperationModeLogger(models.Model):
+	dateTime = models.DateTimeField()
+	opMode = models.CharField(max_length=2, choices=OPMODE_CHOICES, default=AUTO)
+	def __str__(self):
+		return '{}: {}'.format(str(self.dateTime.replace(microsecond=0)), self.opMode)
+
+COOLING = 'CL'
+HEATING = 'HT'
+TEMPMODE_CHOICES = (
+	(COOLING, '냉방'),
+	(HEATING, '난방'),
+)
+class TemperatureModeLogger(models.Model):
+	dateTime = models.DateTimeField()
+	tempMode = models.CharField(max_length=2, choices=TEMPMODE_CHOICES, default=COOLING)
+	def __str__(self):
+		return '{}: {}'.format(str(self.dateTime.replace(microsecond=0)), self.tempMode)
+
+class SaveIntervalLogger(models.Model):
+	dateTime = models.DateTimeField()
+	interval = models.SmallIntegerField(default=10)
+	def __str__(self):
+		return '{}: {}'.format(str(self.dateTime.replace(microsecond=0)), self.interval)
 
 # pump
 APPROPRIATE='AP'
@@ -57,61 +80,70 @@ WATERLEVEL_CHOICES = (
 	(APPROPRIATE, '적정'),
 	(NOTAPPROPRIATE, '부적정'),
 )
+# SB-1
 class DeepwellPump1Logger(models.Model):
 	dateTime = models.DateTimeField()
 	opMode = models.CharField(max_length=2, choices=OPMODE_CHOICES, default=AUTO)
 	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 	
 	waterLevel = models.CharField(max_length=2, choices=WATERLEVEL_CHOICES, default="AP")
 	def __str__(self):
-		return u'{}, {}-{}'.format(str(self.dateTime)[:-7], self.opMode, self.switch)
+		return u'{}, {}-{}'.format(str(self.dateTime.replace(microsecond=0)), self.opMode, self.switch)
 	# def __unicode__(self):
 	# 	return unicode(self.DeepwellPump1Logger)
-
+# AB-1
 class DeepwellPump2Logger(models.Model):
 	dateTime = models.DateTimeField()
 	opMode = models.CharField(max_length=2, choices=OPMODE_CHOICES, default=AUTO)
 	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 	
 	waterLevel = models.CharField(max_length=2, choices=WATERLEVEL_CHOICES, default="AP")
 	def __str__(self):
-		return u'{}, {}-{}'.format(str(self.dateTime)[:-7], self.opMode, self.switch)
+		return u'{}, {}-{}'.format(str(self.dateTime.replace(microsecond=0)), self.opMode, self.switch)
 	# def __unicode__(self):
 	# 	return unicode(self.DeepwellPump2Logger)
-
+# AB-2
 class DeepwellPump3Logger(models.Model):
 	dateTime = models.DateTimeField()
 	opMode = models.CharField(max_length=2, choices=OPMODE_CHOICES, default=AUTO)
 	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 	
 	waterLevel = models.CharField(max_length=2, choices=WATERLEVEL_CHOICES, default="AP")
 	def __str__(self):
-		return u'{}, {}-{}'.format(str(self.dateTime)[:-7], self.opMode, self.switch)
+		return u'{}, {}-{}'.format(str(self.dateTime.replace(microsecond=0)), self.opMode, self.switch)
 	# def __unicode__(self):
 	# 	return unicode(self.DeepwellPump3Logger)
-
+# SB-2
 class DeepwellPump4Logger(models.Model):
 	dateTime = models.DateTimeField()
 	opMode = models.CharField(max_length=2, choices=OPMODE_CHOICES, default=AUTO)
 	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 	
 	waterLevel = models.CharField(max_length=2, choices=WATERLEVEL_CHOICES, default="AP")
 	def __str__(self):
-		return u'{}, {}-{}'.format(str(self.dateTime)[:-7], self.opMode, self.switch)
+		return u'{}, {}-{}'.format(str(self.dateTime.replace(microsecond=0)), self.opMode, self.switch)
 	# def __unicode__(self):
 	# 	return unicode(self.DeepwellPump4Logger)
 
-class CirculatingPumpLogger(models.Model):
+CP_ID_CHOICES = (
+	(1, '1'),
+	(2, '2'),
+)
+class CirculatingPump1Logger(models.Model):
 	dateTime = models.DateTimeField()
-	CP_ID_CHOICES = (
-		(1, '1'),
-		(2, '2'),
-	)
 	CPID = models.SmallIntegerField(choices=CP_ID_CHOICES, default=1)
 	opMode = models.CharField(max_length=2, choices=OPMODE_CHOICES, default=AUTO)
 	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
 	Hz = models.SmallIntegerField(default=0)
 	flux = models.SmallIntegerField(default=0)
 	def __str__(self):
-		return u'{}, {}-{}'.format(str(self.dateTime)[:-7], self.opMode, self.switch)
-	# def __unicode__(self):
-	# 	return unicode(self.CirculatingPumpLogger)
+		return u'{}, {}-{}'.format(str(self.dateTime.replace(microsecond=0)), self.opMode, self.switch)
+
+class CirculatingPump2Logger(models.Model):
+	dateTime = models.DateTimeField()
+	CPID = models.SmallIntegerField(choices=CP_ID_CHOICES, default=2)
+	opMode = models.CharField(max_length=2, choices=OPMODE_CHOICES, default=AUTO)
+	switch = models.CharField(max_length=3, choices=SWITCH_CHOICES, default='OFF') 
+	Hz = models.SmallIntegerField(default=0)
+	flux = models.SmallIntegerField(default=0)
+	def __str__(self):
+		return u'{}, {}-{}'.format(str(self.dateTime.replace(microsecond=0)), self.opMode, self.switch)
 
 
 # inverter
@@ -127,31 +159,33 @@ class CirculatingPumpLogger(models.Model):
 # 	RPM = models.SmallIntegerField()
 # 	Hz = models.IntegerField(null=True, blank=True)
 # 	def __str__(self):
-# 		return u'{}, {}-{}, RPM: {}'.format(str(self.dateTime)[:-7], self.opMode, self.switch, self.RPM)
+# 		return u'{}, {}-{}, RPM: {}'.format(str(self.dateTime.replace(microsecond=0)), self.opMode, self.switch, self.RPM)
 # 	# def __unicode__(self):
-# 	# 	return u'{}, {}-{}, RPM: {}'.format(str(self.dateTime)[:-7], self.opMode, self.switch, self.RPM)
+# 	# 	return u'{}, {}-{}, RPM: {}'.format(str(self.dateTime.replace(microsecond=0)), self.opMode, self.switch, self.RPM)
 
 
 # flowmeter
 class DWPFlowmeterLogger(models.Model):
+	# flux ton 기준
 	dateTime = models.DateTimeField()
 	temperature = models.FloatField()
-	currentFlux = models.SmallIntegerField()
-	integralFlux = models.IntegerField()
+	currentFlux = models.FloatField()
+	integralFlux = models.FloatField()
 	velocity = models.FloatField()
 	def __str__(self):
-		return '{}, current: {}'.format(str(self.dateTime)[:-7], self.currentFlux)
+		return '{}, current: {}'.format(str(self.dateTime.replace(microsecond=0)), self.currentFlux)
 	# def __unicode__(self):
 	# 	return unicode(self.DWPFlowmeterLogger)
 
 class CPFlowmeterLogger(models.Model):
+	# flux lpm 기준
 	dateTime = models.DateTimeField()
 	temperature = models.FloatField()
 	currentFlux = models.SmallIntegerField()
 	integralFlux = models.IntegerField()
 	velocity = models.FloatField(default=0)
 	def __str__(self):
-		return '{}, current: {}'.format(str(self.dateTime)[:-7], self.currentFlux)
+		return '{}, current: {}'.format(str(self.dateTime.replace(microsecond=0)), self.currentFlux)
 	# def __unicode__(self):
 	# 	return unicode(self.CPFlowmeterLogger)
 
@@ -159,7 +193,7 @@ class TempHEIn1Logger(models.Model):
 	dateTime = models.DateTimeField()
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.temperature)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.temperature)
 	# def __unicode__(self):
 	# 	return unicode(self.TempHEIn1Logger)
 
@@ -167,7 +201,7 @@ class TempHEOut1Logger(models.Model):
 	dateTime = models.DateTimeField()
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.temperature)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.temperature)
 	# def __unicode__(self):
 	# 	return unicode(self.TempHEOut1Logger)
 
@@ -175,7 +209,7 @@ class TempHEIn2Logger(models.Model):
 	dateTime = models.DateTimeField()
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.temperature)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.temperature)
 	# def __unicode__(self):
 	# 	return unicode(self.TempHEIn2Logger)
 
@@ -183,7 +217,7 @@ class TempHEOut2Logger(models.Model):
 	dateTime = models.DateTimeField()
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.temperature)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.temperature)
 	# def __unicode__(self):
 	# 	return unicode(self.TempHEOut2Logger)
 
@@ -191,7 +225,7 @@ class TempHPIn1Logger(models.Model):
 	dateTime = models.DateTimeField()
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.temperature)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.temperature)
 	# def __unicode__(self):
 	# 	return unicode(self.TempHPIn1Logger)
 
@@ -199,7 +233,7 @@ class TempHPOut1Logger(models.Model):
 	dateTime = models.DateTimeField()
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.temperature)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.temperature)
 	# def __unicode__(self):
 	# 	return unicode(self.TempHPOut1Logger)
 
@@ -207,7 +241,7 @@ class TempHPIn2Logger(models.Model):
 	dateTime = models.DateTimeField()
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.temperature)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.temperature)
 	# def __unicode__(self):
 	# 	return unicode(self.TempHPIn2Logger)
 
@@ -215,7 +249,7 @@ class TempHPOut2Logger(models.Model):
 	dateTime = models.DateTimeField()
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.temperature)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.temperature)
 	# def __unicode__(self):
 	# 	return unicode(self.TempHPOut2Logger)
 
@@ -223,7 +257,7 @@ class TempHPIn3Logger(models.Model):
 	dateTime = models.DateTimeField()
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.temperature)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.temperature)
 	# def __unicode__(self):
 	# 	return unicode(self.TempHPIn3Logger)
 
@@ -231,7 +265,7 @@ class TempHPOut3Logger(models.Model):
 	dateTime = models.DateTimeField()
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.temperature)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.temperature)
 	# def __unicode__(self):
 	# 	return unicode(self.TempHPOut3Logger)
 
@@ -239,7 +273,7 @@ class TempHPIn4Logger(models.Model):
 	dateTime = models.DateTimeField()
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.temperature)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.temperature)
 	# def __unicode__(self):
 	# 	return unicode(self.TempHPIn4Logger)
 
@@ -247,7 +281,7 @@ class TempHPOut4Logger(models.Model):
 	dateTime = models.DateTimeField()
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.temperature)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.temperature)
 	# def __unicode__(self):
 	# 	return unicode(self.TempHPOut4Logger)
 
@@ -255,7 +289,7 @@ class TempHPIn5Logger(models.Model):
 	dateTime = models.DateTimeField()
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.temperature)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.temperature)
 	# def __unicode__(self):
 	# 	return unicode(self.TempHPIn5Logger)
 
@@ -263,7 +297,7 @@ class TempHPOut5Logger(models.Model):
 	dateTime = models.DateTimeField()
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.temperature)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.temperature)
 	# def __unicode__(self):
 	# 	return unicode(self.TempHPOut5Logger)
 
@@ -271,7 +305,7 @@ class TempHPIn6Logger(models.Model):
 	dateTime = models.DateTimeField()
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.temperature)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.temperature)
 	# def __unicode__(self):
 	# 	return unicode(self.TempHPIn6Logger)
 
@@ -279,35 +313,35 @@ class TempHPOut6Logger(models.Model):
 	dateTime = models.DateTimeField()
 	temperature = models.FloatField(default=0.0)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.temperature)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.temperature)
 	# def __unicode__(self):
 	# 	return unicode(self.TempHPOut6Logger)
 
 
-def get_HPI1():
-	return TempHPIn1Logger.objects.latest('temperature')
-def get_HPO1():
-	return TempHPOut1Logger.objects.latest('temperature')
-def get_HPI2():
-	return TemperatureLogger.objects.latest('dateTime').HPI2
-def get_HPO2():
-	return TemperatureLogger.objects.latest('dateTime').HPO2
-def get_HPI3():
-	return TemperatureLogger.objects.latest('dateTime').HPI3
-def get_HPO3():
-	return TemperatureLogger.objects.latest('dateTime').HPO3
-def get_HPI4():
-	return TemperatureLogger.objects.latest('dateTime').HPI4
-def get_HPO4():
-	return TemperatureLogger.objects.latest('dateTime').HPO4
-def get_HPI5():
-	return TemperatureLogger.objects.latest('dateTime').HPI5
-def get_HPO5():
-	return TemperatureLogger.objects.latest('dateTime').HPO5
-def get_HPI6():
-	return TemperatureLogger.objects.latest('dateTime').HPI6
-def get_HPO6():
-	return TemperatureLogger.objects.latest('dateTime').HPO6
+# def get_HPI1():
+# 	return TempHPIn1Logger.objects.latest('temperature')
+# def get_HPO1():
+# 	return TempHPOut1Logger.objects.latest('temperature')
+# def get_HPI2():
+# 	return TemperatureLogger.objects.latest('dateTime').HPI2
+# def get_HPO2():
+# 	return TemperatureLogger.objects.latest('dateTime').HPO2
+# def get_HPI3():
+# 	return TemperatureLogger.objects.latest('dateTime').HPI3
+# def get_HPO3():
+# 	return TemperatureLogger.objects.latest('dateTime').HPO3
+# def get_HPI4():
+# 	return TemperatureLogger.objects.latest('dateTime').HPI4
+# def get_HPO4():
+# 	return TemperatureLogger.objects.latest('dateTime').HPO4
+# def get_HPI5():
+# 	return TemperatureLogger.objects.latest('dateTime').HPI5
+# def get_HPO5():
+# 	return TemperatureLogger.objects.latest('dateTime').HPO5
+# def get_HPI6():
+# 	return TemperatureLogger.objects.latest('dateTime').HPI6
+# def get_HPO6():
+# 	return TemperatureLogger.objects.latest('dateTime').HPO6
 
 # thermometer
 class TemperatureLogger(models.Model):
@@ -329,7 +363,7 @@ class TemperatureLogger(models.Model):
 	HPI6 = models.ForeignKey(TempHPIn6Logger)
 	HPO6 = models.ForeignKey(TempHPOut6Logger)
 	def __str__(self):
-		return str(str(self.dateTime)[:-7])
+		return str(str(self.dateTime.replace(microsecond=0)))
 	# def __unicode__(self):
 	# 	return unicode(self.TemperatureLogger)
 
@@ -345,7 +379,7 @@ class HeatPump1Logger(models.Model):
 	tempIn = models.ForeignKey(TempHPIn1Logger)
 	tempOut = models.ForeignKey(TempHPOut1Logger)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.switch)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.switch)
 	# def __unicode__(self):
 	# 	return unicode(self.HeatPump1Logger)
 
@@ -356,7 +390,7 @@ class HeatPump2Logger(models.Model):
 	tempIn = models.ForeignKey(TempHPIn2Logger)
 	tempOut = models.ForeignKey(TempHPOut2Logger)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.switch)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.switch)
 	# def __unicode__(self):
 	# 	return unicode(self.HeatPump2Logger)
 
@@ -367,7 +401,7 @@ class HeatPump3Logger(models.Model):
 	tempIn = models.ForeignKey(TempHPIn3Logger)
 	tempOut = models.ForeignKey(TempHPOut3Logger)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.switch)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.switch)
 	# def __unicode__(self):
 	# 	return unicode(self.HeatPump3Logger)
 
@@ -378,7 +412,7 @@ class HeatPump4Logger(models.Model):
 	tempIn = models.ForeignKey(TempHPIn4Logger)
 	tempOut = models.ForeignKey(TempHPOut4Logger)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.switch)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.switch)
 	# def __unicode__(self):
 	# 	return unicode(self.HeatPump4Logger)
 
@@ -389,7 +423,7 @@ class HeatPump5Logger(models.Model):
 	tempIn = models.ForeignKey(TempHPIn5Logger)
 	tempOut = models.ForeignKey(TempHPOut5Logger)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.switch)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.switch)
 	# def __unicode__(self):
 	# 	return unicode(self.HeatPump5Logger)
 
@@ -400,7 +434,7 @@ class HeatPump6Logger(models.Model):
 	tempIn = models.ForeignKey(TempHPIn6Logger)
 	tempOut = models.ForeignKey(TempHPOut6Logger)
 	def __str__(self):
-		return '{}, {}'.format(str(self.dateTime)[:-7], self.switch)
+		return '{}, {}'.format(str(self.dateTime.replace(microsecond=0)), self.switch)
 	# def __unicode__(self):
 	# 	return unicode(self.HeatPump6Logger)
 
@@ -411,7 +445,7 @@ class PowerConsumptionLogger(models.Model):
 	currentPowerConsumption = models.FloatField()
 	integralPowerConsumption = models.FloatField()
 	def __str__(self):
-		return '{}, current: {}'.format(str(self.dateTime)[:-7], self.currentPowerConsumption)
+		return '{}, current: {}'.format(str(self.dateTime.replace(microsecond=0)), self.currentPowerConsumption)
 	# def __unicode__(self):
 	# 	return unicode(self.PowerConsumptionLogger)
 
@@ -420,23 +454,210 @@ class RefrigerationTonLogger(models.Model):
 	dateTime = models.DateTimeField()
 	RT = models.FloatField()
 	def __str__(self):
-		return '{}, RT: {}'.format(str(self.dateTime)[:-7], self.RT)
+		return '{}, RT: {}'.format(str(self.dateTime.replace(microsecond=0)), self.RT)
 	# def __unicode__(self):
 	# 	return unicode(self.RefrigerationTonLogger)
 
+# COP
+class CoefficientOfPerformanceLogger(models.Model):
+	dateTime = models.DateTimeField()
+	COP = models.FloatField()
+	def __str__(self):
+		return '{}, COP: {}'.format(str(self.dateTime.replace(microsecond=0)), self.COP)
 
-# tube well 
+
+# 관정센서
+# AB-1
+class AB110Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+	level = models.FloatField()
+class AB120Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+class AB130Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+# AB-2
+class AB210Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+	level = models.FloatField()
+class AB220Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+class AB230Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+# IB-1
+class IB110Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+	level = models.FloatField()
+class IB130Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+class IB150Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+class IB170Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+# IJ-1
+class IJ110Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+	level = models.FloatField()
+class IJ130Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+class IJ150Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+# SB-1
+class SB110Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+	level = models.FloatField()
+class SB115Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+class SB120Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+class SB125Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+# SB-2
+class SB210Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+	level = models.FloatField()
+class SB215Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+class SB220Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+class SB225Logger(models.Model):
+	dateTime = models.DateTimeField()
+	temp = models.FloatField()
+
+# 심정 펌프 2
+class TWAB1Logger(models.Model):
+	dateTime = models.DateTimeField()
+	level = models.FloatField(null=True, blank=True, default = None)
+	temp10 = models.FloatField(null=True, blank=True, default = None)
+	temp20 = models.FloatField(null=True, blank=True, default = None)
+	temp30 = models.FloatField(null=True, blank=True, default = None)
+
+# 심정 펌프 3
+class TWAB2Logger(models.Model):
+	dateTime = models.DateTimeField()
+	level = models.FloatField(null=True, blank=True, default = None)
+	temp10 = models.FloatField(null=True, blank=True, default = None)
+	temp20 = models.FloatField(null=True, blank=True, default = None)
+	temp30 = models.FloatField(null=True, blank=True, default = None)
+
+# ?
+class TWIB1Logger(models.Model):
+	dateTime = models.DateTimeField()
+	level = models.FloatField(null=True, blank=True, default = None)
+	temp10 = models.FloatField(null=True, blank=True, default = None)
+	temp30 = models.FloatField(null=True, blank=True, default = None)
+	temp50 = models.FloatField(null=True, blank=True, default = None)
+	temp70 = models.FloatField(null=True, blank=True, default = None)
+
+# ?
+class TWIJ1Logger(models.Model):
+	dateTime = models.DateTimeField()
+	level = models.FloatField(null=True, blank=True, default = None)
+	temp10 = models.FloatField(null=True, blank=True, default = None)
+	temp30 = models.FloatField(null=True, blank=True, default = None)
+	temp50 = models.FloatField(null=True, blank=True, default = None)
+
+# 심정 펌프 1
+class TWSB1Logger(models.Model):
+	dateTime = models.DateTimeField()
+	level = models.FloatField(null=True, blank=True, default = None)
+	temp10 = models.FloatField(null=True, blank=True, default = None)
+	temp15 = models.FloatField(null=True, blank=True, default = None)
+	temp20 = models.FloatField(null=True, blank=True, default = None)
+	temp25 = models.FloatField(null=True, blank=True, default = None)
+
+# 심정 펌프 4
+class TWSB2Logger(models.Model):
+	dateTime = models.DateTimeField()
+	level = models.FloatField(null=True, blank=True, default = None)
+	temp10 = models.FloatField(null=True, blank=True, default = None)
+	temp15 = models.FloatField(null=True, blank=True, default = None)
+	temp20 = models.FloatField(null=True, blank=True, default = None)
+	temp25 = models.FloatField(null=True, blank=True, default = None)
+
 class TubeWellLogger(models.Model):
-	T1level = models.FloatField()
-	T1temp = models.FloatField()
-	T2level = models.FloatField()
-	T2temp = models.FloatField()
-	T3level = models.FloatField()
-	T3temp = models.FloatField()
-	T4level = models.FloatField()
-	T4temp = models.FloatField()
-	# def __unicode__(self):
-	# 	return unicode(self.TubeWellLogger)
+	dateTime = models.DateTimeField()
+	AB1 = models.ForeignKey(TWAB1Logger, null=True, blank=True, default = None)
+	AB2 = models.ForeignKey(TWAB2Logger, null=True, blank=True, default = None)
+	IB1 = models.ForeignKey(TWIB1Logger, null=True, blank=True, default = None)
+	IJ1 = models.ForeignKey(TWIJ1Logger, null=True, blank=True, default = None)
+	SB1 = models.ForeignKey(TWSB1Logger, null=True, blank=True, default = None)
+	SB2 = models.ForeignKey(TWSB2Logger, null=True, blank=True, default = None)
+
+
+################ ERROR LOG  #########################
+TEMPERATURE = 'TP'
+FLUX = 'FX'
+WATERLEVEL = 'WL'
+POWER = 'PO'
+COMMUNICATION = 'COMM'
+ALARM_CASE_CHOICES = (
+	(TEMPERATURE, '온도 안전범위 이탈'),
+	(FLUX, '유량 안전범위 이탈'),
+	(WATERLEVEL, '수위 부족'),
+	(POWER, '전력 안전범위 초과'),
+	(COMMUNICATION, '통신 에러'),
+)
+ALARM_LOCATION_CHOICES = (
+	('T1', '온도 센서1'),
+	('T2', '온도 센서2'),
+	('T3', '온도 센서3'),
+	('T4', '온도 센서4'),
+	('T5', '온도 센서5'),
+	('T6', '온도 센서6'),
+	('T7', '온도 센서7'),
+	('T8', '온도 센서8'),
+	('T9', '온도 센서9'),
+	('T10', '온도 센서10'),
+	('F1', '순환수 유량계'),
+	('F2', '지하수 유량계'),
+	('DWP1', '심정 펌프1'),
+	('DWP2', '심정 펌프2'),
+	('DWP3', '심정 펌프3'),
+	('DWP4', '심정 펌프4'),
+	('PO', '전력량계'),
+	('DAQ', 'DAQ'),
+	('IV', '인버터'),
+	('FM', '유량계'),
+	('HMI', 'HMI'),
+)
+ALARM_STATE_CHOICES = (
+	('HT', '고온'),
+	('LT', '저온'),
+	('HF', '유량 과다'),
+	('LF', '유량 부족'),
+	('LL', '수위 부족'),
+	('HP', '과전력'),
+	('CE', '통신 에러'),
+)
+
+class AlarmLogger(models.Model):
+	classification = models.CharField(max_length=4, choices=ALARM_CASE_CHOICES, default=TEMPERATURE)
+	location = models.CharField(max_length=4, choices=ALARM_LOCATION_CHOICES, default='T1')
+	state = models.CharField(max_length=2, choices=ALARM_STATE_CHOICES, default='NA')
+	occurTime = models.DateTimeField()
+	closedTime = models.DateTimeField()
+	def __str__(self):
+		return '{}, {}, {}, {}, {}'.format(self.classification, self.location, self.state, str(self.occurTime), str(self.closedTime))
 
 
 ################ CEILING INDOOR UNIT #########################
@@ -462,6 +683,7 @@ ERROR = 'ER'
 STATE_CHOICES = (
 	(ERROR, '에러'),
 	(NORMAL, '정상'),
+	(ERROR, '응답없음'),
 )
 
 FL1_CHOICES = (
@@ -470,15 +692,15 @@ FL1_CHOICES = (
 	('LBY2', '로비2'),
 	('NUR', '수유실'),
 	('LIC', '저소득층상담실'),
-	('CONF', '회의실'),
-	('OFC1', '사무실1'),
-	('OFC2', '사무실2'),
-	('OFC3', '사무실3'),
-	('RRR', '주민등록실'),
+	('OFC1', '민원실1'),
+	('OFC2', '민원실2'),
+	('OFC3', '민원실3'),
+	('OFC4', '민원실4'),
 	('MDF','MDF실'),
+	('RRR', '주민등록실'),
+	('PHR', '접종보건실'),
 	('TRT', '진료실'),
 	('WWR', '사무대기실'),
-	('PHR', '접종보건실')
 )
 
 class Floor1CIU1(models.Model):
@@ -492,7 +714,7 @@ class Floor1CIU1(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='EMR')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor1CIU2(models.Model):
 	dateTime = models.DateTimeField()
@@ -505,7 +727,7 @@ class Floor1CIU2(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='LBY1')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor1CIU3(models.Model):
 	dateTime = models.DateTimeField()
@@ -518,7 +740,7 @@ class Floor1CIU3(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='LBY2')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor1CIU4(models.Model):
 	dateTime = models.DateTimeField()
@@ -531,7 +753,7 @@ class Floor1CIU4(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='NUR')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor1CIU5(models.Model):
 	dateTime = models.DateTimeField()
@@ -544,7 +766,7 @@ class Floor1CIU5(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='LIC')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor1CIU6(models.Model):
 	dateTime = models.DateTimeField()
@@ -555,9 +777,9 @@ class Floor1CIU6(models.Model):
 	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
 	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
-	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='CONF')
+	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='OFC1')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor1CIU7(models.Model):
 	dateTime = models.DateTimeField()
@@ -568,9 +790,9 @@ class Floor1CIU7(models.Model):
 	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
 	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
-	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='OFC1')
+	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='OFC2')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor1CIU8(models.Model):
 	dateTime = models.DateTimeField()
@@ -581,9 +803,9 @@ class Floor1CIU8(models.Model):
 	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
 	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
-	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='OFC2')
+	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='OFC3')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor1CIU9(models.Model):
 	dateTime = models.DateTimeField()
@@ -594,9 +816,9 @@ class Floor1CIU9(models.Model):
 	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
 	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
-	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='OFC3')
+	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='OFC4')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor1CIU10(models.Model):
 	dateTime = models.DateTimeField()
@@ -607,9 +829,9 @@ class Floor1CIU10(models.Model):
 	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
 	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
-	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='RRR')
+	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='MDF')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor1CIU11(models.Model):
 	dateTime = models.DateTimeField()
@@ -620,9 +842,9 @@ class Floor1CIU11(models.Model):
 	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
 	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
-	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='MDF')
+	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='RRR')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor1CIU12(models.Model):
 	dateTime = models.DateTimeField()
@@ -633,9 +855,9 @@ class Floor1CIU12(models.Model):
 	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
 	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
-	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='TRT')
+	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='PHR')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor1CIU13(models.Model):
 	dateTime = models.DateTimeField()
@@ -646,9 +868,9 @@ class Floor1CIU13(models.Model):
 	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
 	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
-	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='WWR')
+	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='TRT')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor1CIU14(models.Model):
 	dateTime = models.DateTimeField()
@@ -659,15 +881,15 @@ class Floor1CIU14(models.Model):
 	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
 	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
-	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='PHR')
+	location = models.CharField(max_length=4, choices=FL1_CHOICES, default='WWR')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 
 FL2_CHOICES = (
-	('HAL2', '2층 홀'),
 	('CTR', '조정실'),
 	('PPR', '준비실'),
+	('HAL2', '2층 홀'),
 	('HOT', '면장실'),
 	('EDU1', '교육실1'),
 	('EDU2', '교육실2'),
@@ -687,9 +909,9 @@ class Floor2CIU1(models.Model):
 	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
 	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
-	location = models.CharField(max_length=4, choices=FL2_CHOICES, default='HAL2')
+	location = models.CharField(max_length=4, choices=FL2_CHOICES, default='CTR')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor2CIU2(models.Model):
 	dateTime = models.DateTimeField()
@@ -700,9 +922,9 @@ class Floor2CIU2(models.Model):
 	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
 	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
-	location = models.CharField(max_length=4, choices=FL2_CHOICES, default='CTR')
+	location = models.CharField(max_length=4, choices=FL2_CHOICES, default='PPR')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor2CIU3(models.Model):
 	dateTime = models.DateTimeField()
@@ -713,9 +935,9 @@ class Floor2CIU3(models.Model):
 	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
 	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
-	location = models.CharField(max_length=4, choices=FL2_CHOICES, default='PPR')
+	location = models.CharField(max_length=4, choices=FL2_CHOICES, default='HAL2')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor2CIU4(models.Model):
 	dateTime = models.DateTimeField()
@@ -728,7 +950,7 @@ class Floor2CIU4(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL2_CHOICES, default='HOT')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor2CIU5(models.Model):
 	dateTime = models.DateTimeField()
@@ -741,7 +963,7 @@ class Floor2CIU5(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL2_CHOICES, default='EDU1')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor2CIU6(models.Model):
 	dateTime = models.DateTimeField()
@@ -754,7 +976,7 @@ class Floor2CIU6(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL2_CHOICES, default='EDU2')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor2CIU7(models.Model):
 	dateTime = models.DateTimeField()
@@ -767,7 +989,7 @@ class Floor2CIU7(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL2_CHOICES, default='EDU3')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor2CIU8(models.Model):
 	dateTime = models.DateTimeField()
@@ -778,9 +1000,9 @@ class Floor2CIU8(models.Model):
 	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
 	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
-	location = models.CharField(max_length=4, choices=FL2_CHOICES, default='FMC1')
+	location = models.CharField(max_length=4, choices=FL2_CHOICES, default='LIB')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor2CIU9(models.Model):
 	dateTime = models.DateTimeField()
@@ -791,9 +1013,9 @@ class Floor2CIU9(models.Model):
 	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
 	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
-	location = models.CharField(max_length=4, choices=FL2_CHOICES, default='FMC2')
+	location = models.CharField(max_length=4, choices=FL2_CHOICES, default='FMC1')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor2CIU10(models.Model):
 	dateTime = models.DateTimeField()
@@ -804,9 +1026,9 @@ class Floor2CIU10(models.Model):
 	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
 	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
-	location = models.CharField(max_length=4, choices=FL2_CHOICES, default='LIB')
+	location = models.CharField(max_length=4, choices=FL2_CHOICES, default='FMC2')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor2CIU11(models.Model):
 	dateTime = models.DateTimeField()
@@ -819,7 +1041,7 @@ class Floor2CIU11(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL2_CHOICES, default='FTC1')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor2CIU12(models.Model):
 	dateTime = models.DateTimeField()
@@ -832,18 +1054,18 @@ class Floor2CIU12(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL2_CHOICES, default='FTC2')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 
 FL3_CHOICES = (
-	('HAL3', '3층 홀'),
 	('AUD1', '강당1'),
 	('AUD2', '강당2'),
+	('HAL3', '3층 홀'),
 	('MPR1', '다목적홀1'),
 	('MPR2', '다목적홀2'),
 	('MPR3', '다목적홀3'),
-	('HR1', '홀공간1'),
-	('HR2', '홀공간2'),
+	('HR1', '준비실1'),
+	('HR2', '준비실2'),
 	('LE11', '평생학습실1-1'),
 	('LE12', '평생학습실1-2'),
 	('LE21', '평생학습실2-1'),
@@ -858,9 +1080,9 @@ class Floor3CIU1(models.Model):
 	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
 	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
-	location = models.CharField(max_length=4, choices=FL3_CHOICES, default='HAL3')
+	location = models.CharField(max_length=4, choices=FL3_CHOICES, default='AUD1')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor3CIU2(models.Model):
 	dateTime = models.DateTimeField()
@@ -871,9 +1093,9 @@ class Floor3CIU2(models.Model):
 	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
 	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
-	location = models.CharField(max_length=4, choices=FL3_CHOICES, default='AUD1')
+	location = models.CharField(max_length=4, choices=FL3_CHOICES, default='AUD2')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor3CIU3(models.Model):
 	dateTime = models.DateTimeField()
@@ -884,9 +1106,9 @@ class Floor3CIU3(models.Model):
 	opMode = models.CharField(max_length=2, choices=AIR_OP_MODE, default='AT')
 	airFlow = models.CharField(max_length=2, choices=AIRFLOW_CHOICES, default='ST')
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
-	location = models.CharField(max_length=4, choices=FL3_CHOICES, default='AUD2')
+	location = models.CharField(max_length=4, choices=FL3_CHOICES, default='HAL3')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor3CIU4(models.Model):
 	dateTime = models.DateTimeField()
@@ -899,7 +1121,7 @@ class Floor3CIU4(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL3_CHOICES, default='MPR1')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor3CIU5(models.Model):
 	dateTime = models.DateTimeField()
@@ -912,7 +1134,7 @@ class Floor3CIU5(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL3_CHOICES, default='MPR2')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor3CIU6(models.Model):
 	dateTime = models.DateTimeField()
@@ -925,7 +1147,7 @@ class Floor3CIU6(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL3_CHOICES, default='MPR3')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor3CIU7(models.Model):
 	dateTime = models.DateTimeField()
@@ -938,7 +1160,7 @@ class Floor3CIU7(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL3_CHOICES, default='HR1')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor3CIU8(models.Model):
 	dateTime = models.DateTimeField()
@@ -951,7 +1173,7 @@ class Floor3CIU8(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL3_CHOICES, default='HR2')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor3CIU9(models.Model):
 	dateTime = models.DateTimeField()
@@ -964,7 +1186,7 @@ class Floor3CIU9(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL3_CHOICES, default='LE11')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor3CIU10(models.Model):
 	dateTime = models.DateTimeField()
@@ -977,7 +1199,7 @@ class Floor3CIU10(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL3_CHOICES, default='LE12')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor3CIU11(models.Model):
 	dateTime = models.DateTimeField()
@@ -990,7 +1212,7 @@ class Floor3CIU11(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL3_CHOICES, default='LE21')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor3CIU12(models.Model):
 	dateTime = models.DateTimeField()
@@ -1003,7 +1225,7 @@ class Floor3CIU12(models.Model):
 	state = models.CharField(max_length=2, choices=STATE_CHOICES, default='NM')
 	location = models.CharField(max_length=4, choices=FL3_CHOICES, default='LE22')
 	def __str__(self):
-		return '{}. {}, {}'.format(self.id, self.switch, self.temperature)
+		return '{}, {}, {}'.format(self.dateTime.replace(microsecond=0), self.switch, self.temperature)
 
 class Floor1CIUs(models.Model):
 	u1 = models.ForeignKey(Floor1CIU1)
@@ -1182,7 +1404,7 @@ class CiuOnHeatPump4(models.Model):
 	def to_dict(self):
 		return {"u1":self.u1, "u2":self.u2, "u3":self.u3, "u4":self.u4, "u5":self.u5, "u6":self.u6, "u7":self.u7}
 	def items(self):
-		return [self.u1,self.u2,self.u3,self.u4,self.u5,self.u6,self.u7]
+		return [self.u1,self.u2,self.u3,self.u4,self.u5,self.u6,self.u7]	
 
 class CiuOnHeatPump5(models.Model):
 	u1 = models.ForeignKey(Floor1CIU6)

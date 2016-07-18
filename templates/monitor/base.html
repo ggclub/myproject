@@ -1,9 +1,16 @@
-{% extends "base/base.html" %}
+﻿{% extends "base/base.html" %}
 {% load staticfiles %}
-{% block title %}지하수 열원 냉난방 시스템{% endblock %}
+{% block title %}K-ATES{% endblock %}
 
 {% block script %}
 <script type="text/javascript">
+// ajax loading image
+$('#ajax-loader').ajaxStart(function() {
+	$(this).show();
+}).ajaxComplete(function() {
+	$(this).hide();
+});
+
 // 초기 세팅
 $('#cl-status').addClass('sys-selected');
 $('#at-status').addClass('sys-selected');
@@ -13,128 +20,130 @@ $('.btn-status').removeClass('btn-default');
 $('#cp-setting').attr('disabled', true);
 $('#cp-setting').removeClass('btn-default');
 
-function playSound(){
+function playSound () {
 	$('#sound').html(
-		'<audio autoplay="autoplay" loop="loop"><source src="{% static 'monitor/alarm.wav' %}" type="audio/wav" /></audio>'
+		'<audio autoplay="autoplay" loop="loop">'+
+		'<source type="audio/wav" src="{% static "monitor/alarm/alarm.wav" %}" />' +
+		'</audio>'
 		);
-	$('#error-msg > p').text('에러');
 }
-function stopSound(){
+var stopsound = false;
+function stopSound () {
 	$('#sound').html('');
-	$('#error-msg > p').text('정상');
 }
 function changePassword() {
-	$.post("/monitor/change_password_page/", function(data) {
-		$('.right-floor').html(data);
-	});
+	// $.post("/monitor/change_password_page/", function(data) {
+		// $('.right-top').html(data);
+	// });
 }
 
-var displayTime = 5000;
-// var displayVar = setTimeout(function(){reloadDisplay();}, displayTime);
+var displayTime = 4000;
+var displayVar = setTimeout(function(){reloadDisplay();}, displayTime);
 function reloadDisplay() {
-	// var opMode = $('.sys-selected').last().text();
-	if(opMode == '수동') {
-		opMode = 'MN';
-	} else {
-		opMode = 'AT';
+	// 실내기 상태창 선택된 버튼 찾기
+	// 층
+	var ciu_nav = $('.div-fl').find('.ciu-sel').attr('id');
+	if (typeof(ciu_nav) == 'undefined') {
+		// 히트펌프
+		ciu_nav = $('.div-hp').find('.ciu-sel').attr('id');
 	}
-	var tempMode = $('.sys-selected').first().text();
-	if(tempMode == '난방') {
-		tempMode = 'HT';
-	} else {
-		tempMode = 'CL';
+	if (typeof(ciu_nav) == 'undefined') {
+		// 전체
+		ciu_nav = "total";
 	}
-	var floor = $('.floor-nav').find('.fl-selected').attr('id');
-	var page = $('.pagination').find('.pg-selected').attr('id')
-	// console.log(floor);
+	// console.log(ciu_nav);
+	var src, srcSel;
+	switch (ciu_nav) {
+		case 'h1':
+			src = "{% static 'monitor/right/hp1.png' %}"; 
+			srcSel = "{% static 'monitor/right/hp1-sel.png' %}"; 
+			break;
+		case 'h2':
+			src = "{% static 'monitor/right/hp2.png' %}"; 
+			srcSel = "{% static 'monitor/right/hp2-sel.png' %}"; 
+			break;
+		case 'h3':
+			src = "{% static 'monitor/right/hp3.png' %}"; 
+			srcSel = "{% static 'monitor/right/hp3-sel.png' %}"; 
+			break;
+		case 'h4':
+			src = "{% static 'monitor/right/hp4.png' %}"; 
+			srcSel = "{% static 'monitor/right/hp4-sel.png' %}"; 
+			break;
+		case 'h5':
+			src = "{% static 'monitor/right/hp5.png' %}"; 
+			srcSel = "{% static 'monitor/right/hp5-sel.png' %}"; 
+			break;
+		case 'h6':
+			src = "{% static 'monitor/right/hp6.png' %}"; 
+			srcSel = "{% static 'monitor/right/hp6-sel.png' %}"; 
+			break;
+		case 'f1':
+			src = "{% static 'monitor/right/floor1.png' %}"; 
+			srcSel = "{% static 'monitor/right/floor1-sel.png' %}"; 
+			break;
+		case 'f2':
+			src = "{% static 'monitor/right/floor2.png' %}"; 
+			srcSel = "{% static 'monitor/right/floor2-sel.png' %}"; 
+			break;
+		case 'f3':
+			src = "{% static 'monitor/right/floor3.png' %}"; 
+			srcSel = "{% static 'monitor/right/floor3-sel.png' %}"; 
+			break;
+	}
+
 	$.ajax({
 		url: "/monitor/reload_display/",
 		type: "POST",
 		data : {
 			'csrfmiddlewaretoken': '{{ csrf_token }}',
-			'opMode': opMode,
-			'tempMode': tempMode,
-			'floor': floor,
-			'page': page,
+			'ciu_nav':ciu_nav,
 		},
 		success: function(data){
-			$('.container').html(data);
 			setTimeout(function(){reloadDisplay();}, displayTime);
-			// 운영 모드
-			if(opMode == 'AT'){
-				$('#at-status').addClass('sys-selected');
-				$('.btn-status').attr('disabled', true);
-				$('.btn-status').removeClass('btn-default');
-				$('#cp-setting').attr('disabled', true);
-				$('#cp-setting').removeClass('btn-default');
-			} else {
-				$('#mn-status').addClass('sys-selected');
-				$('.btn-status').removeAttr('disabled');
-				$('.btn-status').addClass('btn-default');
-				$('#cp-setting').removeAttr('disabled');
-				$('#cp-setting').addClass('btn-default');
-			}
-			// 냉난방 모드
-			if(tempMode == 'CL') {
-				$('.btn-heatMode').removeClass('sys-selected');
-				$('.btn-coolMode').addClass('sys-selected');
-				$('#left').css("background-image", "url(/static/monitor/cooling2.jpg)");
-			} else {
-				$('.btn-coolMode').removeClass('sys-selected');
-				$('.btn-heatMode').addClass('sys-selected');
-				$('#left').css("background-image", "url(/static/monitor/heating2.jpg)");
+			// nav. 전광판
+			var mode = $('.mode').text().split(',');
+			if (mode[0] == "AT" && mode[1] == "CL"){
+				$('#nav-mode').attr('src', "{% static 'navbar/mode/auto-cooling.jpg' %}")
+			} else if (mode[0] == "AT" && mode[1] == "HT") {
+				$('#nav-mode').attr('src', "{% static 'navbar/mode/auto-heating.jpg' %}")
+			} else if (mode[0] == "MN" && mode[1] == "CL") {
+				$('#nav-mode').attr('src',"{% static 'navbar/mode/manual-cooling.jpg' %}")
+			} else {		// MN && HT
+				$('#nav-mode').attr('src',"{% static 'navbar/mode/manual-heating.jpg' %}")
 			}
 
-			// iframe이 표시중일 때 
-			if($('#cp-setting-frame').css('display') == 'block') {
-				$('.left').addClass('show-spec');
-				$('#cp-setting-frame').css('display', 'block');
-			}
-			if($('#show-database-frame').css('display') == 'block') {
-				$('.left').addClass('show-spec');
-				$('#show-database-frame').css('display', 'block');
+			// 전체화면
+			$('#container').html(data);
+			
+			// 실내기 상태창 맞추기
+			$('#total').css('color', '#e2e4e3');
+			$('.div-hp').find('.ciu-sel').removeClass('ciu-sel');
+			$('.div-fl').find('.ciu-sel').removeClass('ciu-sel');
+			$('.div-hp').find('#'+ciu_nav).addClass('ciu-sel').attr('src', srcSel);
+			$('.div-fl').find('#'+ciu_nav).addClass('ciu-sel').attr('src', srcSel);
+			if (ciu_nav == "total") {
+				// total information
+				$('#total').css('color', 'rgb(241, 150, 0)');
 			}
 
-			// 실내기 상태 정보, 기기 동작 내역 page
-			$('.fl-selected').removeClass('fl-selected');
-			$('.floor-nav').find('#'+floor).addClass('fl-selected');
-			$('.pagination').removeClass('pg-selected');
-			$('.pagination').find('#'+page).addClass('pg-selected');
+			if (stopsound) {
+				$('#sound').html('');
+			}
 		},
-	}).fail(function() {
+	}).fail(function(e) {
 		var dt = new Date();
-		var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-		console.log(time + " reload display error");
-		// alert("reload display error!");
+		console.log(dt.toString() + " reload display error");
+		console.log(e);
+		reloadDisplay();
 	});
 	return false;
 }
-
-
-
-
-// ############################ left-status ############################
-// ajax 자동수동
-// $('.btn-opMode').on('click', function setMode(){
-// 	var opMode = this.innerText;
-// 	$.ajax({
-// 		url: "/monitor/set_operation_mode/",
-// 		type: "POST",
-// 		data: {
-// 			'csrfmiddlewaretoken': '{{ csrf_token }}',
-// 			'opMode': opMode,
-// 		},
-// 		success: function(data){
-// 			$('.opMode').text(data.opMode + ' 모드');
-// 		}
-// 	});
-// 	return false;
-// });
 
 
 </script>
 {% endblock %}
 
 {% block navbar %}
-	{% include "base/navbar.html" %}
+	{% include "navbar/navbar.html" %}
 {% endblock %}

@@ -44,7 +44,12 @@ SECRET_KEY = 'h$^fjem)bkmnq#elgkrx+1$ds*h!98@#-o&l(gfbkve6hpw&52'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost', '127.0.0.1'
+]
+LOGIN_URL = (
+    '/login/',
+)
 
 
 # Application definition
@@ -156,7 +161,7 @@ LOGGING = {
         'file' : {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': 'C:/Users/Admin/Documents/Django/myproject/debug.log',
+            'filename': 'C:/Users/Admin/Documents/Django/myproject/debug2.log',
             'formatter': 'verbose',
         },
         'console': {
@@ -175,10 +180,10 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            # 'handlers': ['console'],
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
+            'handlers': ['console'],
+            # 'handlers': ['file'],
+            # 'level': 'DEBUG',
+            # 'propagate': True,
         },
         'django.request': {
             'handlers': ['mail_admins'],
@@ -199,6 +204,10 @@ LOGGING = {
             'handlers': ['console'],
         },
         'monitor': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+        },
+        'login': {
             'handlers': ['file'],
             'level': 'DEBUG',
         },

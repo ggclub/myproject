@@ -1,401 +1,334 @@
-.content {
-	/*position: fixed;*/
+﻿.bold {
+	font-weight: bold;
+}
+.pos-abs {
+	position: absolute;
 }
 
-/*############################ full screen ##########################*/
+#ajax-loader {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	display: none;
+}
+
+/********************************* layout *********************************/
 .container {
-	/*background-image: url("temp_backimg.jpg");*/
-	/*background-color: white;*/
 	width: 100%;
+	background-image: url("main.jpg");
 	padding-left: 0;
 	padding-right: 0;
-	margin: 0;
-	font-size: 15px;
+	height: 812px;
 }
 
 .left {
-	float: left;			
-	width: 65%;
-	height: 89vh;
+	top: 167px;
+	width: 1398px;
+	height: 812px;
 }
-.left-status {
-	background-image: url("cooling2.jpg");
-	background-size: contain;
-	background-color: #aaaaaa;
-	height: 80vh;
-	position: relative;
-}
-.left-footer {
-	background-color: lightseagreen;
-	height:9vh;
-}
+
 .right {
-	background-color: #ccddbb;
-	float: right;
-	width: 35%;
-	height: 89vh;
-}
-.right-floor {
-	background-color: #aabbcc;
-	float: top;
-	height: 49%;
-	padding: 2%;
-}
-.right-bottom {
-	background-color: #ccbbaa;
-	float: bottom;
-	height: 51%;
-	padding: 2%;
-}
-/*############################ left - status #########################*/
-.left-header {
-	text-align: center;
-	margin-top: 2%;
-	margin-bottom: 5%;
+	top: 167px;
+	left: 1398px;
+	width: 522px;
+	height: 812px;
+	padding: 5px 10px 4px 21px;
 }
 
-iframe {
-	display: none;
-	margin-top: 100px;
-	margin-left: 300px;
-	opacity: 1;
-	background-color: #ffffe0;
-	z-index: 124124;
-}
-
-.show-spec {
-	background-blend-mode: screen;
-	opacity: 0.5;
-	z-index: -1;
-}
-
-.btn-opMode {
-	float: right;
-}
-.sys-selected, .sys-selected:focus {
-	background-color: #ffffe0;
-}
-
-.left-table {
-	display: inline-table;
-	width: 130px;
-	border: none;
-	table-layout: fixed;
-}
-.left-table > thead > tr > td,
-.left-table > tbody > tr > td {
-	padding: 5px;
-}
-
-.left-table > thead {
-	height: 50px;
-}
-.table {
-	text-align: center;
-	font-size: 13px;
-}
-.table-title {
-	text-align: left;
+/********************************* 상태창 *********************************/
+.left-status {
+	top: 49px;
+	width: 1398px;
+	height: 681px;
 }
 .table-value {
-	text-align: right;
-}
-.table-value:hover {
-	/*cursor: pointer;*/
+	text-align: center;
 }
 
-
-a:hover {
-	cursor: pointer; 
-	text-decoration: none;
+/********************************* 실시간 정보 *********************************/
+.real-time-information {
+	top: 61.5px;
+	left: 192px;
+	width: 114px;
+	height: 176px;
 }
-.device {
-	color: black;
+.table-real-time { 
+	width: 100%;
 }
-
-.first {
-	position: absolute;
-	top: 80px;
-	left: 200px;
-	height: 190px;
-	width: 954px;
+.table-real-time > tbody > tr > td {
+	padding: 9px;
+	height: 37px;
 }
+.table-real-time > tbody > tr > #p-cur {
+	padding: 8px;
+}
+/********************************* 히트펌프 *********************************/
 .heat-pump {
-	width: 144px;
-	height: 190px;
-	margin-right: 10px;
-	font-size: 15px;
-	margin-bottom: 0;
+	top: 16px;
+	left: 653px;
+	width: 668px;
+	height: 44px;
 }
-.left-table > thead > tr > td, .left-table > tbody > tr > td {
-	padding: 8px 5px;
+.table-heat-pump {
+	display: inline-table;
+	margin-top: 3px;
+	margin-right: 0.5px;
+	margin-left: 34px;
+	width: 73px;
+}
+.heat-pump-status {
+	top: 77.5px;
+	left: 665px;
+	width: 665px;
+	height:35px;
+}
+.table-hp-status {
+	display:inline-table;
+	width: 85px;
+	height: 35px;
+	margin-right: 21.5px;
 }
 
-.sec-1 {
-	position: absolute;
-	top: 250px;
-	left: 150px;
-}
+/********************************* 순환펌프 *********************************/
 .circulating-pump {
-	width: 163px;
-	height: 167px;
-	font-size: 15px;
-	padding: 0px 5px;
+	top: 206px;
+	left: 476px;
+	width: 125px;
+	height: 93px;
 }
-.sec-2 {
-	position: absolute;
-	top: 329px;
-	left: 315px;
-	height: 208px;
+#cp-operating {
+	display: none;
 }
+#cp-setting-cp {
+	left: 88px;
+	width: 32px;
+	height: 20px;
+}
+.mode-mn {
+	cursor: pointer;
+}
+
+.table-circulating-pump {
+	margin-top: 22px;
+	margin-left: 45px;
+}
+.table-circulating-pump > tbody > tr > td {
+	padding: 1px 0px;
+}
+.circulating-pump-status {
+	top: 322px;
+	left: 498px;
+}
+
+/********************************* 유량계 *********************************/
 .flowmeter {
-	width: 280px;
-	height: 106px;
-	font-size: 13px;
+	width: 106px;
+	height: 44px;
 }
-.sec-3 {
-	position: absolute;
-	top: 380px;
-	left: 800px;
-	/*height: 208px;*/
+.fm-cp-he-out {
+	top: 254px;
+	left: 780px;
 }
-.heat-exchanger-in1 {
-	width: 141px;
-	height: 72px;
-	font-size: 13px;
+.fm-cp-he-in {
+	top: 254px;
+	left: 1110px;
 }
-
-.third-1 {
-	position: absolute;
-	top: 520px;
-	left: 220px;
+.CP-Flowmeter {
+	font-size: smaller;
 }
-.third-2 {
-	position: absolute;
-	top: 540px;
-	left: 733px;
+.fm-dwp-he-in {
+	top: 422px;
+	left: 780px;
 }
-.heat-exchanger-out2 {
-	width: 141px;
-	height: 72px;
-	font-size: 13px;
+.fm-dwp-he-out {
+	top: 422px;
+	left: 1110px;
+}
+.table-flowmeter {
+	width: 72px;
+	height: 39px;
+	margin-top: 4px;
+	margin-left: 29px;
+	font-size: small;
 }
 
-.fourth-1 {
-	position: absolute;
-	top: 685px;
-	left: 53px;
-	width: 625px;
+/********************************* 열교환기 *********************************/
+.heat-exchanger {
+	top: 319px;
+	left: 966px;
 }
+/********************************* 심정펌프 *********************************/
 .deepwell-pump {
-	width: 143px;
-	height: 165px;
-	margin-right: 10px;
-	font-size: 15px;
+	top: 596px;
+	left: 64px;
+	width: 580px;
+	height: 75px;
+}
+.table-deepwell-pump {
+	display: inline-table;
+	width: 73px;
+	height: 65px;
+	margin: 5px 8.5px 0px 59px;
+	font-size: small;
+}
+.table-deepwell-pump > tbody > tr {
+	margin: 1px 0px;
+}
+.deepwell-pump-status {
+	top: 434px;
+	left: 110px;
+}
+.table-dwp-status {
+	display: inline-table;
+	margin-right: 95px;
+}
+
+/******************************** 경보창 *********************************/
+.left-footer {
+	top: 730px;
+	width: 1398px;
+	height: 82px;
+}
+/* 경보음 */
+#sound {
+	display: none;
+}
+
+/* 경보 상태 버튼 */
+.alarm-left {
+	top: 12px;
+	left: 73px;
+}
+#alarm-status-active:hover {
+	cursor: pointer;
+}
+
+/* 경보 내용*/
+.alarm-content {
+	top: 37px;
+	left: 177px;
+	width: 1066px;
+	height: 35px;
+}
+.error-msg {
+	border: none;
+	width: 1065px;
+	height: 33px;
+	margin-bottom: 0px;
+	text-align: center;
+}
+.error-msg > tbody > tr > #status {
+	width: 359px;
+}
+.error-msg > tbody > tr > #locatioin {
+	width: 384px;
+}
+.error-msg > tbody > tr > #ot {
+	width: 319px;
+}
+
+/* 경보음 해제 */
+.alarm-right {
+	top: 12px;
+	left: 1266px;
+}
+#alarm-sound-active:hover {
+	cursor: pointer;
+}
+
+/********************************* 실내기 ********************************/
+.movements-title {
+	top: 15px;
+	left: 441px;
+}
+.movements-title > p {
+	color: #e2e4e3;
+	font-size: 19px;
+}
+
+.unit-info {
+	top: 70px;
+	left: 22px;
+}
+
+.ciu {
+	display: inline-table;
+	margin: 18px;
+}
+.ciu > tbody > tr > td {
+	width: 146px;
+	height: 86px;
+	padding: 58px 8px 7px 69px;
+	text-align: center;
+	border: 15px solid #e0eaf7;
+}
+
+.total-information {
+	background-image: url('ciu_total.png');
+	top: 50px;
+	left: 17px;
+	width: 453px;
+	height: 330px;
+}
+.table-total {
+	margin-top: 95px;
+	margin-left: 70px;
+	text-align: center;
+}
+.table-total > tbody > tr {
+	height: 53px;
+}
+.table-total > tbody > tr > td {
 	padding: 0px 5px;
+	border: 15px solid transparent;
 }
-.deepwell-pump > thead {
-	height: 45px;
+.total {
+	width: 93px;
 }
-.fourth-2 {
-	position: absolute;
-	top: 695px;
-	left: 855px;
+.on, .off {
+	width: 72px;
 }
 .rt {
-	width: 200px;
-}
-.fourth-3 {
-	position: absolute;
-	top: 754px;
-	left: 855px;
-}
-.power {
-	width: 200px;
-	height: 81px;
+	width: 111px;
 }
 
-.btn-status{
-	color: white;
+/********************************* 실내기 내비 *********************************/
+.slider {
+	top: 634px;
+	left: 22px;
+}
+.div-hp {
+	top: 5px;
+	left: 135px;
+	width: 350px;
+}
+.div-fl {
+	top: 66px;
+	left: 135px;
+	width: 350px;
+}
+.div-total {
+	top: 130px;
+	left: 227px;
+	width: 80px;
+}
+.div-total:hover {
+	cursor: pointer;
 }
 
-.status-on, .status-on:focus {
-	background-color: green;
-	color: white;
-}
-.status-off, .status-off:focus {
-	background-color: red;
-	color: white;
-}
-
-.tubular {
-	margin-right: 5px;
-}
-
-
-/*########### r-floor ##########*/
-.floor-title {
-	/*text-align:center; */
-	display: inline;
-	margin-bottom:20px;
-}
-
-.cius-title {
-	display: inline-table;
-	background-color: lightgoldenrodyellow;
-	border-style: none;
-}
-/*.unit-info > table > tbody > tr > td {
-	padding: 4px 4px;
-}*/
-
-.alignleft {
-	float: left;
-	display: inline;
-}
-
-.alignright {
-	float: right;
-	display: inline;
-}
-
-
-.opMode {
-	margin: 5px;
-}
-#div-btn-opMode {
-	margin: 5px 5px 5px 0;
-}
-
-.slides {
-	padding: 0;
-}
-.ciu {
-	width: 200px;
-	display: inline-table;
-	margin: 5px;
-}
-.room {
-	width: 105px;
-	font-weight: bold;
-	vertical-align: middle;
-}
-
-.floor-nav {
-	position: fixed; 
-	text-align: center;
-	padding: 0;
-	top: 550px;
-	right: 292px;
-}
-.floor-nav > li, .hp-ciu-nav > li {
-	margin: 0 0 0 5px; 
-	display: inline-block; 
-	zoom: 1; 
-	*display: inline;
-}
-.floor-nav > li:first-child {
-	margin: 0;
-}
-.floor-nav > li > a {
-	display: block; 
-	cursor: pointer; 
-	text-decoration: none;
-/*	width: 13px; 
-	height: 13px; 
-	text-indent: -9999px;*/
-}
-.fl-selected {
-	font-weight: bold;
-}
-/*
-.floor-nav > li > a:hover {
-}
-.floor-nav > li > a.active {
-	cursor: default;
-}
-*/
-
-/*########### r-bottom ##########*/
-.title-hp-ciu > thead > tr > td {
-	background-color: lightgoldenrodyellow;
-}
 .hp-ciu {
-	margin-bottom: 10px;
+	margin-right: 7px;
 }
-
-.hp-ciu-nav {
-	position: fixed; 
-	text-align: center;
-	padding: 0;
-	top: 1040px;
-	right: 110px;
+.hp-ciu:hover, .floor:hover {
+	cursor: pointer;
 }
-.hp-selected {
-	font-weight: bold;
+#f2, #f3 {
+	margin-left: 92px;
 }
-
-/*########### r-log ##########*/
-.pagination {
-	margin: 5px 0 14px;
+#total {
+	color: #e2e4e3;
+	font-size: 21px;
+	font-family: "Malgun Gothic";
 }
-
-.pagination > li > a, .pagination > li > span {
-	background-color: inherit;
-}
-
-.pg-selected {
-	font-weight: bold;
-}
-
-/*######################## operation setting #######################*/
-.container-control {
-	padding: 100px 400px;
-}
-#setting-mode-form {
-	position: absolute;
-	top: 300px;
-	left: 700px;
-	font-size: xx-large;	
-	border: black;
-	border-style: solid;
-	padding: 50px;
-	width: 500px;
-}
-.container-change-pw {
-	padding: 300px 700px;
-}
-
-
-/*########################## search database ########################*/
-.container-search-db {
-	padding: 100px 300px;
-}
-.table-conditions {
-	width: initial;
-	display: inline-table;
-}
-#show-conditions {
-	float: right;
-}
-.show-condition {
-	/* check box in show-conditions-detail */
-	float: left;
-}
-.search-conditions-detail > td > div,
-.show-conditions-detail > p {
-	display: inline;
-}
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -1,144 +1,211 @@
-{% load staticfiles %}
+﻿{% load staticfiles %}
 <!DOCTYPE HTML>
 <head>
 	<meta charset="utf-8">
 	<script src="{% static "jquery/jquery-1.11.3.min.js" %}"></script>
 	<script src="{% static "bootstrap-3.3.4-dist/js/bootstrap.min.js" %}"></script>
 	<link rel="stylesheet" href="{% static "bootstrap-3.3.4-dist/css/bootstrap.min.css" %}">
+	<link rel="stylesheet" href="{% static "monitor/setting-cp.css" %}">
 </head>
-<body style="background-color:transparent;">
-	<div class="cp-setting-container" style="margin: 405px 170px;">
-		<div class="cp-setting-modal" style="width:200px; height:240px; background-color:lightgray; padding-top:12px; text-align:center; border-style:groove;">
-			<form class="form-horizontal" id="cp-setting-form">
-				<div class="form-group">
-					<label for="cpid" class="col-sm-5">ID</label>
-					{# 라디오버튼 chk 1,2 #}
-					<div class="col-sm-7" style="margin-bottom:3px;">
-					<input type="radio" name="cpid" value="1"> 1
-					<input type="radio" name="cpid" value="2"> 2
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="cpswitch" class="col-sm-5">스위치</label>
-					{# 라디오버튼 on/off #}
-					<div class="col-sm-7" style="font-size:13px;">
-					<input type="radio" name="cpswitch" value="ON"> ON
-					<input type="radio" name="cpswitch" value="OFF"> OFF <br>
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="cphz" style="display:inline-block;  width:25%; margin-right:13.5%;">회전수</label>
-					{# 숫자입력창 회전수 #}
-					<div style="display:inline-block; width:25%;">
-					<input type="number" class="form-control" id="cp-hz" name="cphz" min="0" max="60" value="{{ circulating_pump.Hz }}" style="padding:2px; text-align:center;">
-					</div>
-					<div style="display:inline-block; width:15%;">Hz</div><br>
-				</div>
-				<div class="form-group">
-					<label for="cplpm" style="display:inline-block;  width:25%; margin-right:13.5%;">유량</label>
-					{# 숫자입력창 유량 #}
-					<div style="display:inline-block; width:25%;">
-					<input type="number" class="form-control" id="cp-flux" name="cpflux" min="0" max="1000" value="{{ circulating_pump.flux }}" style="padding:2px; text-align:center;">
-					</div>
-					<div style="display:inline-block; width:15%;">LPM</div><br>
-				</div>
-			</form>
-			<div class="form-group">
-				<button type="submit" class="btn btn-default" id="ok">입력</button>
-				<button class="btn btn-default" id="cancel">취소</button>
+<body body oncontextmenu="return false;">
+<div class="content pos-abs">
+	<div class="cp-operating pos-abs">
+		<div class="operation pos-abs">
+			{# 순환펌프 1,2 선택 #}
+			<input id="cp1" type="radio" name="cp" value="1">
+			<input type="radio" name="cp" value="2">
+		</div>	
+		{# 순환펌프 1 #}
+		<div class="cp1 pos-abs">
+			{# 스위치 #}
+			<div class="cp1-switch pos-abs">
+				<input class="cp1s switch" type="radio" name="cp1-switch" value="ON">
+				<input class="cp1s" type="radio" name="cp1-switch" value="OFF">
+			</div>
+			{# 회전수 #}
+			<div class="cp1-hz pos-abs">
+				<input class="cp1s round" id="cp1-hz" type="number" min="0" max="60">
+			</div>
+			{# 유량 #}
+			<div class="cp1-flux pos-abs">
+				<p id="cp1-flux">0</p>
+			</div>
+		</div>
+		{# 순환펌프 2 #}
+		<div class="cp2 pos-abs">
+			{# 스위치 #}
+			<div class="cp2-switch pos-abs">
+				<input class="cp2s switch" type="radio" name="cp2-switch" value="ON">
+				<input class="cp2s" type="radio" name="cp2-switch" value="OFF">
+			</div>
+			{# 회전수 #}
+			<div class="cp2-hz pos-abs">
+				<input class="cp2s round" id="cp2-hz" type="number" min="0" max="60">
+			</div>
+			{# 유량 #}
+			<div class="cp2-flux pos-abs">
+				<p id="cp2-flux">0</p>
 			</div>
 		</div>
 	</div>
+	<div class="div-ok pos-abs">
+		<img id="ok" src="{% static "monitor/ok.png" %}">
+	</div>
+</div>
 </body>
 
 <script type="text/javascript">
-$(document).ready(function() {
-	$('#cp-hz').val(0);
-	$('#cp-flux').val(0);
-});
+$(document).ready(chkCp);
+$(':radio[name=cp]').on('change', chkCp);
+function chkCp () {
+	var cp = $(':radio[name=cp]:checked').val();
+	if (typeof(cp) == 'undefined') {
+		cp = {{ cp_operating }};
+	}
 
-$('#cp-hz').on('keyup change', function() {
-	var val = parseInt($('#cp-hz').val());
-	var max = parseInt($('#cp-hz').attr('max'));
-	var min = parseInt($('#cp-hz').attr('min'));
+	$('#cp1-hz').val(0);
+	$('#cp1-flux').text(0);
+	$('#cp2-hz').val(0);
+	$('#cp2-flux').text(0);
+	if(cp == "1"){
+		// 1번 순환펌프 제어 가능
+		$(':radio[name=cp][value=1]').prop('checked', true);
+		$('.cp1s').each(function () {
+			$(this).attr('disabled', false);
+		});
+		//  2번 순환펌프 제어 불가능
+		$(':radio[name=cp2-switch][value=OFF]').prop('checked', true);
+		$(':radio[name=cp][value=2]').prop('checked', false);
+		$('.cp2s').each(function () {
+			$(this).attr('disabled', true);
+		});
+	} else {
+		// 1번 순환펌프 제어 불가능
+		$(':radio[name=cp1-switch][value=OFF]').prop('checked', true);
+		$(':radio[name=cp][value=1]').prop('checked', false);
+		$('.cp1s').each(function () {
+			$(this).attr('disabled', true);
+		});
+		// 2번 순환펌프 제어 가능
+		$(':radio[name=cp][value=2]').prop('checked', true);
+		$('.cp2s').each(function () {
+			$(this).attr('disabled', false);
+		});
+	}
+}
+
+$('#cp1-hz, #cp2-hz').on('keyup change', keyupHz);
+function keyupHz () {
+	if($(this).attr('id') == 'cp1-hz'){
+		var id = 1;
+	} else {
+		var id = 2;
+	}
+	// console.log($(this).attr('id'));
+	var flux = '#cp'+id+'-flux';
+	var val = parseInt($(this).val());
+	var max = parseInt($(this).attr('max'));
+	var min = parseInt($(this).attr('min'));
 	if (!val || val < min) {
-		$('#cp-hz').val(0);
-		$('#cp-flux').val(0);
+		$(this).val(0);
+		$(flux).text(0);
 	}
 	else if (val > max) {
-		$('#cp-hz').val(60);
-		$('#cp-flux').val(1000);
+		$(this).val(60);
+		$(flux).text(1000);
 	} else {	// normal range
-		$('#cp-flux').val(Math.round(16.67 * val));
+		$(flux).text(Math.round(16.67 * val));
 	}
-});
-$('#cp-flux').on('keyup change', function() {
-	var val = parseInt($('#cp-flux').val());
-	var max = parseInt($('#cp-flux').attr('max'));
-	var min = parseInt($('#cp-flux').attr('min'));
-	if (!val || val < min) {
-		$('#cp-flux').val(0);
-		$('#cp-hz').val(0);
-	}
-	else if (val > max) {
-		$('#cp-flux').val(1000);
-		$('#cp-hz').val(60);
-	} else {	// normal range
-		$('#cp-hz').val(Math.round(val / 16.67));
-	}
-});
+}
 
-// 인버터 세팅
-$('#ok').on('click', function() {
-	var opMode = 'MN';
-	var tempMode = 'CL';
-	var cpid = $('input:radio[name="cpid"]:checked').val();
-	var cpswitch = $('input:radio[name="cpswitch"]:checked').val();
-	var cphz = $('input[name="cphz"]').val();
-	var cpflux = $('input[name="cpflux"]').val();
-	if (typeof cpid === "undefined" || typeof cpswitch === "undefined"){
-		alert('값을 입력해주세요.');
-		return false;
-	}
-	if (cphz)
-	// var opMode =  $('.sys-selected', window.parent.document).last().text();
-	// var tempMode =  $('.sys-selected', window.parent.document).first().text();
-	if(opMode == '수동') {
-		opMode = 'MN';
-	} else {
-		opMode = 'AT';
-	}
-	if(tempMode == '난방') {
-		tempMode = 'HT';
-	} else {
-		tempMode = 'CL';
-	}
-	alert(cpid + ', ' + cpswitch);
-	// $.ajax({
-	// 	url: "/monitor/set_cp/",
-	// 	type: "POST",
-	// 	data: {
-	// 		'csrfmiddlewaretoken': '{{ csrf_token }}',
-	// 		'cpid' : cpid,
-	// 		'cpswitch' : cpswitch,
-	// 		'cphz' : cphz,
-	// 		'cpflux' : cpflux,
-	// 		'opMode' : opMode,
-	// 		'tempMode' : tempMode,
-	// 	},
-	// 	success: function(data) {
-	// 		alert('설정 되었습니다.');
-	// 		$('.container-control', window.parent.document).removeClass('show-spec');
-	// 		$('#cp-setting-frame', window.parent.document).css('display', 'none');	
-	// 		$('.container-control').html(data)
-	// 	}
-	// });
-	// return false;
-});
+// 확인
+$('#ok').on('click', clickSetCpOk);
+function clickSetCpOk () {
+	var tempMode = "{{ temp_mode }}";
+	// 명령을 준 순환펌프
+	var cpOperating = $(':radio[name=cp]:checked').val();
+	// 순환펌프 1
+	var cp1switch = $('input:radio[name="cp1-switch"]:checked').val();
+	var cp1hz = $('input[id="cp1-hz"]').val();
+	var cp1flux = $('#cp1-flux').text();
+	// 순환펌프 2
+	var cp2switch = $('input:radio[name="cp2-switch"]:checked').val();
+	var cp2hz = $('input[id="cp2-hz"]').val();
+	var cp2flux = $('#cp2-flux').text();
+	// console.log(cp1switch + ", " + cp2switch);
 
-// 설정 취소
-$('#cancel').on('click', function() {
-	$('.container-control', window.parent.document).removeClass('show-spec');
-	$('#cp-setting-frame', window.parent.document).css('display', 'none');
-});
+	if (cpOperating == 1){
+		if (typeof(cp1switch) === "undefined"){
+			alert('값을 입력해주세요.');
+			return false;
+		}
+	} else {
+		if (typeof(cp2switch) === "undefined"){
+			alert('값을 입력해주세요.');
+			return false;
+		}
+	}
+	$.ajax({
+		url: "/monitor/setting_cp_done/",
+		type: "POST",
+		data: {
+			'csrfmiddlewaretoken': '{{ csrf_token }}',
+			'cpOperating' : cpOperating,
+			'cp1switch' : cp1switch,
+			'cp1hz' : cp1hz,
+			'cp1flux' : cp1flux,
+			'cp2switch' : cp2switch,
+			'cp2hz' : cp2hz,
+			'cp2flux' : cp2flux,
+		},
+		success: function(data) {
+			alert('설정 되었습니다.');
+			var parent = window.opener;
+			
+			// 순환펌프 버튼 변경
+			if (cpOperating == 1) {
+				if (cp1switch == "ON") {
+					parent.$('#cp-switch').attr('src', "{% static 'monitor/left/switch-on.jpg' %}");
+				} else {
+					parent.$('#cp-switch').attr('src', "{% static 'monitor/left/switch-off.jpg' %}");
+				}
+			} else {
+				if (cp2switch == "ON") {
+					parent.$('#cp-switch').attr('src', "{% static 'monitor/left/switch-on.jpg' %}");
+				} else {
+					parent.$('#cp-switch').attr('src', "{% static 'monitor/left/switch-off.jpg' %}");
+				}
+			}
+
+			// 순환펌프 프로펠러 변경
+			if (cpOperating == 1) {
+				if (cp1switch == "ON") {
+					if (tempMode == "CL"){
+						parent.$('.cp-status').attr('src', "{% static 'monitor/left/cp-on-cl.gif' %}");
+					} else {
+						parent.$('.cp-status').attr('src', "{% static 'monitor/left/cp-on-ht.gif' %}");
+					}
+				} else {
+					parent.$('.cp-status').attr('src', "{% static 'monitor/left/cp-off.png' %}");
+				}
+			} else {
+				if (cp2switch == "ON") {
+					if (tempMode == "CL"){
+						parent.$('.cp-status').attr('src', "{% static 'monitor/left/cp-on-cl.gif' %}");
+					} else {
+						parent.$('.cp-status').attr('src', "{% static 'monitor/left/cp-on-ht.gif' %}");
+					}
+				} else {
+					parent.$('.cp-status').attr('src', "{% static 'monitor/left/cp-off.png' %}");
+				}
+			}
+			window.close();
+		}
+	}).fail(function() {
+		var dt = new Date();
+		var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+		console.log(time + " setting_cp_done error");
+	});
+	return false;
+}
 </script>
