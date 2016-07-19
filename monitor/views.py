@@ -77,7 +77,7 @@ def index(request):
 			dateTime=timezone.now(), tempMode=temp_mode
 			).save()
 
-	# 처음 프로그램 실행시 모드는 수동
+	# 처음 프로그램 실행시 모드는 자동
 	response_data.update({"op_mode": "AT"})
 	if OperationModeLogger.objects.latest('id').opMode != "AT":
 		oml = OperationModeLogger(
@@ -90,7 +90,10 @@ def index(request):
 	response_data.update(controller.read_data_from_json(rt))
 	while response_data["hmidata_error"] != None:
 		response_data.update(controller.read_data_from_json(rt))
-
+	# ver._2016.07.19 rt from heatpump
+	response_data["rt_total"] = response_data["rt"]["RT"]
+	# end ver._2016.07.19
+	
 	response_data.update(csrf(request))
 	url = 'monitor/index.html'
 	return render(request, url, response_data)
@@ -100,15 +103,15 @@ def save_data(response_data):
 	if not controller.save_data(response_data):
 		# DB save 에러
 		log.error("DB save error.")
-	else :
-		response_data.update(controller.get_CIU_from_json('1'))
-		controller.save_ciu1(response_data)
-		response_data.update(controller.get_CIU_from_json('2'))
-		controller.save_ciu2(response_data)
-		response_data.update(controller.get_CIU_from_json('3'))
-		controller.save_ciu3(response_data)
-		# log.debug("database updated")
-		# save_time = timezone.now()
+	
+	response_data.update(controller.get_CIU_from_json('1'))
+	controller.save_ciu1(response_data)
+	response_data.update(controller.get_CIU_from_json('2'))
+	controller.save_ciu2(response_data)
+	response_data.update(controller.get_CIU_from_json('3'))
+	controller.save_ciu3(response_data)
+	# log.debug("database updated")
+	# save_time = timezone.now()
 
 
 @csrf_exempt
@@ -166,6 +169,9 @@ def reload_display(request):
 	# hmi에서 데이터 읽고 (자동)제어
 	# 수동인 경우 데이터 값(디스플레이)만 갱신함.
 	response_data.update(controller.read_data_from_json(rt))
+	# 읽기 실패할 경우 읽을때까지 반복
+	while response_data["hmidata_error"] != None:
+		response_data.update(controller.read_data_from_json(rt))
 
 
 	############### 통신 에러 처리 ############################
@@ -210,10 +216,10 @@ def reload_display(request):
 	t = timezone.now()		
 	# log.debug(str(response_data["error"]))
 
-	# 읽기 실패할 경우 읽을때까지 반복
-	while response_data["hmidata_error"] != None:
-		response_data.update(controller.read_data_from_json(rt))
-
+	# ver._2016.07.19 rt from heatpump
+	response_data["rt_total"] = response_data["rt"]["RT"]
+	# end ver._2016.07.19
+	
 	# 데이터베이스 저장
 	# 중복 저장 방지
 	latest_data = DeepwellPump1Logger.objects.latest('id').dateTime

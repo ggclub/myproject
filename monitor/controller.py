@@ -1025,6 +1025,19 @@ def read_data_from_json(rt):
 		# 	data["rt"]["RT"] = 0.0
 
 
+		
+		# ##########################################
+		# # ver._2016.07.19
+		# # USB 통신이 불안정 (실내기 <-> pc 통신)
+		# # 중단: RT from 실내기
+		# # 신규: RT from HeatPump
+		# ##########################################
+		rt = get_rt_from_hp(data["heat_pump"], data["temp_mode"])
+		data["rt"]["RT"] = rt;
+		##################### end of ver_2016.07.15 #####################
+
+
+
 
 		##################### rt에 따른 심정펌프 #############
 		apply_rt_to_dwp(data, rt)
@@ -1260,6 +1273,39 @@ def set_section_buffer():
 		buf_a = buf_b = buf_c = 0
 
 	return buf_a, buf_b, buf_c, buf_d
+
+
+# ver._2016.07.19
+def get_rt_from_hp(hp, temp_mode):
+	rt = 0; #hp = data["heat_pump"]; temp_mode = data["temp_mode"]
+	if temp_mode == "CL":
+		if hp[0]["switch"] == "ON":
+			rt += 7.4
+		if hp[1]["switch"] == "ON":
+			rt += 7.4
+		if hp[2]["switch"] == "ON":
+			rt += 15.2
+		if hp[3]["switch"] == "ON":
+			rt += 15.2
+		if hp[4]["switch"] == "ON":
+			rt += 21.7
+		if hp[5]["switch"] == "ON":
+			rt += 21.7
+	else:  # temp_mode = "HT":
+		if hp[0]["switch"] == "ON":
+			rt += 7.6
+		if hp[1]["switch"] == "ON":
+			rt += 7.6
+		if hp[2]["switch"] == "ON":
+			rt += 16.2
+		if hp[3]["switch"] == "ON":
+			rt += 16.2
+		if hp[4]["switch"] == "ON":
+			rt += 23.8
+		if hp[5]["switch"] == "ON":
+			rt += 23.8
+	return rt
+# end ver._2016.07.19
 
 def apply_rt_to_dwp(data, rt):
 	global buf_a, buf_b, buf_c, buf_d
@@ -1711,9 +1757,9 @@ def get_CIU_from_json(floor):
 			ciu_list.append(ciu_dict["us"][6])
 			# 다목적홀3
 			ciu_list.append(ciu_dict["us"][4])
-			# 홀공간1
+			# 준비실1
 			ciu_list.append(ciu_dict["us"][5])
-			# 홀공간2 ~ ㅍㅇ생학습실 2-2
+			# 준비실2 ~ 평생학습실 2-2
 			for i in range(7,12):
 				ciu_list.append(ciu_dict["us"][i])
 			ciu_dict.update({"us": ciu_list})

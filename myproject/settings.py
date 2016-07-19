@@ -17,23 +17,29 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-
+# web accessible folder
+STATIC_ROOT= os.path.join(BASE_DIR, 'staticfiles')
+# URL prefix for static files
 STATIC_URL = '/static/'
-STATIC_ROOT= BASE_DIR + '/static/'
 
 # TEMPLATE_LOADERS = (
 #     'django.template.loaders.filesystem.Loader',
 #     'django.template.loaders.app_directories.Loader'
 # )
 
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'static'),
-# )
-
+# List of finder classes that know how to find static files in various locations
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
+
+# Additional locations of static files
+STATICFILES_DIRS = (
+    'D:/Bitbucket/myproject/static',
+)
+
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -106,7 +112,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'myproject',
         'USER': 'root',
-        'PASSWORD': '2345',
+        'PASSWORD': '0000',
         'HOST': '127.0.0.1',
         'PORT': '',
     }
@@ -161,7 +167,7 @@ LOGGING = {
         'file' : {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': 'C:/Users/Admin/Documents/Django/myproject/debug2.log',
+            'filename': 'debug2.log',
             'formatter': 'verbose',
         },
         'console': {
