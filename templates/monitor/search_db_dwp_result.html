@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<div class="found" style="display:none;">{{ count }}</div>
+<table class="table table-bordered" style="margin-bottom:0px;">
+	<tbody id="query-result">
+		{{ error }}
+		{% for dwp1, dwp2, dwp3, dwp4, temp in database_list %}
+		<tr>
+			<td class="result-datetime">{{ dwp1.dateTime|date:"Y-m-d H:i" }}</td>
+			<td class="result-dwp1">{{ dwp1.switch }}</td>
+			<td class="result-dwp1">{{ temp.temperature }}</td>
+			<td class="result-dwp1">{{ dwp1.get_opMode_display }}</td>
+			<td class="result-dwp2">{{ dwp2.switch }}</td>
+			<td class="result-dwp2">{{ temp.temperature }}</td>
+			<td class="result-dwp2">{{ dwp2.get_opMode_display }}</td>
+			<td class="result-dwp3">{{ dwp3.switch }}</td>
+			<td class="result-dwp3">{{ temp.temperature }}</td>
+			<td class="result-dwp3">{{ dwp3.get_opMode_display }}</td>
+			<td class="result-dwp4">{{ dwp4.switch }}</td>
+			<td class="result-dwp4">{{ temp.temperature }}</td>
+			<td class="result-dwp4">{{ dwp4.get_opMode_display }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>

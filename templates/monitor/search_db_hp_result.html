@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<div class="found" style="display:none;">{{ count }}</div>
+<table class="table table-bordered" style="margin-bottom:0px;">
+	<tbody>
+		{{ error }}
+		{% for hp1, hp2, hp3, hp4, hp5, hp6 in database_list %}
+		<tr id="add">
+			<td class="result-datetime">{{ hp1.dateTime|date:"Y-m-d H:i" }}</td>
+			<td class="result-hp1">{{ hp1.switch }}</td>
+			<td class="result-hp1">{{ hp1.tempIn.temperature }}</td>
+			<td class="result-hp1">{{ hp1.tempOut.temperature }}</td>
+			<td class="result-hp2">{{ hp2.switch }}</td>
+			<td class="result-hp2">{{ hp2.tempIn.temperature }}</td>
+			<td class="result-hp2">{{ hp2.tempOut.temperature }}</td>
+			<td class="result-hp3">{{ hp3.switch }}</td>
+			<td class="result-hp3">{{ hp3.tempIn.temperature }}</td>
+			<td class="result-hp3">{{ hp3.tempOut.temperature }}</td>
+			<td class="result-hp4">{{ hp4.switch }}</td>
+			<td class="result-hp4">{{ hp4.tempIn.temperature }}</td>
+			<td class="result-hp4">{{ hp4.tempOut.temperature }}</td>
+			<td class="result-hp5">{{ hp5.switch }}</td>
+			<td class="result-hp5">{{ hp5.tempIn.temperature }}</td>
+			<td class="result-hp5">{{ hp5.tempOut.temperature }}</td>
+			<td class="result-hp6">{{ hp6.switch }}</td>
+			<td class="result-hp6">{{ hp6.tempIn.temperature }}</td>
+			<td class="result-hp6">{{ hp6.tempOut.temperature }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>

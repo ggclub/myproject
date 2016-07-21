@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<div class="found" style="display:none;">{{ count }}</div>
+<table class="table table-bordered" style="margin-bottom:0px;">
+	<tbody id="query-result">
+		{{ error }}
+		{% for ab1, ab2, ib1, ij1, sb1, sb2 in database_list %}
+		<tr>
+			<td class="result-datetime">{{ ab1.dateTime|date:"Y-m-d H:i" }}</td>
+			<td class="result-ab1">{{ ab1.level|floatformat:2 }}</td>
+			<td class="result-ab1">{{ ab1.temp10|floatformat:2 }}</td>
+			<td class="result-ab1">{{ ab1.temp20|floatformat:2 }}</td>
+			<td class="result-ab1">{{ ab1.temp30|floatformat:2 }}</td>
+			<td class="result-ab2">{{ ab1.level|floatformat:2 }}</td>
+			<td class="result-ab2">{{ ab2.temp10|floatformat:2 }}</td>
+			<td class="result-ab2">{{ ab2.temp20|floatformat:2 }}</td>
+			<td class="result-ab2">{{ ab2.temp30|floatformat:2 }}</td>
+			<td class="result-ib1">{{ ib1.level|floatformat:2 }}</td>
+			<td class="result-ib1">{{ ib1.temp10|floatformat:2 }}</td>
+			<td class="result-ib1">{{ ib1.temp30|floatformat:2 }}</td>
+			<td class="result-ib1">{{ ib1.temp50|floatformat:2 }}</td>
+			<td class="result-ib1">{{ ib1.temp70|floatformat:2 }}</td>
+			<td class="result-ij1">{{ ij1.level|floatformat:2 }}</td>
+			<td class="result-ij1">{{ ij1.temp10|floatformat:2 }}</td>
+			<td class="result-ij1">{{ ij1.temp30|floatformat:2 }}</td>
+			<td class="result-ij1">{{ ij1.temp50|floatformat:2 }}</td>
+			<td class="result-sb1">{{ sb1.level|floatformat:2 }}</td>
+			<td class="result-sb1">{{ sb1.temp10|floatformat:2 }}</td>
+			<td class="result-sb1">{{ sb1.temp15|floatformat:2 }}</td>
+			<td class="result-sb1">{{ sb1.temp20|floatformat:2 }}</td>
+			<td class="result-sb1">{{ sb1.temp25|floatformat:2 }}</td>
+			<td class="result-sb2">{{ sb2.level|floatformat:2 }}</td>
+			<td class="result-sb2">{{ sb2.temp10|floatformat:2 }}</td>
+			<td class="result-sb2">{{ sb2.temp15|floatformat:2 }}</td>
+			<td class="result-sb2">{{ sb2.temp20|floatformat:2 }}</td>
+			<td class="result-sb2">{{ sb2.temp25|floatformat:2 }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<div id="found" style="display:none;">{{ count }}</div>

@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<div class="found" style="display:none;">{{ count }}</div>
+<table class="table table-bordered" style="margin-bottom:0px;">
+		{{ error }}
+		{% for alarm in database_list %}
+		<tr>
+			<td class="result-alarm">{{ alarm.get_classification_display }}</td>
+			<td class="result-alarm">{{ alarm.get_location_display }}</td>
+			<td class="result-alarm">{{ alarm.get_state_display }}</td>
+			<td class="result-datetime">{{ alarm.occurTime|date:"Y-m-d H:i" }}</td>
+			<td class="result-datetime">{{ alarm.closedTime|date:"Y-m-d H:i" }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>

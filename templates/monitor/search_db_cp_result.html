@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<div class="found" style="display:none;">{{ count }}</div>
+<table class="table table-bordered" style="margin-bottom:0px;">
+	<tbody id="query-result">
+		{{ error }}
+		{% for cp1, cp2 in database_list %}
+		<tr>
+			<td class="result-datetime">{{ cp1.dateTime|date:"Y-m-d H:i" }}</td>
+			<td class="result-cp1">{{ cp1.switch }}</td>
+			<td class="result-cp1">{{ cp1.get_opMode_display }}</td>
+			<td class="result-cp1">{{ cp1.flux }}</td>
+			<td class="result-cp1">{{ cp1.Hz }}</td>
+			<td class="result-cp2">{{ cp2.switch }}</td>
+			<td class="result-cp2">{{ cp2.get_opMode_display }}</td>
+			<td class="result-cp2">{{ cp2.flux }}</td>
+			<td class="result-cp2">{{ cp2.Hz }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
