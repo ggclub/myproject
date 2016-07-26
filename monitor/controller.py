@@ -1040,7 +1040,10 @@ def read_data_from_json(rt):
 		# 신규: COP from new RT(from HP)
 		# cop = (rt * 3.49) / 순시전력
 		# ##########################################
-		data["cop_from_hprt"] = rt * 3.49 / data["power"]["currentPowerConsumption"]
+		if (data["power"]["currentPowerConsumption"] != 0):
+			data["cop_from_hprt"] = rt * 3.49 / data["power"]["currentPowerConsumption"]
+		else:
+			data["cop_from_hprt"] = 0
 		##################### end of ver_2016.07.15 #####################
 
 
