@@ -37,6 +37,8 @@ function changePassword() {
 	// });
 }
 
+setTimeout(function () { window.location.reload(); }, 5 * 60 * 1000);
+
 var displayTime = 4000;
 var displayVar = setTimeout(function(){reloadDisplay();}, displayTime);
 function reloadDisplay() {

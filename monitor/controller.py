@@ -1027,15 +1027,21 @@ def read_data_from_json(rt):
 
 		
 		# ##########################################
-		# # ver._2016.07.19
-		# # USB 통신이 불안정 (실내기 <-> pc 통신)
-		# # 중단: RT from 실내기
-		# # 신규: RT from HeatPump
+		# ver._2016.07.19
+		# USB 통신이 불안정 (실내기 <-> pc 통신)
+		# 중단: RT from 실내기
+		# 신규: RT from HeatPump
 		# ##########################################
 		rt = get_rt_from_hp(data["heat_pump"], data["temp_mode"])
 		data["rt"]["RT"] = rt;
 		##################### end of ver_2016.07.15 #####################
-
+		# ##########################################
+		# ver._2016.07.26
+		# 신규: COP from new RT(from HP)
+		# cop = (rt * 3.49) / 순시전력
+		# ##########################################
+		data["cop_from_hprt"] = rt * 3.49 / data["power"]["currentPowerConsumption"]
+		##################### end of ver_2016.07.15 #####################
 
 
 

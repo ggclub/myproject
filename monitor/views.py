@@ -91,7 +91,7 @@ def index(request):
 	while response_data["hmidata_error"] != None:
 		response_data.update(controller.read_data_from_json(rt))
 	# ver._2016.07.19 rt from heatpump
-	response_data["rt_total"] = response_data["rt"]["RT"]
+	# response_data["rt_total"] = response_data["rt"]["RT"]
 	# end ver._2016.07.19
 	
 	response_data.update(csrf(request))
@@ -217,7 +217,7 @@ def reload_display(request):
 	# log.debug(str(response_data["error"]))
 
 	# ver._2016.07.19 rt from heatpump
-	response_data["rt_total"] = response_data["rt"]["RT"]
+	# response_data["rt_total"] = response_data["rt"]["RT"]
 	# end ver._2016.07.19
 	
 	# 데이터베이스 저장
