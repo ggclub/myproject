@@ -885,65 +885,276 @@ def read_data_from_json(rt):
 		# #
 		# #
 		# #
-		# ##################### end of ver_2015.09.22 #####################		
+		###################### end of ver_2015.09.22 #####################		
 
 
-		#################### ver 1.1
-		#################### 히트펌프에 따른 인버터(순환펌프) 출력 제어
-		flux_need = 0
+		# #################### ver 1.1 (original)
+		# #################### 히트펌프에 따른 인버터(순환펌프) 출력 제어
+		# flux_need = 0
+		# if data["heat_pump"][0]["switch"] == "ON":
+		# 	flux_need = flux_need + 178
+		# 	data["CP"][cp_operating]["switch"] = "ON"
+		# if data["heat_pump"][1]["switch"] == "ON":
+		# 	flux_need = flux_need + 192
+		# 	data["CP"][cp_operating]["switch"] = "ON"
+		# if data["heat_pump"][2]["switch"] == "ON":
+		# 	flux_need = flux_need + 178
+		# 	data["CP"][cp_operating]["switch"] = "ON"
+		# if data["heat_pump"][3]["switch"] == "ON":
+		# 	flux_need = flux_need + 96
+		# 	data["CP"][cp_operating]["switch"] = "ON"
+		# if data["heat_pump"][4]["switch"] == "ON":
+		# 	flux_need = flux_need + 192
+		# 	data["CP"][cp_operating]["switch"] = "ON"
+		# if data["heat_pump"][5]["switch"] == "ON":
+		# 	flux_need = flux_need + 96
+		# 	data["CP"][cp_operating]["switch"] = "ON"
+
+		# ##### CALCULATE FLUX_NEED
+		# # 필요 유량
+		# flux_need = int(flux_need + flux_need*0.1)
+
+		# # 최소유량
+		# if flux_need != 0 and data["CP"][cp_operating]["flux"] <= 1000:
+		# 	# 임시.. 최대로(테스트용)
+		# 	flux_need = 1000
+		# 	hz_need = 60
+
+		# hz_need = int((flux_need/16.67))+1
+		# if hz_need == 1 and flux_need == 0:
+		# 	hz_need = 0
+		# 	flux_need = 0
+
+		# if data["CP"][cp_operating]["flux"] > 1000:
+		# 	hz_need = 60
+
+		# if hz_need > 60:
+		# 	hz_need = 60
+		# ##### END OF CALCULATE FLUX_NEED
+
+		# ##### CP CONTROL
+		# if int(data["CP"][cp_operating]["flux"]) != int(flux_need):
+		# 	if flux_need == 0:
+		# 		# 히트펌프 모두 꺼져있는 경우 순환펌프 OFF
+		# 		if data["CP"][cp_operating]["switch"] != "OFF":
+		# 			data["CP"][cp_operating]["switch"] = "OFF"
+		# 			data["CP"][cp_operating]["Hz"] = 0
+		# 			data["CP"][cp_operating]["flux"] = 0
+		# 			if cp_operating == 0:
+		# 				# 순환 펌프 1번
+		# 				cmd = read_cmd()
+		# 				cmd.update({"datetime":now,"cp1":"OFF","cp1_hz":0,"cp1_flux":0})
+		# 				write_cmd(cmd)
+		# 			else:
+		# 				# 순환 펌프 2번
+		# 				cmd = read_cmd()
+		# 				cmd.update({"datetime":now,"cp2":"OFF","cp2_hz":0,"cp2_flux":0})
+		# 				write_cmd(cmd)
+
+		# 	else: # flux_need > 0 히트펌프 켜져있는 경우 순환펌프 Hz 조절
+		# 		if int(data["CP"][cp_operating]["Hz"]) != int(hz_need):
+		# 			data["CP"][cp_operating]["switch"] = "ON"
+		# 			data["CP"][cp_operating]["Hz"] = hz_need
+		# 			data["CP"][cp_operating]["flux"] = flux_need
+		# 			if cp_operating == 0:
+		# 				# 순환 펌프 1번
+		# 				cmd = read_cmd()
+		# 				cmd.update({"datetime":now,"cp1":"ON","cp1_hz":hz_need,"cp1_flux":flux_need})
+		# 				write_cmd(cmd)
+		# 			else:
+		# 				# 순환 펌프 2번
+		# 				cmd = read_cmd()
+		# 				cmd.update({"datetime":now,"cp2":"ON","cp2_hz":hz_need,"cp2_flux":flux_need})
+		# 				write_cmd(cmd)
+		# ##### END OF CP CONTROL
+		# ###################### end of ver_1.1 (CLOSED) #####################
+
+
+
+		############################################
+		# ver._2016.08.06
+		# 신규: 히트펌프에 따른 순환펌프 제어
+		# (실내기 무시)
+		# 히트펌프 조합별 세부 동작 제어
+		############################################
+
+		###### PREPROCESS FOR CALCULATING FLUX_NEED
 		if data["heat_pump"][0]["switch"] == "ON":
-			flux_need = flux_need + 178
-			data["CP"][cp_operating]["switch"] = "ON"
+			hp1 = True
+		else:
+			hp1 = False
 		if data["heat_pump"][1]["switch"] == "ON":
-			flux_need = flux_need + 192
-			data["CP"][cp_operating]["switch"] = "ON"
+			hp2 = True
+		else:
+			hp2 = False
 		if data["heat_pump"][2]["switch"] == "ON":
-			flux_need = flux_need + 178
-			data["CP"][cp_operating]["switch"] = "ON"
+			hp3 = True
+		else:
+			hp3 = False
 		if data["heat_pump"][3]["switch"] == "ON":
-			flux_need = flux_need + 96
-			data["CP"][cp_operating]["switch"] = "ON"
+			hp4 = True
+		else:
+			hp4 = False
 		if data["heat_pump"][4]["switch"] == "ON":
-			flux_need = flux_need + 192
-			data["CP"][cp_operating]["switch"] = "ON"
+			hp5 = True
+		else:
+			hp5 = False
 		if data["heat_pump"][5]["switch"] == "ON":
-			flux_need = flux_need + 96
-			data["CP"][cp_operating]["switch"] = "ON"
+			hp6 = True
+		else:
+			hp6 = False
+		
+		###### CALCULATE FLUX_NEED ######
+		hz_need = 0; flux_need = 0;
+		if \
+		(hp1 and not hp2 and not hp3 and not hp4 and not hp5 and not hp6) or \
+		(not hp1 and hp2 and not hp3 and not hp4 and not hp5 and not hp6):
+		# 1 or 2
+			hz_need = 20; flux_need = 110;
+		elif \
+		(not hp1 and not hp2 and hp3 and not hp4 and not hp5 and not hp6) or \
+		(not hp1 and not hp2 and not hp3 and hp4 and not hp5 and not hp6):
+		# 3 or 4 
+			hz_need = 45; flux_need = 205;
+		elif \
+		(not hp1 and not hp2 and not hp3 and not hp4 and hp5 and not hp6) or \
+		(not hp1 and not hp2 and not hp3 and not hp4 and not hp5 and hp6):
+		# 5 or 6
+			hz_need = 45; flux_need = 221;
+		elif \
+		(hp1 and hp2 and not hp3 and not hp4 and not hp5 and not hp6):		
+		# 1 and 2
+			hz_need = 27; flux_need = 221;
+		elif \
+		(hp1 and not hp2 and hp3 and not hp4 and not hp5 and not hp6) or \
+		(hp1 and not hp2 and not hp3 and hp4 and not hp5 and not hp6) or \
+		(not hp1 and hp2 and hp3 and not hp4 and not hp5 and not hp6) or \
+		(not hp1 and hp2 and not hp3 and hp4 and not hp5 and not hp6):
+		# 1 or 2 and 3 or 4
+			hz_need = 37; flux_need = 315;
+		elif \
+		(hp1 and not hp2 and not hp3 and not hp4 and hp5 and not hp6) or \
+		(hp1 and not hp2 and not hp3 and not hp4 and not hp5 and hp6) or \
+		(not hp1 and hp2 and not hp3 and not hp4 and hp5 and not hp6) or \
+		(not hp1 and hp2 and not hp3 and not hp4 and not hp5 and hp6):
+		# 1 or 2 and 5 or 6
+			hz_need = 41; flux_need = 331;
+		elif \
+		(not hp1 and not hp2 and hp3 and hp4 and not hp5 and not hp6):
+		# 3 and 4
+			hz_need = 50; flux_need = 409;
+		elif \
+		(not hp1 and not hp2 and hp3 and not hp4 and hp5 and not hp6) or \
+		(not hp1 and not hp2 and hp3 and not hp4 and not hp5 and hp6) or \
+		(not hp1 and not hp2 and not hp3 and hp4 and hp5 and not hp6) or \
+		(not hp1 and not hp2 and not hp3 and hp4 and not hp5 and hp6):
+		# 3 or 4 and 5 or 6
+			hz_need = 53; flux_need = 426;
+		elif \
+		(not hp1 and not hp2 and not hp3 and not hp4 and hp5 and hp6):
+		# 5 and 6
+			hz_need = 57; flux_need = 442;
+		elif \
+		(hp1 and hp2 and hp3 and not hp4 and not hp5 and not hp6) or \
+		(hp1 and hp2 and not hp3 and hp4 and not hp5 and not hp6):
+		# 1 and 2 and 3 or 4
+			hz_need = 47; flux_need = 426;
+		elif \
+		(hp1 and hp2 and not hp3 and not hp4 and hp5 and not hp6) or \
+		(hp1 and hp2 and not hp3 and not hp4 and not hp5 and hp6):
+		# 1 and 2 and 5 or 6
+			hz_need = 50; flux_need = 442;
+		elif \
+		(hp1 and not hp2 and hp3 and hp4 and not hp5 and not hp6) or \
+		(not hp1 and hp2 and hp3 and hp4 and not hp5 and not hp6):
+		# 1 or 2 and 3 and 4
+			hz_need = 52; flux_need = 520;
+		elif \
+		(hp1 and not hp2 and hp3 and not hp4 and hp5 and not hp6) or \
+		(hp1 and not hp2 and hp3 and not hp4 and not hp5 and hp6) or \
+		(hp1 and not hp2 and not hp3 and hp4 and hp5 and not hp6) or \
+		(hp1 and not hp2 and not hp3 and hp4 and not hp5 and hp6) or \
+		(not hp1 and hp2 and hp3 and not hp4 and hp5 and not hp6) or \
+		(not hp1 and hp2 and hp3 and not hp4 and not hp5 and hp6) or \
+		(not hp1 and hp2 and not hp3 and hp4 and hp5 and not hp6) or \
+		(not hp1 and hp2 and not hp3 and hp4 and not hp5 and hp6):
+		# 1 or 2 and 3 or 4 and 5 or 6
+			hz_need = 53; flux_need = 536;
+		elif \
+		(hp1 and not hp2 and not hp3 and not hp4 and hp5 and hp6) or \
+		(not hp1 and hp2 and not hp3 and not hp4 and hp5 and hp6):
+		# 1 or 2 and 5 and 6
+			hz_need = 54; flux_need = 552;
+		elif \
+		(not hp1 and not hp2 and hp3 and hp4 and hp5 and not hp6) or \
+		(not hp1 and not hp2 and hp3 and hp4 and not hp5 and hp6):
+		# 3 and 4 and 5 or 6
+			hz_need = 57; flux_need = 630;
+		elif \
+		(not hp1 and not hp2 and hp3 and not hp4 and hp5 and hp6) or \
+		(not hp1 and not hp2 and not hp3 and hp4 and hp5 and hp6):
+		# 3 or 4 and 5 and 6
+			hz_need = 60; flux_need = 646;
+		elif \
+		(hp1 and hp2 and hp3 and hp4 and not hp5 and not hp6):
+		# 1 and 2 and 3 and 4
+			hz_need = 49; flux_need = 630;
+		elif \
+		(hp1 and hp2 and hp3 and not hp4 and hp5 and not hp6) or \
+		(hp1 and hp2 and hp3 and not hp4 and not hp5 and hp6) or \
+		(hp1 and hp2 and not hp3 and hp4 and hp5 and not hp6) or \
+		(hp1 and hp2 and not hp3 and hp4 and not hp5 and hp6):
+		# 1 and 2 and 3 or 4 and 5 or 6
+			hz_need = 50; flux_need = 646;
+		elif \
+		(hp1 and hp2 and not hp3 and not hp4 and hp5 and hp6):
+		# 1 and 2 and 5 and 6
+			hz_need = 51; flux_need = 662;
+		elif \
+		(hp1 and not hp2 and hp3 and hp4 and hp5 and not hp6) or \
+		(hp1 and not hp2 and hp3 and hp4 and not hp5 and hp6) or \
+		(not hp1 and hp2 and hp3 and hp4 and hp5 and not hp6) or \
+		(not hp1 and hp2 and hp3 and hp4 and not hp5 and hp6):
+		# 1 or 2 and 3 and 4 and 5 or 6
+			hz_need = 54; flux_need = 741;
+		elif \
+		(hp1 and not hp2 and hp3 and not hp4 and hp5 and hp6) or \
+		(hp1 and not hp2 and not hp3 and hp4 and hp5 and hp6) or \
+		(not hp1 and hp2 and hp3 and not hp4 and hp5 and hp6) or \
+		(not hp1 and hp2 and not hp3 and hp4 and hp5 and hp6):
+		# 1 or 2 and 3 or 4 and 5 and 6
+			hz_need = 55; flux_need = 757;
+		elif \
+		(not hp1 and not hp2 and hp3 and hp4 and hp5 and hp6):
+		# 3 and 4 and 5 and 6
+			hz_need = 60; flux_need = 851;
+		elif \
+		(hp1 and hp2 and hp3 and hp4 and hp5 and not hp6) or \
+		(hp1 and hp2 and hp3 and hp4 and not hp5 and hp6):
+		# 1 and 2 and 3 and 4 and 5 or 6
+			hz_need = 54; flux_need = 851;
+		elif \
+		(hp1 and hp2 and hp3 and not hp4 and hp5 and hp6) or \
+		(hp1 and hp2 and not hp3 and hp4 and hp5 and hp6):
+		# 1 and 2 and 3 or 4 and 5 and 6
+			hz_need = 55; flux_need = 867;
+		elif \
+		(hp1 and not hp2 and hp3 and hp4 and hp5 and hp6) or \
+		(not hp1 and hp2 and hp3 and hp4 and hp5 and hp6):
+		# 1 or 2 and 3 and 4 and 5 and 6
+			hz_need = 60; flux_need = 961;
+		elif \
+		(hp1 and hp2 and hp3 and hp4 and hp5 and hp6):
+		# 1 and 2 and 3 and 4 and 5 and 6
+			hz_need = 60; flux_need = 1072;
+		else:
+		# all off
+			hz_need = 0; flux_need = 0;
+		###### END OF CALCULATE FLUX_NEED ######
 
-		# 필요 유량
-		flux_need = int(flux_need + flux_need*0.1)
-		# log.debug("flux_need_complement: " + str(flux_need));
-
-		# 최소유량
-		if flux_need != 0 and data["CP"][cp_operating]["flux"] <= 1000:
-			# flux_need = int(30*16.67)
-			# 임시.. 최대로(테스트용)
-			flux_need = 1000
-			hz_need = 60
-
-		hz_need = int((flux_need/16.67))+1
-		if hz_need == 1 and flux_need == 0:
-			hz_need = 0
-			flux_need = 0
-
-		# log.debug("hz_need: " + str(hz_need));
-		if data["CP"][cp_operating]["flux"] > 1000:
-			hz_need = 60
-
-		if hz_need > 60:
-			# log.debug("if hz_need > 60: " + str(hz_need) + ", make it to 60.")
-			hz_need = 60
-
-		# log.debug("flux_need: " + str(int(flux_need)));
-		# log.debug("hz_need finalllllllllllllll: " + str(hz_need));
-		# log.debug("data[cp][Hz]: " + str(data["circulating_pump"]["Hz"]));
-		# log.debug("rt: " + str(rt))
-
-
-		# log.debug("flux_need: " + str(int(flux_need)) + ", hmi flux: " + str(data["CP"][cp_operating]["flux"]));
-		# log.debug(int(data["CP"][cp_operating]["flux"]) != int(flux_need))
-		if int(data["CP"][cp_operating]["flux"]) != int(flux_need):
-			if flux_need == 0:
+		##### CP CONTROL
+		if int(data["CP"][cp_operating]["Hz"]) != hz_need:
+			if hz_need == 0:
 				# 히트펌프 모두 꺼져있는 경우 순환펌프 OFF
 				if data["CP"][cp_operating]["switch"] != "OFF":
 					data["CP"][cp_operating]["switch"] = "OFF"
@@ -954,30 +1165,14 @@ def read_data_from_json(rt):
 						cmd = read_cmd()
 						cmd.update({"datetime":now,"cp1":"OFF","cp1_hz":0,"cp1_flux":0})
 						write_cmd(cmd)
-						# cp = CirculatingPump1Logger(
-						# 	dateTime=datetime, 
-						# 	CPID=cp_operating+1, 
-						# 	opMode=data['op_mode'], 
-						# 	switch="OFF", 
-						# 	Hz=0, 
-						# 	flux=0
-						# 	).save()
 					else:
 						# 순환 펌프 2번
 						cmd = read_cmd()
 						cmd.update({"datetime":now,"cp2":"OFF","cp2_hz":0,"cp2_flux":0})
 						write_cmd(cmd)
-						# cp = CirculatingPump2Logger(
-						# 	dateTime=datetime, 
-						# 	CPID=cp_operating+1, 
-						# 	opMode=data['op_mode'], 
-						# 	switch="OFF", 
-						# 	Hz=0, 
-						# 	flux=0
-						# 	).save()
 
-			else: # flux_need > 0 히트펌프 켜져있는 경우 순환펌프 Hz 조절
-				if int(data["CP"][cp_operating]["Hz"]) != int(hz_need):
+			else: # hz_need > 0 and 히트펌프 켜져있는 경우 순환펌프 Hz 조절
+				if int(data["CP"][cp_operating]["Hz"]) != hz_need:
 					data["CP"][cp_operating]["switch"] = "ON"
 					data["CP"][cp_operating]["Hz"] = hz_need
 					data["CP"][cp_operating]["flux"] = flux_need
@@ -991,6 +1186,14 @@ def read_data_from_json(rt):
 						cmd = read_cmd()
 						cmd.update({"datetime":now,"cp2":"ON","cp2_hz":hz_need,"cp2_flux":flux_need})
 						write_cmd(cmd)
+		##### END OF CP CONTROL
+
+
+
+
+
+
+		###################### end of ver_2015.08.06 #####################
 
 
 
@@ -1026,12 +1229,12 @@ def read_data_from_json(rt):
 
 
 		
-		# ##########################################
+		############################################
 		# ver._2016.07.19
 		# USB 통신이 불안정 (실내기 <-> pc 통신)
 		# 중단: RT from 실내기
 		# 신규: RT from HeatPump
-		# ##########################################
+		############################################
 		rt = get_rt_from_hp(data["heat_pump"], data["temp_mode"])
 		data["rt"]["RT"] = rt;
 		##################### end of ver_2016.07.15 #####################
