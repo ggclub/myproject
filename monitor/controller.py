@@ -1003,154 +1003,181 @@ def read_data_from_json(rt):
 			hp6 = True
 		else:
 			hp6 = False
-		
-		###### CALCULATE FLUX_NEED ######
-		hz_need = 0; flux_need = 0;
-		if \
-		(hp1 and not hp2 and not hp3 and not hp4 and not hp5 and not hp6) or \
-		(not hp1 and hp2 and not hp3 and not hp4 and not hp5 and not hp6):
-		# 1 or 2
-			hz_need = 20; flux_need = 110;
-		elif \
-		(not hp1 and not hp2 and hp3 and not hp4 and not hp5 and not hp6) or \
-		(not hp1 and not hp2 and not hp3 and hp4 and not hp5 and not hp6):
-		# 3 or 4 
-			hz_need = 45; flux_need = 205;
-		elif \
-		(not hp1 and not hp2 and not hp3 and not hp4 and hp5 and not hp6) or \
-		(not hp1 and not hp2 and not hp3 and not hp4 and not hp5 and hp6):
-		# 5 or 6
-			hz_need = 45; flux_need = 221;
-		elif \
-		(hp1 and hp2 and not hp3 and not hp4 and not hp5 and not hp6):		
-		# 1 and 2
-			hz_need = 27; flux_need = 221;
-		elif \
-		(hp1 and not hp2 and hp3 and not hp4 and not hp5 and not hp6) or \
-		(hp1 and not hp2 and not hp3 and hp4 and not hp5 and not hp6) or \
-		(not hp1 and hp2 and hp3 and not hp4 and not hp5 and not hp6) or \
-		(not hp1 and hp2 and not hp3 and hp4 and not hp5 and not hp6):
-		# 1 or 2 and 3 or 4
-			hz_need = 37; flux_need = 315;
-		elif \
-		(hp1 and not hp2 and not hp3 and not hp4 and hp5 and not hp6) or \
-		(hp1 and not hp2 and not hp3 and not hp4 and not hp5 and hp6) or \
-		(not hp1 and hp2 and not hp3 and not hp4 and hp5 and not hp6) or \
-		(not hp1 and hp2 and not hp3 and not hp4 and not hp5 and hp6):
-		# 1 or 2 and 5 or 6
-			hz_need = 41; flux_need = 331;
-		elif \
-		(not hp1 and not hp2 and hp3 and hp4 and not hp5 and not hp6):
-		# 3 and 4
-			hz_need = 50; flux_need = 409;
-		elif \
-		(not hp1 and not hp2 and hp3 and not hp4 and hp5 and not hp6) or \
-		(not hp1 and not hp2 and hp3 and not hp4 and not hp5 and hp6) or \
-		(not hp1 and not hp2 and not hp3 and hp4 and hp5 and not hp6) or \
-		(not hp1 and not hp2 and not hp3 and hp4 and not hp5 and hp6):
-		# 3 or 4 and 5 or 6
-			hz_need = 53; flux_need = 426;
-		elif \
-		(not hp1 and not hp2 and not hp3 and not hp4 and hp5 and hp6):
-		# 5 and 6
-			hz_need = 57; flux_need = 442;
-		elif \
-		(hp1 and hp2 and hp3 and not hp4 and not hp5 and not hp6) or \
-		(hp1 and hp2 and not hp3 and hp4 and not hp5 and not hp6):
-		# 1 and 2 and 3 or 4
-			hz_need = 47; flux_need = 426;
-		elif \
-		(hp1 and hp2 and not hp3 and not hp4 and hp5 and not hp6) or \
-		(hp1 and hp2 and not hp3 and not hp4 and not hp5 and hp6):
-		# 1 and 2 and 5 or 6
-			hz_need = 50; flux_need = 442;
-		elif \
-		(hp1 and not hp2 and hp3 and hp4 and not hp5 and not hp6) or \
-		(not hp1 and hp2 and hp3 and hp4 and not hp5 and not hp6):
-		# 1 or 2 and 3 and 4
-			hz_need = 52; flux_need = 520;
-		elif \
-		(hp1 and not hp2 and hp3 and not hp4 and hp5 and not hp6) or \
-		(hp1 and not hp2 and hp3 and not hp4 and not hp5 and hp6) or \
-		(hp1 and not hp2 and not hp3 and hp4 and hp5 and not hp6) or \
-		(hp1 and not hp2 and not hp3 and hp4 and not hp5 and hp6) or \
-		(not hp1 and hp2 and hp3 and not hp4 and hp5 and not hp6) or \
-		(not hp1 and hp2 and hp3 and not hp4 and not hp5 and hp6) or \
-		(not hp1 and hp2 and not hp3 and hp4 and hp5 and not hp6) or \
-		(not hp1 and hp2 and not hp3 and hp4 and not hp5 and hp6):
-		# 1 or 2 and 3 or 4 and 5 or 6
-			hz_need = 53; flux_need = 536;
-		elif \
-		(hp1 and not hp2 and not hp3 and not hp4 and hp5 and hp6) or \
-		(not hp1 and hp2 and not hp3 and not hp4 and hp5 and hp6):
-		# 1 or 2 and 5 and 6
-			hz_need = 54; flux_need = 552;
-		elif \
-		(not hp1 and not hp2 and hp3 and hp4 and hp5 and not hp6) or \
-		(not hp1 and not hp2 and hp3 and hp4 and not hp5 and hp6):
-		# 3 and 4 and 5 or 6
-			hz_need = 57; flux_need = 630;
-		elif \
-		(not hp1 and not hp2 and hp3 and not hp4 and hp5 and hp6) or \
-		(not hp1 and not hp2 and not hp3 and hp4 and hp5 and hp6):
-		# 3 or 4 and 5 and 6
-			hz_need = 60; flux_need = 646;
-		elif \
-		(hp1 and hp2 and hp3 and hp4 and not hp5 and not hp6):
-		# 1 and 2 and 3 and 4
-			hz_need = 49; flux_need = 630;
-		elif \
-		(hp1 and hp2 and hp3 and not hp4 and hp5 and not hp6) or \
-		(hp1 and hp2 and hp3 and not hp4 and not hp5 and hp6) or \
-		(hp1 and hp2 and not hp3 and hp4 and hp5 and not hp6) or \
-		(hp1 and hp2 and not hp3 and hp4 and not hp5 and hp6):
-		# 1 and 2 and 3 or 4 and 5 or 6
-			hz_need = 50; flux_need = 646;
-		elif \
-		(hp1 and hp2 and not hp3 and not hp4 and hp5 and hp6):
-		# 1 and 2 and 5 and 6
-			hz_need = 51; flux_need = 662;
-		elif \
-		(hp1 and not hp2 and hp3 and hp4 and hp5 and not hp6) or \
-		(hp1 and not hp2 and hp3 and hp4 and not hp5 and hp6) or \
-		(not hp1 and hp2 and hp3 and hp4 and hp5 and not hp6) or \
-		(not hp1 and hp2 and hp3 and hp4 and not hp5 and hp6):
-		# 1 or 2 and 3 and 4 and 5 or 6
-			hz_need = 54; flux_need = 741;
-		elif \
-		(hp1 and not hp2 and hp3 and not hp4 and hp5 and hp6) or \
-		(hp1 and not hp2 and not hp3 and hp4 and hp5 and hp6) or \
-		(not hp1 and hp2 and hp3 and not hp4 and hp5 and hp6) or \
-		(not hp1 and hp2 and not hp3 and hp4 and hp5 and hp6):
-		# 1 or 2 and 3 or 4 and 5 and 6
-			hz_need = 55; flux_need = 757;
-		elif \
-		(not hp1 and not hp2 and hp3 and hp4 and hp5 and hp6):
-		# 3 and 4 and 5 and 6
-			hz_need = 60; flux_need = 851;
-		elif \
-		(hp1 and hp2 and hp3 and hp4 and hp5 and not hp6) or \
-		(hp1 and hp2 and hp3 and hp4 and not hp5 and hp6):
-		# 1 and 2 and 3 and 4 and 5 or 6
-			hz_need = 54; flux_need = 851;
-		elif \
-		(hp1 and hp2 and hp3 and not hp4 and hp5 and hp6) or \
-		(hp1 and hp2 and not hp3 and hp4 and hp5 and hp6):
-		# 1 and 2 and 3 or 4 and 5 and 6
-			hz_need = 55; flux_need = 867;
-		elif \
-		(hp1 and not hp2 and hp3 and hp4 and hp5 and hp6) or \
-		(not hp1 and hp2 and hp3 and hp4 and hp5 and hp6):
-		# 1 or 2 and 3 and 4 and 5 and 6
-			hz_need = 60; flux_need = 961;
-		elif \
-		(hp1 and hp2 and hp3 and hp4 and hp5 and hp6):
-		# 1 and 2 and 3 and 4 and 5 and 6
-			hz_need = 60; flux_need = 1072;
-		else:
-		# all off
-			hz_need = 0; flux_need = 0;
-		###### END OF CALCULATE FLUX_NEED ######
+
+		###### 20160926 read cp config ######
+		from myproject.settings import BASE_DIR
+		with open(BASE_DIR + "/config.txt", "r") as f:
+			lines = f.readlines()
+		for line in lines:
+			if line == '\n': continue
+			sp = line.split(' ')
+			if len(sp) < 6: continue
+			for i in range(6):
+				if sp[i] == 'T':
+					sp[i]= True
+				else: sp[i] = False
+			if hp1 == sp[0] and hp2 == sp[1] and hp3 == sp[2] \
+				and hp4 == sp[3] and hp5 == sp[4] and hp6 == sp[5]:
+				hz_need = int(sp[6])
+				flux_need = int(sp[7])
+				break
+		###### END OF 20160926 ######
+
+        #
+		# ###### CALCULATE FLUX_NEED ######
+		# hz_need = 0; flux_need = 0;
+		# if \
+		# (hp1 and not hp2 and not hp3 and not hp4 and not hp5 and not hp6) or \
+		# (not hp1 and hp2 and not hp3 and not hp4 and not hp5 and not hp6):
+		# # 1 or 2
+		# 	hz_need = 20; flux_need = 110;
+		# elif \
+		# (not hp1 and not hp2 and hp3 and not hp4 and not hp5 and not hp6) or \
+		# (not hp1 and not hp2 and not hp3 and hp4 and not hp5 and not hp6):
+		# # 3 or 4
+		# 	hz_need = 45; flux_need = 205;
+		# elif \
+		# (not hp1 and not hp2 and not hp3 and not hp4 and hp5 and not hp6) or \
+		# (not hp1 and not hp2 and not hp3 and not hp4 and not hp5 and hp6):
+		# # 5 or 6
+		# 	hz_need = 45; flux_need = 221;
+		# elif \
+		# (hp1 and hp2 and not hp3 and not hp4 and not hp5 and not hp6):
+		# # 1 and 2
+		# 	hz_need = 27; flux_need = 221;
+		# elif \
+		# (hp1 and not hp2 and hp3 and not hp4 and not hp5 and not hp6) or \
+		# (hp1 and not hp2 and not hp3 and hp4 and not hp5 and not hp6) or \
+		# (not hp1 and hp2 and hp3 and not hp4 and not hp5 and not hp6) or \
+		# (not hp1 and hp2 and not hp3 and hp4 and not hp5 and not hp6):
+		# # 1 or 2 and 3 or 4
+		# 	hz_need = 37; flux_need = 315;
+		# elif \
+		# (hp1 and not hp2 and not hp3 and not hp4 and hp5 and not hp6) or \
+		# (hp1 and not hp2 and not hp3 and not hp4 and not hp5 and hp6) or \
+		# (not hp1 and hp2 and not hp3 and not hp4 and hp5 and not hp6) or \
+		# (not hp1 and hp2 and not hp3 and not hp4 and not hp5 and hp6):
+		# # 1 or 2 and 5 or 6
+		# 	hz_need = 41; flux_need = 331;
+		# elif \
+		# (not hp1 and not hp2 and hp3 and hp4 and not hp5 and not hp6):
+		# # 3 and 4
+		# 	hz_need = 50; flux_need = 409;
+		# elif \
+		# (not hp1 and not hp2 and hp3 and not hp4 and hp5 and not hp6) or \
+		# (not hp1 and not hp2 and hp3 and not hp4 and not hp5 and hp6) or \
+		# (not hp1 and not hp2 and not hp3 and hp4 and hp5 and not hp6) or \
+		# (not hp1 and not hp2 and not hp3 and hp4 and not hp5 and hp6):
+		# # 3 or 4 and 5 or 6
+		# 	hz_need = 53; flux_need = 426;
+		# elif \
+		# (not hp1 and not hp2 and not hp3 and not hp4 and hp5 and hp6):
+		# # 5 and 6
+		# 	hz_need = 57; flux_need = 442;
+		# elif \
+		# (hp1 and hp2 and hp3 and not hp4 and not hp5 and not hp6) or \
+		# (hp1 and hp2 and not hp3 and hp4 and not hp5 and not hp6):
+		# # 1 and 2 and 3 or 4
+		# 	hz_need = 47; flux_need = 426;
+		# elif \
+		# (hp1 and hp2 and not hp3 and not hp4 and hp5 and not hp6) or \
+		# (hp1 and hp2 and not hp3 and not hp4 and not hp5 and hp6):
+		# # 1 and 2 and 5 or 6
+		# 	hz_need = 50; flux_need = 442;
+		# elif \
+		# (hp1 and not hp2 and hp3 and hp4 and not hp5 and not hp6) or \
+		# (not hp1 and hp2 and hp3 and hp4 and not hp5 and not hp6):
+		# # 1 or 2 and 3 and 4
+		# 	hz_need = 52; flux_need = 520;
+		# elif \
+		# (hp1 and not hp2 and hp3 and not hp4 and hp5 and not hp6) or \
+		# (hp1 and not hp2 and hp3 and not hp4 and not hp5 and hp6) or \
+		# (hp1 and not hp2 and not hp3 and hp4 and hp5 and not hp6) or \
+		# (hp1 and not hp2 and not hp3 and hp4 and not hp5 and hp6) or \
+		# (not hp1 and hp2 and hp3 and not hp4 and hp5 and not hp6) or \
+		# (not hp1 and hp2 and hp3 and not hp4 and not hp5 and hp6) or \
+		# (not hp1 and hp2 and not hp3 and hp4 and hp5 and not hp6) or \
+		# (not hp1 and hp2 and not hp3 and hp4 and not hp5 and hp6):
+		# # 1 or 2 and 3 or 4 and 5 or 6
+		# 	hz_need = 53; flux_need = 536;
+		# elif \
+		# (hp1 and not hp2 and not hp3 and not hp4 and hp5 and hp6) or \
+		# (not hp1 and hp2 and not hp3 and not hp4 and hp5 and hp6):
+		# # 1 or 2 and 5 and 6
+		# 	hz_need = 54; flux_need = 552;
+		# elif \
+		# (not hp1 and not hp2 and hp3 and hp4 and hp5 and not hp6) or \
+		# (not hp1 and not hp2 and hp3 and hp4 and not hp5 and hp6):
+		# # 3 and 4 and 5 or 6
+		# 	hz_need = 57; flux_need = 630;
+		# elif \
+		# (not hp1 and not hp2 and hp3 and not hp4 and hp5 and hp6) or \
+		# (not hp1 and not hp2 and not hp3 and hp4 and hp5 and hp6):
+		# # 3 or 4 and 5 and 6
+		# 	hz_need = 60; flux_need = 646;
+		# elif \
+		# (hp1 and hp2 and hp3 and hp4 and not hp5 and not hp6):
+		# # 1 and 2 and 3 and 4
+		# 	hz_need = 49; flux_need = 630;
+		# elif \
+		# (hp1 and hp2 and hp3 and not hp4 and hp5 and not hp6) or \
+		# (hp1 and hp2 and hp3 and not hp4 and not hp5 and hp6) or \
+		# (hp1 and hp2 and not hp3 and hp4 and hp5 and not hp6) or \
+		# (hp1 and hp2 and not hp3 and hp4 and not hp5 and hp6):
+		# # 1 and 2 and 3 or 4 and 5 or 6
+		# 	hz_need = 50; flux_need = 646;
+		# elif \
+		# (hp1 and hp2 and not hp3 and not hp4 and hp5 and hp6):
+		# # 1 and 2 and 5 and 6
+		# 	hz_need = 51; flux_need = 662;
+		# elif \
+		# (hp1 and not hp2 and hp3 and hp4 and hp5 and not hp6) or \
+		# (hp1 and not hp2 and hp3 and hp4 and not hp5 and hp6) or \
+		# (not hp1 and hp2 and hp3 and hp4 and hp5 and not hp6) or \
+		# (not hp1 and hp2 and hp3 and hp4 and not hp5 and hp6):
+		# # 1 or 2 and 3 and 4 and 5 or 6
+		# 	hz_need = 54; flux_need = 741;
+		# elif \
+		# (hp1 and not hp2 and hp3 and not hp4 and hp5 and hp6) or \
+		# (hp1 and not hp2 and not hp3 and hp4 and hp5 and hp6) or \
+		# (not hp1 and hp2 and hp3 and not hp4 and hp5 and hp6) or \
+		# (not hp1 and hp2 and not hp3 and hp4 and hp5 and hp6):
+		# # 1 or 2 and 3 or 4 and 5 and 6
+		# 	hz_need = 55; flux_need = 757;
+		# elif \
+		# (not hp1 and not hp2 and hp3 and hp4 and hp5 and hp6):
+		# # 3 and 4 and 5 and 6
+		# 	hz_need = 60; flux_need = 851;
+		# elif \
+		# (hp1 and hp2 and hp3 and hp4 and hp5 and not hp6) or \
+		# (hp1 and hp2 and hp3 and hp4 and not hp5 and hp6):
+		# # 1 and 2 and 3 and 4 and 5 or 6
+		# 	hz_need = 54; flux_need = 851;
+		# elif \
+		# (hp1 and hp2 and hp3 and not hp4 and hp5 and hp6) or \
+		# (hp1 and hp2 and not hp3 and hp4 and hp5 and hp6):
+		# # 1 and 2 and 3 or 4 and 5 and 6
+		# 	hz_need = 55; flux_need = 867;
+		# elif \
+		# (hp1 and not hp2 and hp3 and hp4 and hp5 and hp6) or \
+		# (not hp1 and hp2 and hp3 and hp4 and hp5 and hp6):
+		# # 1 or 2 and 3 and 4 and 5 and 6
+		# 	hz_need = 60; flux_need = 961;
+		# elif \
+		# (hp1 and hp2 and hp3 and hp4 and hp5 and hp6):
+		# # 1 and 2 and 3 and 4 and 5 and 6
+		# 	hz_need = 60; flux_need = 1072;
+		# else:
+		# # all off
+		# 	hz_need = 0; flux_need = 0;
+		# ###### END OF CALCULATE FLUX_NEED ######
+
+		############################################
+		# ver._2016.09.09
+		# 순환펌프 Hz 부족, 히트펌프 유량 부족 에러
+		# min hz >= 45
+		############################################
+		# if hz_need != 0 and hz_need < 45: hz_need = 45
 
 		##### CP CONTROL
 		if int(data["CP"][cp_operating]["Hz"]) != hz_need:
@@ -1531,12 +1558,12 @@ def apply_rt_to_dwp(data, rt):
 			data["DWP"][2]["switch"] = "OFF"
 			data["DWP"][3]["switch"] = "OFF"
 		elif rt <= 45:
-			data["DWP"][0]["switch"] = "OFF"
-			data["DWP"][1]["switch"] = "ON"
+			data["DWP"][0]["switch"] = "ON"
+			data["DWP"][1]["switch"] = "OFF"
 			data["DWP"][2]["switch"] = "OFF"
 			data["DWP"][3]["switch"] = "OFF"
 			prev_section = 'a'
-		elif rt <= 90:
+		elif rt <= 80:
 			data["DWP"][0]["switch"] = "ON"
 			data["DWP"][1]["switch"] = "ON"
 			data["DWP"][2]["switch"] = "OFF"
@@ -1557,10 +1584,10 @@ def apply_rt_to_dwp(data, rt):
 		elif rt <= 45:
 			data["DWP"][0]["switch"] = "OFF"
 			data["DWP"][1]["switch"] = "OFF"
-			data["DWP"][2]["switch"] = "ON"
-			data["DWP"][3]["switch"] = "OFF"
+			data["DWP"][2]["switch"] = "OFF"
+			data["DWP"][3]["switch"] = "ON"
 			prev_section = 'a'
-		elif rt <= 90:
+		elif rt <= 80:
 			data["DWP"][0]["switch"] = "OFF"
 			data["DWP"][1]["switch"] = "OFF"
 			data["DWP"][2]["switch"] = "ON"

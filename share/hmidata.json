@@ -6,7 +6,7 @@
 	"cp1": "ON",
 	"cp2": "OFF",
 	"cp_operating": 1,
-	"cp1_hz": 60,
+	"cp1_hz": 45,
 	"cp2_hz": 0,
 	"cp1_flux": 1021.263,
 	"cp2_flux": 0,

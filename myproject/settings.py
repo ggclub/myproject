@@ -209,11 +209,11 @@ LOGGING = {
         'py.warnings': {
             'handlers': ['console'],
         },
-        'monitor': {
+        'monitor': {    # app name
             'handlers': ['file'],
             'level': 'DEBUG',
         },
-        'login': {
+        'login': {      # app name
             'handlers': ['file'],
             'level': 'DEBUG',
         },
