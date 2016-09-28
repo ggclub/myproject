@@ -48,5 +48,6 @@ function clickAlarmStatus () {
 }
 $('#alarm-sound-active').on('click', function () {
 	stopsound = true;
+    $('audio')[0].pause();
 });
 </script>

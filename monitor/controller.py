@@ -1018,8 +1018,11 @@ def read_data_from_json(rt):
 				else: sp[i] = False
 			if hp1 == sp[0] and hp2 == sp[1] and hp3 == sp[2] \
 				and hp4 == sp[3] and hp5 == sp[4] and hp6 == sp[5]:
-				hz_need = int(sp[6])
-				flux_need = int(sp[7])
+				try:
+					hz_need = int(sp[6])
+					flux_need = int(sp[7])
+				except:
+					continue	
 				break
 		###### END OF 20160926 ######
 
@@ -1271,7 +1274,7 @@ def read_data_from_json(rt):
 		# cop = (rt * 3.49) / 순시전력
 		# ##########################################
 		if (data["power"]["currentPowerConsumption"] != 0):
-			data["cop_from_hprt"] = rt * 3.49 / data["power"]["currentPowerConsumption"]
+			data["cop_from_hprt"] = round((rt * 3.49 / data["power"]["currentPowerConsumption"]), 2)
 		else:
 			data["cop_from_hprt"] = 0
 		##################### end of ver_2016.07.15 #####################
@@ -1892,7 +1895,7 @@ def save_data(data):
 			).save()
 		# COP
 		cop = CoefficientOfPerformanceLogger(
-			dateTime=timezone.now(), COP=data["COP"]
+			dateTime=timezone.now(), COP=data["COP"], COP_HP=data["cop_from_hprt"]
 			).save()
 
 		# tw = TubewellLogger(

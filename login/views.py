@@ -6,11 +6,14 @@ from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.shortcuts import render_to_response
 from django.template.context_processors import csrf
+from django.views.decorators.csrf import csrf_exempt
 
 import logging
 # log = logging.getLogger(__name__)
 
 # Create your views here.
+
+@csrf_exempt
 def index(request):
 	username = password = state = ''
 
@@ -58,7 +61,9 @@ def index(request):
 	return render(request, url, response_data)
 
 
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, csrf_exempt, csrf_exempt
+
+
 @csrf_exempt
 def log_out(request):
 	logout(request)

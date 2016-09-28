@@ -79,7 +79,7 @@ def make_excel_file(obj_type, columns, rows, fail=0):
           elif obj_type == 'fm-int':
                worksheet.set_column(1, 6, 17)
           elif 'power' in obj_type or obj_type == 'cop':
-               worksheet.set_column(1, 1, 16.5)
+               worksheet.set_column(1, 3, 16.5)
           else: # 관측센서
                # worksheet.set_column()
                pass
@@ -92,7 +92,7 @@ def make_excel_file(obj_type, columns, rows, fail=0):
                # 실내기 제목 / 전력량계 제목
                for title in columns:
                     worksheet.write(row, col, title.encode('utf-8'), title_format)
-                    col += 1; 
+                    col += 1
           elif obj_type == 'hp':
                # 히트펌프 제목
                num_col = 19
@@ -438,6 +438,7 @@ def rows_cop(n_col, n_row, data):
                row_mat[i][j] = str(x.dateTime)[:-3]; j+=1
           # COP
           row_mat[i][j] = float(x.COP); j+=1
+          row_mat[i][j] = float(x.COP_HP); j+=1
           i+=1;j=0;
      return row_mat
 def rows_ciu(n_col, n_row, data):

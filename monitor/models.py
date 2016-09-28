@@ -462,8 +462,9 @@ class RefrigerationTonLogger(models.Model):
 class CoefficientOfPerformanceLogger(models.Model):
 	dateTime = models.DateTimeField()
 	COP = models.FloatField()
+	COP_HP = models.FloatField()
 	def __str__(self):
-		return '{}, COP: {}'.format(str(self.dateTime.replace(microsecond=0)), self.COP)
+		return '{}, COP: {}, COP_HP: {}'.format(str(self.dateTime.replace(microsecond=0)), self.COP, self.COP_HP)
 
 
 # 관정센서

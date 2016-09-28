@@ -40,7 +40,8 @@
 	<thead id="query-title">
 		<tr>
 			<td class="result-datetime"><b>시간</b></td>
-			<td class="result-cop"><b>COP</b></td>
+			<td class="result-cop"><b>COP(실내기)</b></td>
+			<td class="result-cop"><b>COP(히트펌프)</b></td>
 		</tr>
 	</thead>
 	</table>
@@ -92,7 +93,7 @@ $('.btn-search-db').on('click', function() {
 		complete: function() { $('#ajax-loader').hide(); },
 		success: function(data){
 			$('.search-results').html(data);
-			$('.table-bordered').last().find('tbody').find('tr').find('td').css('width','50%');
+			$('.table-bordered').last().find('tbody').find('tr').find('td').css('width','33.33%');
 			// $('.result-datetime').css('width',200);
 		}
 	});
@@ -107,7 +108,7 @@ function Result2excel() {
 		return;
 	}
 	var numRow = parseInt(found);
-	var numCol = 2;
+	var numCol = 3;
 
 
 	// console.log(numRow, numCol);
@@ -117,7 +118,7 @@ function Result2excel() {
 	$('#query-title tr').find('td').each(function (i) {
 		columns.push($(this).text());
 	});
-	// console.log(columns);
+{#	console.log(columns);#}
 
 	// var rows = new Array(numRow);
 	// for (var i = 0; i < numRow; i++){
@@ -164,7 +165,7 @@ function Result2excel() {
 
 // infinite scroll
 $(document).ready(function(){
-	$('.table-header').find('thead').find('tr').find('td').css('width','50%');
+	$('.table-header').find('thead').find('tr').find('td').css('width','33.33%');
     function addToLast()
     {
     	var startDate = $('#datepicker1').val();

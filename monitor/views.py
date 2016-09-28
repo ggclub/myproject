@@ -742,9 +742,9 @@ def search_db_excel(request):
 	# date exception
 	if start_date=='error' or end_date=='error':
 		if 'cur' in obj_type:
-			url = 'monitor/search_db_'+obj_type+'_cur_result.html'
+			url = 'monitor/search_db_'+obj_type.replace('-', '_')+'_result.html'
 		elif 'int' in obj_type:
-			url = 'monitor/search_db_'+obj_type+'_int_result.html'
+			url = 'monitor/search_db_'+obj_type.replace('-', '_')+'_result.html'
 		else:
 			url = 'monitor/search_db_'+obj_type+'_result.html'
 		search_db_error(url, request)
